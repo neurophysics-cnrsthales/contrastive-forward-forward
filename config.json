@@ -1,0 +1,62 @@
+
+{
+    "layer_configs": [
+        {
+            "num": 1,
+            "padding_mode": "reflect",
+            "pad": 2,
+            "ch_in": 3,
+            "channels": 96,
+            "kernel_size": 5,
+            "padding": 1,
+            "pooltype": "Max",
+            "pool_size": 4,
+            "stride_size": 2,
+            "extra_pool_size": 2
+        },
+        {
+            "num": 2,
+            "padding_mode": "reflect",
+            "pad": 1,
+            "ch_in": 96,
+            "channels": 384,
+            "kernel_size": 3,
+            "padding": 1,
+            "pooltype": "Max",
+            "pool_size": 4,
+            "stride_size": 2,
+            "extra_pool_size": 2
+        },
+        {
+            "num": 3,
+            "padding_mode": "reflect",
+            "pad": 1,
+            "ch_in": 384,
+            "channels": 1536,
+            "kernel_size": 3,
+            "padding": 0,
+            "pooltype": "Avg",
+            "pool_size": 2,
+            "stride_size": 2,
+            "extra_pool_size": 2
+        }
+    ],
+
+    "opt_configs": [
+        {
+            "lr": 0.01,
+            "weight_decay": 0.0001,
+            "gamma": 0.7
+        },
+        {
+            "lr": 0.002,
+            "weight_decay": 0.0001,
+            "gamma": 0.8
+        },
+        {
+            "lr": 0.0002,
+            "weight_decay": 0.0003,
+            "gamma": 1
+        }
+    ]
+}
