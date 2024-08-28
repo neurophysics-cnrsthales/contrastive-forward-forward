@@ -9,13 +9,24 @@ An in-depth paragraph about your project and overview of use.
 
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+* python=3.10.9; cuda version: 11.8
+* Other required packages are listed in requirement.txt
+* Environment: Linux (Ubuntu 22.04.2 LTS)
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+* Creat a virtual conda environment to avoid conflicts of version
+```
+conda create --name cff python=3.10.9
+```
+* Activate the environment
+```
+conda activate cff
+```
+* Install the Dependencies
+```
+pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu118
+```
 
 ### Executing program
 
