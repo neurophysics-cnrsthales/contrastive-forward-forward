@@ -12,7 +12,9 @@
             "pooltype": "Max",
             "pool_size": 4,
             "stride_size": 2,
-            "extra_pool_size": 2
+            "extra_pool_size": 2,
+            "concat": [1],
+            "act": "triangle"
         },
         {
             "num": 2,
@@ -25,7 +27,9 @@
             "pooltype": "Max",
             "pool_size": 4,
             "stride_size": 2,
-            "extra_pool_size": 2
+            "extra_pool_size": 2,
+            "concat": [1,0],
+            "act": "triangle"
         },
         {
             "num": 3,
@@ -38,7 +42,9 @@
             "pooltype": "Avg",
             "pool_size": 2,
             "stride_size": 2,
-            "extra_pool_size": 2
+            "extra_pool_size": 2,
+            "concat": [1,1,1],
+            "act": "relu"
         }
     ],
 
@@ -46,17 +52,35 @@
         {
             "lr": 0.01,
             "weight_decay": 0.0001,
-            "gamma": 0.7
+            "gamma": 0.7,
+            "th1": 0,
+            "th2": 1,
+            "lamda": 0.0012,
+            "period": 1000,
+            "out_dropout": 0.1,
+            "epochs": 6
         },
         {
             "lr": 0.002,
             "weight_decay": 0.0001,
-            "gamma": 0.8
+            "gamma": 0.8,
+            "th1": 5,
+            "th2": 9,
+            "lamda": 0.0007,
+            "period": 100,
+            "out_dropout": 0.1,
+            "epochs": 4
         },
         {
             "lr": 0.0002,
             "weight_decay": 0.0003,
-            "gamma": 1
+            "gamma": 1,
+            "th1": 6,
+            "th2": 10,
+            "lamda": 0.0005,
+            "period": 500,
+            "out_dropout": 0.2,
+            "epochs": 21
         }
     ]
 }

@@ -78,6 +78,8 @@ def get_arguments():
                         help='division factor of the training set')
     parser.add_argument("--save_model", action='store_true',
                         help='save model or not')
+    parser.add_argument("--NL", type=int, default=1,
+                        help='Number of layers')
 
 
     return parser
@@ -351,12 +353,18 @@ class L2norm(nn.Module):
     def forward(self, x):
         return x / (x.norm(p=2, dim=(self.dims), keepdim=True) + 1e-10)
 
+class triangle(nn.Module):
+    def __init__(self):
+        super(triangle, self).__init__()
 
+    def forward(self, x):
+        x = x - torch.mean(x, axis=1, keepdims=True)
+        return F.relu(x)
 # with padding version
 class Conv2d(nn.Module):
     def __init__(
             self, input_channels, output_channels, kernel_size, pad = 0, batchnorm = False, normdims = [1,2,3],norm = "stdnorm",
-            bias = True, dropout = 0., padding_mode = 'reflect'):
+            bias = True, dropout = 0., padding_mode = 'reflect', concat = True, act = 'relu'):
         super(Conv2d, self).__init__()
 
         self.input_channels = input_channels
@@ -372,11 +380,15 @@ class Conv2d(nn.Module):
         self.padding_mode = padding_mode# zeros
         self.F_padding = (pad, pad, pad, pad)
         
-        self.act = torch.nn.ReLU()
+        self.relu = torch.nn.ReLU()
+        if act == 'relu':
+            self.act = torch.nn.ReLU()
+        else:
+            self.act = triangle()
         #self.posact = ThresholdedReLU(threshold = reth, power = actp)
         #self.act = CustomActivation(alpha=alpha, theta = theta)
         self.dropout = nn.Dropout(p=dropout)  # 50% dropout
-        
+        self.concat = concat
         #self.act = temp_scaled_sigmoid(T = t)
         #self.act = AbsActivation()
         #self.preact = temp_scaled_sigmoid(T = t)
@@ -401,18 +413,17 @@ class Conv2d(nn.Module):
         x = F.pad(x, self.F_padding, self.padding_mode)
         #x = x / (x.norm(p=2, dim=(self.normdims), keepdim=True) + 1e-10)
         x = self.norm(x)
-        
-        x = self.dropout(x)
+        '''
         lenchannel = x.size(1)//2
         out = self.conv_layer(x[:, :lenchannel]) + self.conv_layer(x[:, lenchannel:])
         '''
-        if x.shape[1] == 6: # x is input image
-            out = self.conv_layer(x[:, :3]) + self.conv_layer(x[:, 3:])
+        if self.concat: 
+            lenchannel = x.size(1)//2
+            out = self.conv_layer(x[:, :lenchannel]) + self.conv_layer(x[:, lenchannel:])
         else:
             out = self.conv_layer(x)
         
-        out = self.conv_layer(x)
-        '''
+        
         #out = out - torch.mean(out, dim=(1, 2,3),keepdim=True)#;  out = out / (1e-10 + torch.std(out, dim=(1, 2,3), keepdim=True)) 
 
         return out
@@ -483,15 +494,15 @@ def get_swd_loss(states, rand_w, prior='normal', stddev=1., hidden_norm=True):
     return torch.mean((states_prior_t - states_t)**2)
 
 
-def train(nets, device, optimizers,schedulers, threshold1,threshold2,  dims_in, dims_out, epochs, batchsize, pool, NORMW
-            , a,b, lamda,lamda2,posact, cout,freezelayer,period,extra_pool, tr_and_eval, Layer_out, all,trainloader
-            , valloader, testloader, suptrloader,pre_std, triact,stdnorm_out,triact_pos, out_dropout,yita,lambda_reg
-            ,lambda_covar, sup_gamma,sup_period,search, augment, Factor, p, lambda_weight, config):
+def train(nets, device, optimizers,schedulers, threshold1,threshold2,  dims_in, dims_out, epochs, pool
+            , a,b, lamda, freezelayer,period,extra_pool, tr_and_eval, Layer_out, all,trainloader
+            , valloader, testloader, suptrloader,pre_std, stdnorm_out, search,  Factor, p
+            , config):
 
 
     #trainloader, testloader = get_train(batchsize)
 
-    trainouts = []; testouts = [];all_pos = [];all_neg= []
+    trainouts = []; testouts = [];all_pos = [];all_neg= [];traintargets = []; testtargets = [] 
     NL = len(nets)
     #print(NL)
     thres = [];meanstates=[]
@@ -503,32 +514,21 @@ def train(nets, device, optimizers,schedulers, threshold1,threshold2,  dims_in, 
         all_neg.append([])
         thres.append(torch.zeros((1,nets[i].output_channels,1,1), requires_grad=False).to(device))
         #meanstates.append(0.5*torch.ones(nets[i].output_channels, 32, 32, requires_grad = False ).to(device))
-        meanstates.append(0.5*torch.ones(nets[i].output_channels, requires_grad = True ).to(device))
+        #meanstates.append(0.5*torch.ones(nets[i].output_channels, requires_grad = True ).to(device))
         
     #tic = time.time()
     firstpass=True
     nbbatches = 0
     #wsav = []
 
-    traintargets = []; testtargets = [] 
-
     NBLEARNINGEPOCHS = epochs
 
-    if cout:
-        N_all = NBLEARNINGEPOCHS + 2
+   
+    if epochs == 0:
+        N_all = NBLEARNINGEPOCHS + 1
     else:
-        if epochs == 0:
-            N_all = NBLEARNINGEPOCHS + 1
-        else:
-            N_all = NBLEARNINGEPOCHS
+        N_all = NBLEARNINGEPOCHS
 
-    #NORMW  =NORMW
-
-    #threshold = threshold
-
-    #optimizer = Adam(net.parameters(), lr=lr)
-
-    #criterion = nn.BCEWithLogitsLoss()
     Dims = []
     taccs = []
     # Start the experiment !
@@ -569,71 +569,31 @@ def train(nets, device, optimizers,schedulers, threshold1,threshold2,  dims_in, 
         goodness_pos = 0
         goodness_neg = 0
 
-        for numbatch, (x,x_aug1,x_aug2, targets) in enumerate(zeloader):
+        for numbatch, (x, _, _, _) in enumerate(zeloader):
             #print(numbatch)
             nbbatches += 1
 
-            xs = []
-
-            #with torch.no_grad():
-
-                
+            #xs = []
+  
             x = x.to(device)
-            #x_aug1 = x_aug1.to(device)
-            #x_aug2 = x_aug2.to(device)
-            #x = x - torch.mean(x, dim=(1, 2,3), keepdim=True);  x = x / (1e-10 + torch.std(x, dim=(1, 2,3), keepdim=True))
 
-            #x = x / (x.norm(p=2, dim=[1,2,3], keepdim=True) + 1e-10)
-            #x_aug1 = x_aug1 / (x_aug1.norm(p=2, dim=[1,2,3], keepdim=True) + 1e-10)
-            #x_aug2= x_aug2 / (x_aug2.norm(p=2, dim=[1,2,3], keepdim=True) + 1e-10)
-
+            #x = stdnorm(x, dims = dims_in)
             
-                #print(x.shape, x_neg.shape)
-
-            # record goodness
-            # 
-            # Now run the layers in succession
-
-
             for i in range(NL):
-
                 
-
-                if pre_std:
+                if nets[i].concat:
                     x = stdnorm(x, dims = dims_in)
-                    #x_aug1 = stdnorm(x_aug1, dims = dims_in)
-                    #x_aug2 = stdnorm(x_aug2, dims = dims_in)
-
-                    
-                if TRAINING or TESTING:
-                    x, x_neg = get_pos_neg_batch_imgcats(x, x, p=1)
-                    x = x[:batchsize]
-                    #x_neg = x_neg[:len(x)]
-                    targets = targets.to(device)
-                    xs.append(x.clone())
-                else:
                     x, x_neg = get_pos_neg_batch_imgcats(x, x, p=p)
-                #print("Layer " + str(i))
-                #optimizers[i].zero_grad()
-                
+
                 x = nets[i](x)
                 x_neg = nets[i](x_neg)
 
+                #print(numbatch, i, x[1,0,1],x_neg[1,0,1],nets[i].conv_layer.weight[1,0,1])
 
-                xforgrad = nets[i].act(x)
-                xforgrad_neg = nets[i].act(x_neg)
+                xforgrad = nets[i].relu(x)
+                xforgrad_neg = nets[i].relu(x_neg)
                 
-                """
-                # check if there are any dead neurons
-                dead_x = (x <= 0).all(dim=0).all(dim=1).all(dim=1)
-                dead_x_neg = (x_neg <= 0).all(dim=0).all(dim=1).all(dim=1)
-                # Get the indices of dead neurons
-                dead_neuron_indices = dead_x.nonzero(as_tuple=False).squeeze()
-                dead_neuron_indices_neg = dead_x_neg.nonzero(as_tuple=False).squeeze()
-                print(f"Dead neuron indices: {dead_neuron_indices}")
-                print(f"Dead neuron indices_neg: {dead_neuron_indices_neg}")
-                """
-                prepool = xforgrad
+                #prepool = xforgrad
 
                 yforgrad = xforgrad.pow(2).mean([1])
                 yforgrad_neg =xforgrad_neg.pow(2).mean([1])
@@ -650,99 +610,31 @@ def train(nets, device, optimizers,schedulers, threshold1,threshold2,  dims_in, 
                 yfor_reg = extra_pool[i](xforgrad).view(xforgrad.shape[0], -1)
                 #yfor_reg_neg = extra_pool[i](x_neg).view(x_neg.shape[0], -1)
 
-                """Generalized contrastive loss.
 
-                Both hidden1 and hidden2 should have shape of (n, d).
-
-                Configurations to get following losses:
-                * decoupled NT-Xent loss: set dist='logsumexp', hidden_norm=True
-                * SWD with normal distribution: set dist='normal', hidden_norm=False
-                * SWD with uniform hypersphere: set dist='normal', hidden_norm=True
-                * SWD with uniform hypercube: set dist='uniform', hidden_norm=False
-                """
-                """
-                dist = 'normal' #'normal' 'logsumexp'
-                hidden_dim = yfor_reg_neg.shape[-1]  # get hidden dimension
-                hidden_norm = True
-                if hidden_norm:
-                    yfor_reg_neg = F.normalize(yfor_reg_neg, p=2, dim=-1)
-                """
-
-                if i < freezelayer and not (TRAINING or TESTING):
+                if i < freezelayer:
                     UNLAB = False
                     
-                if i >= freezelayer and not (TRAINING or TESTING):
+                if i >= freezelayer:
                     UNLAB = True
 
                 if UNLAB :
                     optimizers[i].zero_grad()
-                    #meanstates[i] = 0.9*meanstates[i].data + 0.1*(prepool.mean([-1,-2]).mean([0]))
-
-                    #0.9*meanstates[i] + 0.1*(prepool.mean([-1,-2]).mean([0])).data
-                    """
-                    #print(covar_reg(yfor_reg))
-                    #print(covar_reg(yfor_reg))
-                    
-                    if dist == 'logsumexp':
-                        loss_dist_match = get_logsumexp_loss(yfor_reg_neg, temperature = 1.0)
-                    else:
-                        rand_w = nn.init.orthogonal_(torch.empty(hidden_dim, hidden_dim, device=device))
-                        loss_dist_match = get_swd_loss(yfor_reg_neg, rand_w,
-                                                    prior=dist,
-                                                    hidden_norm= hidden_norm)
-                    """
                     
                     loss =  torch.log(1 + torch.exp(
                         a*(- yforgrad  + threshold1[i]))).mean([1,2]).mean(
                         ) + torch.log(1 + torch.exp(
                             b*(yforgrad_neg  - threshold2[i]))).mean([1,2]).mean() + lamda[i] * torch.norm(yforgrad, p=2, dim = (1,2)).mean(
-                            ) #+ lamda2[i]*(F.relu(yita - yfor_reg.std(dim = 0)).mean()) #+ lambda_covar*covar_reg(yfor_reg
-                            #) #+ lambda_weight * loss_dist_match
-                            # +  orthogonal_reg(nets[i], lambda_reg=lambda_reg) 
-                    """
-
-                    #print( ((meanstates[i].mean()- meanstates[i])**2).mean().item(),lamda[i])
-                    #print(meanstates[i])
-                    loss1 =  torch.log(1 + torch.exp(
-                        a*(- yforgrad  + threshold1[i]))).mean([1,2]).mean(
-                        ) + torch.log(1 + torch.exp(
-                            b*(yforgrad_neg  - threshold2[i]))).mean([1,2]).mean() 
-                    #meanmeanstates = meanstates[i].mean()
-                    loss2 =  lamda[i] * ((meanstates[i].mean()- meanstates[i])**2).mean(
-                            )
-                    loss = loss1 + loss2
-                    """
-                    """
-                    mean_diff = prepool.mean([0])
-                    mean_diff.data = (meanstates[i].mean([0])- meanstates[i]).data
-
-                    loss2 = lamda[i] * ( -1/2 *mean_diff**2).mean(
-                            ) + lamda2[i]*(F.relu(yita - yfor_reg.std(dim = 0)).mean())  #+ lambda_covar*covar_reg(yfor_reg
-                            #) #+ lambda_weight * loss_dist_match
+                            ) 
                     
-                    loss1 =  torch.cat((torch.log(1 + torch.exp(
-                        a*(- yforgrad  + threshold1[i]))).mean([1,2]), torch.log(1 + torch.exp(
-                            b*(yforgrad_neg  - threshold2[i]))).mean([1,2])), dim = 0).mean() + lamda[i] * ((meanstates[i].mean()- meanstates[i])**2).mean(
-                            ) + lamda2[i]*(F.relu(yita - yfor_reg.std(dim = 0)).mean())  #+ lambda_covar*covar_reg(yfor_reg
-                            #) #+ lambda_weight * loss_dist_match
-                    """
                     
                     loss.backward()
-
+                    #print(numbatch, i,loss,threshold1[i], threshold2[i], lamda[i], nets[i].conv_layer.weight.grad)
                     optimizers[i].step()  
 
                     if (nbbatches+1)%period[i] == 0:
                         schedulers[i].step()
                         print(f'nbbatches {nbbatches+1} learning rate: {schedulers[i].get_last_lr()[0]}')  
-
-                    if NORMW:
-                        # Weight kept to norm 1
-                        # w has shape OutChannels, InChannels, H, W
-                        net.conv_layer.weight = torch.nn.Parameter(net.conv_layer.weight / (net.conv_layer.weight.norm(p=2, dim=(-3, -2, -1), keepdim=True) + 1e-8))
-                        #w[numl].data =  w[numl].data / (1e-10 + torch.sqrt(torch.sum(w[numl].data ** 2, dim=[1,2,3], keepdim=True)))
-
-                x.data =  x.data - torch.mean(x.data, axis=1, keepdims=True)
-                x_neg.data =  x_neg.data - torch.mean(x_neg.data, axis=1, keepdims=True)
+                
 
                 x = nets[i].act(x)
                 x_neg = nets[i].act(x_neg)
@@ -773,46 +665,7 @@ def train(nets, device, optimizers,schedulers, threshold1,threshold2,  dims_in, 
                 all_neg[i].append(goodness_neg)
                 goodness_pos,  goodness_neg = 0,0
 
-            # If we are in the phase of data collection for training/testing the linear classifier (see below)...
-            
-            if TRAINING or TESTING:
-                # We simply collect the outputs of the network, as well as the labels. The actual training/testing occurs below with a linear classifier.
-                
-                if TESTING:
-                    testtargets.append(targets.data.cpu().numpy())
-                    for i in range(len(xs)):
-                        if i < NL-1:
-                            xl = xs[i+1]
-                            #testouts[i].append(xl.data.cpu().numpy())
-                        else:
-                            xl = x
-                            
-                        if not all:
-                            result = extra_pool[i](xl)
-                        
-                        #result = xl
-                        if stdnorm_out:
-                            result = stdnorm(result, dims = dims_out)
-                        #result = result/result.norm(p=2, dim=dims_out, keepdim=True)
-                        testouts[i].append((result).data.cpu().numpy())
-
-                if TRAINING:
-                    traintargets.append(targets.data.cpu().numpy())
-                    for i in range(len(xs)):
-                        if i < NL-1:
-                            xl = xs[i+1]
-                            #trainouts[i].append(xl.data.cpu().numpy())
-                        else:
-                            xl = x
-                        if not all:
-                            result = extra_pool[i](xl)
-                        #print(result.shape)
-                        if stdnorm_out:
-                            result = stdnorm(result, dims = dims_out)
-                        #result = result/result.norm(p=2, dim=dims_out, keepdim=True)
-                        #print(result)
-                        trainouts[i].append((result).data.cpu().numpy())
-
+        
         
             #schedulers[i].step()
             #print(f'Epoch {epoch+1}/{epochs} learning rate: {schedulers[i].get_last_lr()[0]}')              
@@ -820,7 +673,7 @@ def train(nets, device, optimizers,schedulers, threshold1,threshold2,  dims_in, 
         if tr_and_eval:
             #nets_copy = deepcopy(nets)
             #torch.manual_seed(42)
-            if epoch>3 and epoch%1==0:
+            if epoch>0 and epoch%1==0:
                 tacc = evaluate_model(nets, pool, extra_pool, config, loaders, search, Dims)
                 taccs.append(tacc)
             #for net in nets:
@@ -903,25 +756,21 @@ def train_readout(classifier, nets, pool, extra_pool, loader, criterion, optimiz
         labels = labels.to(config.device)
 
         outputs = []
+        #x = stdnorm(x, dims = config.dims_in)
+
         for j, net in enumerate(nets):
             net.eval()
             with torch.no_grad():
-                if config.pre_std:
+                if net.concat:
                     x = stdnorm(x, dims = config.dims_in)
-                x = torch.cat((x, x), dim=1)
-
+                    x = torch.cat((x, x), dim=1)
                 x = net(x)
-                
                 out = pool[j](net.act(x)).detach()
 
-                x.data =  x.data - torch.mean(x.data, axis=1, keepdims=True)
+                #x.data =  x.data - torch.mean(x.data, axis=1, keepdims=True)
                 x = net.act(x)
                 x = pool[j](x).detach()
-
-                if j == (len(nets)-1):
-                    out = extra_pool[j](out)
-                else:
-                    out = extra_pool[j](x)
+                out = extra_pool[j](x)
 
                 if config.stdnorm_out:
                     out = stdnorm(out, dims = config.dims_out)
@@ -961,26 +810,25 @@ def test_readout(classifier, nets, pool, extra_pool, loader, criterion, config, 
 
             x = x.to(config.device)
             labels = labels.to(config.device)
-
+            #x = stdnorm(x, dims = config.dims_in)
             outputs = []
             for j, net in enumerate(nets):
                 net.eval()
                 with torch.no_grad():
-                    if config.pre_std:
+
+                    if net.concat:
                         x = stdnorm(x, dims = config.dims_in)
-                    x = torch.cat((x, x), dim=1)
+                        x = torch.cat((x, x), dim=1)
+                        
                     x = net(x)
 
                     out = pool[j](net.act(x)).detach()
 
-                    x.data =  x.data - torch.mean(x.data, axis=1, keepdims=True)
+                    #x.data =  x.data - torch.mean(x.data, axis=1, keepdims=True)
                     x = net.act(x)
                     x = pool[j](x).detach()
 
-                    if j == (len(nets)-1):
-                        out = extra_pool[j](out)
-                    else:
-                        out = extra_pool[j](x)
+                    out = extra_pool[j](x)
 
                     if config.stdnorm_out:
                         out = stdnorm(out, dims = config.dims_out)
@@ -1052,7 +900,7 @@ def create_layer(layer_config,opt_config, load_params, device):
     layer_num = layer_config['num']-1
 
     net = Conv2d(layer_config["ch_in"], layer_config["channels"], (layer_config["kernel_size"], layer_config["kernel_size"]),
-                  pad = layer_config["pad"], norm = "stdnorm", padding_mode = layer_config["padding_mode"])
+                  pad = layer_config["pad"], norm = "stdnorm", padding_mode = layer_config["padding_mode"], act = layer_config["act"])
     
     if load_params:
         net.load_state_dict(torch.load('./results/params_l' + str(layer_num) +'_aug_lamda_new_tri_new_p1_all.pth'))
@@ -1072,27 +920,25 @@ def create_layer(layer_config,opt_config, load_params, device):
     return net, pool, extra_pool, optimizer, scheduler
 
 
-def hypersearch(channels, threshold1,threshold2, lr, dims, dims_in, dims_out, power, Batchnorm, epochs
-    ,pool_size, batchsize, pooltype, kernel_size, t, NORMW, a, b, bias, reth,gamma,lamda,lamda2,alpha
-    , theta,pad,posact,cout, all_neurons, freezelayer, Layer_out,period,extra_pool_size,stride_size,tr_and_eval,dropout,weight_decay
-    ,pre_std, triact,stdnorm_out, norm, out_dropout,triact_pos, padding_mode,yita,lambda_reg, sup_gamma,sup_period,lambda_covar
-    ,search, cutoffep, device_num, augment, Factor, loaders,p, lambda_weight,padding,seed_num):
+def hypersearch(dims, dims_in, dims_out, Batchnorm, epochs
+    , a, b, all_neurons, NL, Layer_out, tr_and_eval
+    ,pre_std, stdnorm_out, search, device_num, Factor, loaders,p,seed_num):
 
     trainloader, valloader, testloader, suptrloader = loaders
 
     torch.manual_seed(seed_num)
     
     device = 'cuda:' + str(device_num) if torch.cuda.is_available() else 'cpu'
-    nets = []; optimizers = []; schedulers= []; all_pos = []; all_neg = []
+    nets = []; optimizers = []; schedulers= []; threshold1 = []; threshold2 = []; lamda = []; period= []
     trainouts = []; testouts = []; 
     pools = []; extra_pools = []
 
     with open('config.json', 'r') as f:
         config = json.load(f)
 
-    NL = len(config['layer_configs'])
+    freezelayer = NL-1
     
-    for i, (layer_config, opt_config) in enumerate(zip(config['layer_configs'], config['opt_configs'])):
+    for i, (layer_config, opt_config) in enumerate(zip(config['layer_configs'][:NL], config['opt_configs'][:NL])):
         if i < NL-1:
             load_params = True
         if i == NL-1:
@@ -1104,60 +950,28 @@ def hypersearch(channels, threshold1,threshold2, lr, dims, dims_in, dims_out, po
         extra_pools.append(extra_pool)
         optimizers.append(optimizer)
         schedulers.append(scheduler)
-
-    """
+        threshold1.append(opt_config['th1'])
+        threshold2.append(opt_config['th2'])
+        lamda.append(opt_config['lamda'])
+        period.append(opt_config['period'])
     
-    for i in range(NL):
-
-        if i ==0:
-            net = Conv2d(3, channels[0], (kernel_size[0], kernel_size[0]), pad = pad[0], actp = power[i], batchnorm = Batchnorm, normdims = dims,
-                         norm = norm, t = t, bias = bias, reth = reth, alpha=alpha[0], theta =theta[0],dropout = dropout[0], padding_mode = padding_mode)
-            
-        else:
-            net = Conv2d(channels[i-1], channels[i], (kernel_size[i], kernel_size[i]), pad = pad[i], actp = power[i], batchnorm = Batchnorm, normdims = dims,
-                         norm = norm, t = t, bias = bias, reth = reth, alpha=alpha[i], theta =theta[i],dropout = dropout[i], padding_mode = padding_mode)
-
-        if i < freezelayer:
-            net.load_state_dict(torch.load('./results/params_l' + str(i) +'_aug_lamda_new_tri_new_p1_all.pth'))
-            #net.load_state_dict(torch.load('params_test.pth'))
-            for param in net.parameters():
-                param.requires_grad = False
-
-        if pooltype[i] == 'Avg':
-            pools.append(nn.AvgPool2d(kernel_size=pool_size[i], stride=stride_size[i], padding=padding[i], ceil_mode=True))
-        else:
-            pools.append(nn.MaxPool2d(kernel_size=pool_size[i], stride=stride_size[i], padding=padding[i], ceil_mode=True))
-
-        extra_pools.append(nn.AvgPool2d(kernel_size=extra_pool_size[i], stride=extra_pool_size[i], padding=0, ceil_mode=True))
-        net.to(device)
-        nets.append(net)
-        #optimizer = torch.optim.SGD(net.parameters(), lr=lr, momentum=0.9)
-        #optimizer = Adam(net.parameters(), lr=lr[i])
-        optimizer = AdamW(net.parameters(), lr=lr[i], weight_decay=weight_decay[i])
-
-        optimizers.append(optimizer)
-
-        #lr_lambda = create_lr_lambda(epochs, lr[i], 0, cutoffep)
-        #scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lr_lambda)
-        scheduler = ExponentialLR(optimizer,gamma[i])
+    for (net, concat) in zip(nets, layer_config['concat']):
+        net.concat = concat
         
-        schedulers.append(scheduler)
-    """
-
     config = EvaluationConfig(device=device, dims=dims, dims_in=dims_in, dims_out=dims_out, stdnorm_out = stdnorm_out, 
-                              out_dropout=out_dropout, Layer_out=Layer_out,pre_std = pre_std, all_neurons = all_neurons)
+                              out_dropout=opt_config['out_dropout'], Layer_out=Layer_out,pre_std = pre_std, all_neurons = all_neurons)
 
     if tr_and_eval:
         nets, _, testouts, _, _, all_pos, all_neg, _, tacc = train(
-        nets, device, optimizers,schedulers, threshold1,threshold2, dims_in, dims_out, epochs, batchsize,pools,NORMW,a,b, lamda,lamda2,posact, cout,freezelayer
-        ,period, extra_pools, tr_and_eval, Layer_out, all_neurons,trainloader, valloader, testloader, suptrloader,pre_std, triact,stdnorm_out,triact_pos, out_dropout,yita
-        ,lambda_reg,lambda_covar, sup_gamma,sup_period,search, augment, Factor,p, lambda_weight, config)
+        nets, device, optimizers,schedulers, threshold1,threshold2, dims_in, dims_out, epochs, pools, a,b, lamda, freezelayer
+        ,period, extra_pools, tr_and_eval, Layer_out, all_neurons,trainloader, valloader, testloader, suptrloader,pre_std, stdnorm_out
+        ,search, Factor,p, config)
 
     else:
         nets, trainouts, testouts, traintargets, testtargets, all_pos, all_neg, Dims = train(
-            nets, device, optimizers,schedulers, threshold1,threshold2, dims_in, dims_out, epochs, batchsize,pools,NORMW,a,b, lamda,lamda2,posact, cout,freezelayer
-            ,period, extra_pools, tr_and_eval, Layer_out, all_neurons,trainloader, valloader, testloader, suptrloader,pre_std, triact,stdnorm_out,triact_pos, out_dropout,yita
-            ,lambda_reg,lambda_covar, sup_gamma,sup_period,search, augment, Factor,p, lambda_weight, config)
+            nets, device, optimizers,schedulers, threshold1,threshold2, dims_in, dims_out, epochs, pools, a,b, lamda, freezelayer
+            ,period, extra_pools, tr_and_eval, Layer_out, all_neurons,trainloader, valloader, testloader, suptrloader,pre_std, stdnorm_out
+            ,search, Factor,p, config)
         #torch.manual_seed(42)
         tacc = evaluate_model(nets, pools, extra_pools, config, loaders, search, Dims) 
         #tacc = evaluation(trainouts, testouts, traintargets, testtargets, Layer_out)
@@ -1166,68 +980,28 @@ def hypersearch(channels, threshold1,threshold2, lr, dims, dims_in, dims_out, po
     return tacc, all_pos, all_neg, testouts, nets
 
 
-def main(lr, epochs, lamda, lamda2, lambda_reg, lambda_covar, cutoffep, device_num,tr_and_eval, th1, th2,period,gamma
-         ,save_model, augment, Factor, weight_decay, yita, out_dropout, loaders, p, lambda_weight,tau,pool_type, seed_num):
+def main(epochs, device_num,tr_and_eval 
+         ,save_model, loaders, NL):
     tacc, all_pos, all_neg, testouts, nets = hypersearch(
-        channels = [96, 96*4, 96*16], 
-        pad = [2, 1, 1],
-        padding=[1,1,0],
-        threshold1 = [th1, th1, th1], 
-        threshold2 = [th2, th2, th2],
-        lr = [lr, lr, lr],
-        gamma = [gamma, gamma, gamma],
         dims =  (1,2,3),
         dims_in = (1,2,3), 
         dims_out = (1,2,3),
-        power = [1,1,1], 
         Batchnorm = False, 
         epochs = epochs, 
-        pool_size = [4, 4, 2], 
-        batchsize = 100, 
-        pooltype = ['Max','Max',pool_type], 
-        kernel_size = [5, 3, 3],
-        t = 1, 
-        NORMW = False,  
-        a = tau,
-        b = tau,
-        bias = True,
-        reth = 0,
-        lamda = [lamda, lamda, lamda],
-        lamda2 = [lamda2, lamda2, lamda2],
-        alpha = [0.0,0,0],
-        theta = [-0.0,0,0],
-        posact = False,
-        cout = False,
+        a = 1,
+        b = 1,
         all_neurons = False,
-        freezelayer = 2,
+        NL = NL,
         Layer_out = [0,1,2],
-        period = [period,period,period],
-        extra_pool_size = [2, 2, 2],
-        stride_size = [2,2, 2],
         tr_and_eval = tr_and_eval,
-        dropout= [0.0, 0.0, 0.0],
-        weight_decay=[weight_decay, weight_decay, weight_decay],
         pre_std = True,
-        triact = False,
         stdnorm_out = True,
-        norm = "stdnorm", #L2norm, stdnorm, no, 
-        out_dropout = out_dropout,
-        triact_pos = False,
-        padding_mode = "reflect",
-        yita = yita,
-        lambda_reg = lambda_reg,
-        sup_gamma = 0.7,
-        sup_period = 4,
-        lambda_covar = lambda_covar,
         search = False,
-        cutoffep = cutoffep,
         device_num = device_num,
-        augment = augment,
-        Factor = Factor,
+        Factor = 1,
         loaders = loaders,
-        p = p, 
-        lambda_weight = lambda_weight,
-        seed_num = seed_num)
+        p = 1, 
+        seed_num = 1234)
 
     # save the model
     if save_model:
@@ -1235,36 +1009,6 @@ def main(lr, epochs, lamda, lamda2, lambda_reg, lambda_covar, cutoffep, device_n
             torch.save(net.state_dict(), './results/params_l'+str(i)+'_aug_lamda_new_cat_tri.pth')
 
     return tacc
-
-
-def objective(trial):
-
-    lr = trial.suggest_categorical('lr', [0.018, 0.02, 0.015, 0.01])
-    lamda = trial.suggest_categorical('lamda', [0, 0.05,0.03, 0.02, 0.01, 0.04, 0.005, 0.001, 0.002]) 
-    lamda2 = trial.suggest_categorical('lamda2', [0, 9, 10, 5, 8, 1, 2, 0.5, 0.1])
-    th1 = trial.suggest_int('th1', 1, 9) 
-    th2 = trial.suggest_int('th2', 1, 9) 
-    lambda_covar = trial.suggest_categorical('lambda_covar', [0., 1, 2, 4, 5, 10, 0.5, 0.2, 0.1]) 
-    gamma = trial.suggest_categorical('gamma', [ 0.95, 0.9, 0.8, 0.7, 0.6, 0.5]) 
-    yita = trial.suggest_categorical('yita', [1, 2])
-    out_dropout = trial.suggest_categorical('out_dropout', [0])
-    period = trial.suggest_categorical('period', [1000, 2000, 1500, 500])
-    weight_decay = trial.suggest_categorical('weight_decay', [0, 1e-3, 1e-4, 3e-4]) 
-    epochs = trial.suggest_int('epochs', 5, 40)
-    tr_and_eval = False
-
-    tsacc =  main(lr=lr, epochs=epochs, lamda=lamda, lamda2=lamda2, 
-                lambda_reg=0, lambda_covar=lambda_covar, 
-                cutoffep=5, device_num=1,tr_and_eval=tr_and_eval
-                , th1=th1, th2=th2, period=period, gamma=gamma,
-                save_model = False, augment = "no", Factor = 1, 
-                weight_decay=weight_decay, yita=yita, out_dropout=out_dropout)
-    
-    if tr_and_eval:
-        return 1- tsacc[-1][1]
-    else:
-        return 1- tsacc[1]
-
 
 
 def create_objective(loaders):
@@ -1305,13 +1049,12 @@ def create_objective(loaders):
         pool_type = trial.suggest_categorical('pool_type', ['Max','Avg']) 
         seed_num = trial.suggest_int('seed_num', 0,100000)
 
-        tsacc =  main(lr=lr, epochs=epochs, lamda=lamda, lamda2=lamda2, 
-                lambda_reg=0, lambda_covar=lambda_covar, 
-                cutoffep=5, device_num=0,tr_and_eval=tr_and_eval
+        tsacc =  main(lr=lr, epochs=epochs, lamda=lamda, 
+                device_num=0,tr_and_eval=tr_and_eval
                 , th1=th1, th2=th2, period=period, gamma=gamma,
-                save_model = False, augment = "no", Factor = 1, 
-                weight_decay=weight_decay, yita=yita, out_dropout=out_dropout, loaders=loaders
-                , p = p, lambda_weight = lambda_weight,tau =tau,pool_type=pool_type, seed_num = seed_num)
+                save_model = False, augment = "no", Factor = 1,
+                out_dropout=out_dropout, loaders=loaders
+                , p = p, tau =tau, seed_num = seed_num)
 
         if tr_and_eval:
             return 1- tsacc[-1][1]
@@ -1328,50 +1071,7 @@ if __name__ == "__main__":
     for arg in vars(args):
         print(f"{arg} = {getattr(args, arg)}")
     
-    #{'lr': 0.018, 'lamda': 0, 'lamda2': 0.644632082149124, 'th1': 3, 'th2': 5, 
-    #'lambda_covar': 3.5385363579299187, 'lambda_weight': 5.315934820285312, 'gamma': 0.9, 
-    #'yita': 1, 'out_dropout': 0, 'period': 2000, 'weight_decay': 0.0003, 'epochs': 19, 'p': 5}
-    """
     loaders = get_train(batchsize=100, augment="no", Factor=1)
-
-    tsacc =  main(lr=args.lr, epochs=args.epochs, lamda=args.lamda, lamda2=args.lamda2, 
-     lambda_reg=args.lambda_reg, lambda_covar=args.lambda_covar, 
-     cutoffep=args.cutoffep, device_num=args.device_num,tr_and_eval=args.tr_and_eval
-     , th1=args.th1, th2=args.th2, period=args.period, gamma=args.gamma, augment=args.augment
-     , weight_decay = args.weight_decay, yita = args.yita, Factor=args.factor, out_dropout=args.out_dropout
-     , save_model = args.save_model, loaders=loaders, p = args.p, lambda_weight = args.lambda_weight, tau=args.tau,pool_type='Avg',
-     seed_num=0)
-    
-     
-    """
-     # Define the range or list of values you want to loop over for each parameter
-    search_space = {
-    'lr': [0.0002],
-    'lamda': [0.0005],
-    'lamda2': [0],
-    'th1': [6],
-    'th2': [10],
-    'lambda_covar': [0],
-    'gamma': [1],
-    'yita': [1],
-    'out_dropout': [0.2],
-    'period': [500],
-    'weight_decay':[0.0003],
-    'epochs': [25],
-    'p': [1],
-    'lambda_weight': [0],
-    'pool_type': ['Avg'],
-    'seed_num': [1234]
-    }
-
-    print('searching start...')
-    #study = optuna.create_study(sampler=optuna.samplers.GridSampler(search_space))
-    #study.optimize(objective)
-    loaders = get_train(batchsize=100, augment="no", Factor=1)
-    objective_function = create_objective(loaders)
-    study = optuna.create_study(sampler=optuna.samplers.GridSampler(search_space))
-    #study = optuna.create_study()
-    #study = optuna.create_study(sampler=optuna.samplers.RandomSampler())
-    study.optimize(objective_function)
-    
+    tsacc =  main(epochs=args.epochs, device_num=args.device_num, tr_and_eval=args.tr_and_eval
+     , save_model = args.save_model, loaders=loaders, NL = args.NL)
     
