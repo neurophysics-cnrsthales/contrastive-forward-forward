@@ -1,6 +1,5 @@
 # self-contrastive-forward-forward
-Simple overview of use/purpose.
-
+This repo implements the official code of the article: ["Self-Contrastive Forward-Forward Algorithm"](http://arxiv.org/abs/2409.11593)
 ## Description
 
 An in-depth paragraph about your project and overview of use.
@@ -30,20 +29,48 @@ pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/
 
 ## Run the CIFAR-10 experiment
 
-Run the ContrastFF_CIFAR.py file key with to train different layers;  
-the results and model are saved in the folder "./results";  
+Run the ContrastFF_CIFAR.py file with the following key arguments to train different layers; the output and model are saved in the folder "./results"  
 --epochs: number of epochs  
 --NL: layer index to train  
 --save_model: save the trained layer  
 --device_num: device number if using GPU 
 
-### SCFF training of the first layer and save the model
+### SCFF training of the first layer and save the model for the next layer train
 ```
-python -u ContrastFF_CIFAR.py --epochs 6 --NL 1 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l1.txt 2>&1 &
+nohup python -u ContrastFF_CIFAR.py --epochs 6 --NL 1 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l1.txt 2>&1 &
 ```
-### SCFF training of the second layer and save the model
+### SCFF training of the second layer and save the model for the next layer train
 ```
-python -u ContrastFF_CIFAR.py --epochs 4 --NL 2 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l2.txt 2>&1 &
+nohup python -u ContrastFF_CIFAR.py --epochs 4 --NL 2 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l2.txt 2>&1 &
+```
+### SCFF training of the third layer and save the model for the next layer train
+```
+nohup python -u ContrastFF_CIFAR.py --epochs 21 --NL 3 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l3.txt 2>&1 &
+```
+
+## Run the STL-10 experiment
+
+Run the ContrastFF_STL.py file with the following key arguments to train different layers; the output and model are saved in the folder "./results";  
+--epochs: number of epochs  
+--NL: layer index to train  
+--save_model: save the trained layer  
+--device_num: device number if using GPU 
+
+### SCFF training of the first layer and save the model for the next layer train
+```
+nohup python -u ContrastFF_STL.py --epochs 6 --NL 1 --device_num 0 --save_model > ./results/ContrastFF_STL_l1.txt 2>&1 &
+```
+### SCFF training of the second layer and save the model for the next layer train
+```
+nohup python -u ContrastFF_STL.py --epochs 4 --NL 2 --device_num 0 --save_model > ./results/ContrastFF_STL_l2.txt 2>&1 &
+```
+### SCFF training of the third layer and save the model for the next layer train
+```
+nohup python -u ContrastFF_STL.py --epochs 21 --NL 3 --device_num 0 --save_model > ./results/ContrastFF_STL_l3.txt 2>&1 &
+```
+### SCFF training of the fourth layer and save the model for the next layer train
+```
+nohup python -u ContrastFF_STL.py --epochs 21 --NL 3 --device_num 0 --save_model > ./results/ContrastFF_STL_l4.txt 2>&1 &
 ```
 
 ## Authors

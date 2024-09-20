@@ -903,7 +903,7 @@ def create_layer(layer_config,opt_config, load_params, device):
                   pad = layer_config["pad"], norm = "stdnorm", padding_mode = layer_config["padding_mode"], act = layer_config["act"])
     
     if load_params:
-        net.load_state_dict(torch.load('./results/params_l' + str(layer_num) +'_aug_lamda_new_tri_new_p1_all.pth'))
+        net.load_state_dict(torch.load('./results/params_CIFAR_l' + str(layer_num) +'.pth'))
         for param in net.parameters():
             param.requires_grad = False
 
@@ -938,7 +938,7 @@ def hypersearch(dims, dims_in, dims_out, Batchnorm, epochs
 
     freezelayer = NL-1
     
-    for i, (layer_config, opt_config) in enumerate(zip(config['layer_configs'][:NL], config['opt_configs'][:NL])):
+    for i, (layer_config, opt_config) in enumerate(zip(config['CIFAR']['layer_configs'][:NL], config['CIFAR']['opt_configs'][:NL])):
         if i < NL-1:
             load_params = True
         if i == NL-1:
@@ -1006,7 +1006,7 @@ def main(epochs, device_num,tr_and_eval
     # save the model
     if save_model:
         for i, net in enumerate(nets):
-            torch.save(net.state_dict(), './results/params_l'+str(i)+'_aug_lamda_new_cat_tri.pth')
+            torch.save(net.state_dict(), './results/params_CIFAR_l'+str(i)+'.pth')
 
     return tacc
 
