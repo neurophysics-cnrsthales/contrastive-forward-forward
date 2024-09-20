@@ -1149,7 +1149,7 @@ def main(lr, epochs, lamda, lamda2, lambda_reg, lambda_covar, cutoffep, device_n
     # save the model
     if save_model:
         for i, net in enumerate(nets):
-            torch.save(net.state_dict(), './results/params_l'+str(i)+'_STL_new_2.pth')
+            torch.save(net.state_dict(), './results/params_l'+str(i)+'_STL_new_3.pth')
 
     return tacc
 
@@ -1214,7 +1214,7 @@ def create_objective(loaders):
         epochs = trial.suggest_int('epochs', 5, 30)
         #epochs = trial.suggest_categorical('epochs', [0])
         extra_pooltype = trial.suggest_categorical('extra_pooltype', ["Max", "Avg"])
-        tr_and_eval = True
+        tr_and_eval = False
         p = trial.suggest_categorical('p', [1])
         #p = trial.suggest_int('p', 1, 5)
         #loaders =  get_train(batchsize = 100, augment= "no", Factor= 1)
@@ -1223,16 +1223,16 @@ def create_objective(loaders):
         pool_type = trial.suggest_categorical('pool_type', ["Max", "Avg"])
         extra_pool_size = trial.suggest_categorical('extra_pool_size', [3])
         #tau = trial.suggest_float('tau', 0.4, 1, step = 0.1)
-        seed_num = trial.suggest_int('seed_num', 0,100000)
-        #seed_num = trial.suggest_categorical('seed_num', [1234])
+        #seed_num = trial.suggest_int('seed_num', 0,100000)
+        seed_num = trial.suggest_categorical('seed_num', [1234])
         act = trial.suggest_categorical('act', ['relu', 'tri'])
         #act_pre = trial.suggest_categorical('act_pre', ['relu', 'tri'])
 
         tsacc =  main(lr=lr, epochs=epochs, lamda=lamda, lamda2=lamda2, 
                     lambda_reg=0, lambda_covar=lambda_covar, 
-                    cutoffep=5, device_num=0,tr_and_eval=tr_and_eval
+                    cutoffep=5, device_num=1,tr_and_eval=tr_and_eval
                     , th1=th1, th2=th2, period=period, gamma=gamma,
-                    save_model = False, augment = "no", Factor = 1, 
+                    save_model = True, augment = "no", Factor = 1, 
                     weight_decay=weight_decay, yita=yita, out_dropout=out_dropout, loaders=loaders
                     , extra_pooltype = extra_pooltype, p = p,tau = tau, pool_type = pool_type
                     ,extra_pool_size= extra_pool_size, seed_num = seed_num, act = act)
@@ -1263,22 +1263,23 @@ if __name__ == "__main__":
      , save_model = args.save_model, loaders=loaders, p = args.p, extra_pooltype="Avg",tau = args.tau, pool_type = "Max"
      ,extra_pool_size=3)
     
+
     """
     #print('searching start...')
     # Define the range or list of values you want to loop over for each parameter
-    # 'lr': 8e-05, 'lamda': 0.008, 'lamda2': 0, 'th1': 4, 'th2': 10
+    #'lr': 8e-05, 'lamda': 0.008, 'lamda2': 0, 'th1': 5, 'th2': 10
     search_space = {
     'lr': [8e-05],
     'lamda': [0.008],
     'lamda2': [0],
-    'th1': [4],
+    'th1': [5],
     'th2': [10],
     'lambda_covar': [0],
     'gamma': [1],
     'yita': [1],
     'period': [500],
     'weight_decay':[0.001],
-    'epochs': [22],
+    'epochs': [12],
     'out_dropout' : [0.6],
     'extra_pooltype' :  ["Max"],
     'pool_type' :  ["Max"],

@@ -1,4 +1,4 @@
-# contrastive-forward-forward
+# self-contrastive-forward-forward
 Simple overview of use/purpose.
 
 ## Description
@@ -28,19 +28,22 @@ conda activate cff
 pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu118
 ```
 
-### Executing program
+## Run the CIFAR-10 experiment
 
-* How to run the program
-* Step-by-step bullets
-```
-code blocks for commands
-```
+Run the ContrastFF_CIFAR.py file key with to train different layers; 
+the results and model are saved in the folder "./results";
+--epochs: number of epochs
+--NL: layer index to train
+--save_model: save the trained layer
+--device_num: device number if using GPU
 
-## Help
-
-Any advise for common problems or issues.
+### SCFF training of the first layer and save the model
 ```
-command to run if program contains helper info
+python -u ContrastFF_CIFAR.py --epochs 6 --NL 1 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l1.txt 2>&1 &
+```
+### SCFF training of the second layer and save the model
+```
+python -u ContrastFF_CIFAR.py --epochs 4 --NL 2 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l2.txt 2>&1 &
 ```
 
 ## Authors
