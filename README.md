@@ -43,9 +43,9 @@ nohup python -u ContrastFF_CIFAR.py --epochs 6 --NL 1 --device_num 0 --save_mode
 ```
 nohup python -u ContrastFF_CIFAR.py --epochs 4 --NL 2 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l2.txt 2>&1 &
 ```
-### SCFF training of the third layer and save the model for the next layer train
+### SCFF training of the third layer
 ```
-nohup python -u ContrastFF_CIFAR.py --epochs 21 --NL 3 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l3.txt 2>&1 &
+nohup python -u ContrastFF_CIFAR.py --epochs 21 --NL 3 --device_num 0  > ./results/ContrastFF_CIFAR_l3.txt 2>&1 &
 ```
 
 ## Run the STL-10 experiment
