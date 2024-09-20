@@ -33,13 +33,14 @@ Run the ContrastFF_CIFAR.py file with the following key arguments to train diffe
 --epochs: number of epochs  
 --NL: layer index to train  
 --save_model: save the trained layer  
---device_num: device number if using GPU 
+--device_num: device number if using GPU  
+--tr_and_eval: test the accuracy at each epoch of training  
 
-### SCFF training of the first layer and save the model for the next layer train
+### SCFF training of the first layer and save the best model for the next layer train
 ```
 nohup python -u ContrastFF_CIFAR.py --epochs 6 --NL 1 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l1.txt 2>&1 &
 ```
-### SCFF training of the second layer and save the model for the next layer train
+### SCFF training of the second layer and save the best model for the next layer train
 ```
 nohup python -u ContrastFF_CIFAR.py --epochs 4 --NL 2 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l2.txt 2>&1 &
 ```
@@ -55,22 +56,23 @@ Run the ContrastFF_STL.py file with the following key arguments to train differe
 --NL: layer index to train  
 --save_model: save the trained layer  
 --device_num: device number if using GPU 
+--tr_and_eval: test the accuracy at each epoch of training  
 
-### SCFF training of the first layer and save the model for the next layer train
+### SCFF training of the first layer and save the best model for the next layer train
 ```
-nohup python -u ContrastFF_STL.py --epochs 6 --NL 1 --device_num 0 --save_model > ./results/ContrastFF_STL_l1.txt 2>&1 &
+nohup python -u ContrastFF_STL.py --epochs 4 --NL 1 --device_num 0 --save_model > ./results/ContrastFF_STL_l1.txt 2>&1 &
 ```
-### SCFF training of the second layer and save the model for the next layer train
+### SCFF training of the second layer and save the best model for the next layer train
 ```
-nohup python -u ContrastFF_STL.py --epochs 4 --NL 2 --device_num 0 --save_model > ./results/ContrastFF_STL_l2.txt 2>&1 &
+nohup python -u ContrastFF_STL.py --epochs 5 --NL 2 --device_num 0 --save_model > ./results/ContrastFF_STL_l2.txt 2>&1 &
 ```
-### SCFF training of the third layer and save the model for the next layer train
+### SCFF training of the third layer and save the best model for the next layer train
 ```
-nohup python -u ContrastFF_STL.py --epochs 21 --NL 3 --device_num 0 --save_model > ./results/ContrastFF_STL_l3.txt 2>&1 &
+nohup python -u ContrastFF_STL.py --epochs 12 --NL 3 --device_num 0 --save_model > ./results/ContrastFF_STL_l3.txt 2>&1 &
 ```
-### SCFF training of the fourth layer and save the model for the next layer train
+### SCFF training of the fourth layer
 ```
-nohup python -u ContrastFF_STL.py --epochs 21 --NL 3 --device_num 0 --save_model > ./results/ContrastFF_STL_l4.txt 2>&1 &
+nohup python -u ContrastFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/ContrastFF_STL_l4.txt 2>&1 &
 ```
 
 ## Authors

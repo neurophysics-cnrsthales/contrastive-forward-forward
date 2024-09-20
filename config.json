@@ -133,7 +133,7 @@
                 "pool_size": 4,
                 "stride_size": 2,
                 "extra_pool_size": 4,
-                "concat": [1,1,1],
+                "concat": [1,0,0],
                 "act": "relu"
             },
             {
@@ -156,37 +156,40 @@
 
         "opt_configs": [
             {
-                "lr": 0.01,
-                "weight_decay": 0.0001,
-                "gamma": 0.7,
+                "lr": 0.026,
+                "weight_decay": 0.001,
+                "gamma": 0.99,
                 "th1": 0,
-                "th2": 1,
-                "lamda": 0.0012,
+                "th2": 2,
+                "lamda": 0,
                 "period": 1000,
-                "out_dropout": 0.1,
-                "epochs": 6
-            },
-            {
-                "lr": 0.002,
-                "weight_decay": 0.0001,
-                "gamma": 0.8,
-                "th1": 5,
-                "th2": 9,
-                "lamda": 0.0007,
-                "period": 100,
-                "out_dropout": 0.1,
+                "out_dropout": 0.4,
+                "Layer_out": [0],
                 "epochs": 4
             },
             {
-                "lr": 0.0002,
+                "lr": 0.003,
                 "weight_decay": 0.0003,
+                "gamma": 0.8,
+                "th1": 5,
+                "th2": 8,
+                "lamda": 0.0015,
+                "period": 200,
+                "out_dropout": 0.4,
+                "Layer_out": [1],
+                "epochs": 5
+            },
+            {
+                "lr": 0.001,
+                "weight_decay": 0,
                 "gamma": 1,
                 "th1": 6,
-                "th2": 10,
-                "lamda": 0.0005,
+                "th2": 8,
+                "lamda": 0.005,
                 "period": 500,
-                "out_dropout": 0.2,
-                "epochs": 21
+                "out_dropout": 0.4,
+                "Layer_out": [2],
+                "epochs": 12
             },
             {
                 "lr": 8e-05,
@@ -197,6 +200,7 @@
                 "lamda": 0.008,
                 "period": 500,
                 "out_dropout": 0.6,
+                "Layer_out": [2,3],
                 "epochs": 12
             }
         ]

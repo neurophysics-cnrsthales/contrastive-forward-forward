@@ -1,0 +1,38 @@
+nohup: ignoring input
+augment = no
+epochs = 5
+lr = 0.018
+cutoffep = 5
+tr_and_eval = False
+period = 1000
+gamma = 0.99
+weight_decay = 0.001
+out_dropout = 0.0
+th1 = 9
+th2 = 1
+lamda = 0.02
+lamda2 = 0.2
+lambda_covar = 0.5
+lambda_reg = 0.0
+yita = 2
+p = 1
+tau = 1.0
+device_num = 0
+factor = 0.9
+save_model = False
+NL = 2
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+using the whole train data
+Epoch 0
+Unlabeled.
+Layer 0 : x.shape: torch.Size([100, 96, 48, 48]) y.shape (after MaxP): torch.Size([100, 96, 48, 48]) Layer 1 : x.shape: torch.Size([100, 384, 24, 24]) y.shape (after MaxP): torch.Size([100, 384, 24, 24]) nbbatches 200 learning rate: 0.0024000000000000002
+nbbatches 400 learning rate: 0.0019200000000000003
+nbbatches 600 learning rate: 0.0015360000000000003
+nbbatches 800 learning rate: 0.0012288000000000004
+nbbatches 1000 learning rate: 0.0009830400000000003
+6.2218155187815425 5.993480804592371
+Epoch 1
+Unlabeled.
+nbbatches 1200 learning rate: 0.0007864320000000003

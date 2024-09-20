@@ -1011,58 +1011,6 @@ def main(epochs, device_num,tr_and_eval
     return tacc
 
 
-def create_objective(loaders):
-    def objective(trial):
- 
-        #lr = trial.suggest_categorical('lr', [0.009, 0.01])
-        lr = trial.suggest_float('lr',  0.0001, 0.001, step = 0.0001)
-        #lamda = trial.suggest_categorical('lamda', [0]) 
-        lamda = trial.suggest_float('lamda', 0.0, 0.002, step = 0.0001) 
-        lamda2 = trial.suggest_categorical('lamda2', [0])
-        #lamda2 = trial.suggest_float('lamda2', 0., 8, step = 0.1) 
-        #th1 = trial.suggest_categorical('th1', [5]) 
-        th1 = trial.suggest_int('th1', 0,10) 
-        th2 = trial.suggest_int('th2', 0,10) 
-        #th2 = trial.suggest_categorical('th2', [7]) 
-        #lambda_covar = trial.suggest_float('lambda_covar', 0., 10, step = 0.1) 
-        lambda_covar = trial.suggest_categorical('lambda_covar', [0]) 
-        lambda_weight = trial.suggest_categorical('lambda_weight', [0])
-        #lambda_weight = trial.suggest_float('lambda_weight', 0., 10) 
-        gamma = trial.suggest_categorical('gamma', [1, 0.99, 0.95, 0.9, 0.8, 0.7, 0.6, 0.5]) 
-        #gamma = trial.suggest_categorical('gamma', [ 0.7])
-        yita = trial.suggest_categorical('yita', [1])
-        #out_dropout = trial.suggest_float('out_dropout', 0.1, 0.3, step = 0.1)
-        out_dropout = trial.suggest_categorical('out_dropout', [0.1, 0.2])
-        period = trial.suggest_categorical('period', [100, 200, 500, 1000, 2000, 1500])
-        #period = trial.suggest_categorical('period', [1000])
-        weight_decay = trial.suggest_categorical('weight_decay', [0, 1e-3, 1e-4, 3e-4]) 
-        #weight_decay = trial.suggest_categorical('weight_decay', [1e-3]) 
-        epochs = trial.suggest_int('epochs', 1, 30)
-        #epochs = trial.suggest_categorical('epochs', [10]) 
-        #p = trial.suggest_int('p', 1, 8)
-        p = trial.suggest_categorical('p', [1]) 
-        tr_and_eval = True
-        #tau = trial.suggest_float('tau', 0.5, 1, step = 0.1)
-        tau = trial.suggest_categorical('tau', [1])
-        #loaders =  get_train(batchsize = 100, augment= "no", Factor= 1)
-        #print('start')
-        pool_type = trial.suggest_categorical('pool_type', ['Max','Avg']) 
-        seed_num = trial.suggest_int('seed_num', 0,100000)
-
-        tsacc =  main(lr=lr, epochs=epochs, lamda=lamda, 
-                device_num=0,tr_and_eval=tr_and_eval
-                , th1=th1, th2=th2, period=period, gamma=gamma,
-                save_model = False, augment = "no", Factor = 1,
-                out_dropout=out_dropout, loaders=loaders
-                , p = p, tau =tau, seed_num = seed_num)
-
-        if tr_and_eval:
-            return 1- tsacc[-1][1]
-        else:
-            return 1- tsacc[1]
-
-    return objective
-
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser('ContrastFF script', parents=[get_arguments()])
