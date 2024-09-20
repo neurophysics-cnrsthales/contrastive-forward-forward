@@ -94,7 +94,7 @@ nohup python -u ContrastFF_MNIST.py --epochs 9 --NL 2 --device_num 0  > ./result
 
 ## Run the FSDD experiment
 * The FSDD dataset and audio data preprocessing are downloaded from this [repo](https://github.com/aniruddhapal211316/spoken_digit_recognition)  
-* The dataset.py file is import in ContrastFF_FSDD.py for preprocessing  
+* The dataset.py file is import in ContrastFF_FSDD.py for preprocessing the audio input  
 * Run the ContrastFF_FSDD.py file to train different layers; the output and model are saved in the folder "./results";  
 --epochs: number of epochs  
 --save_model: save the trained layer   
@@ -103,7 +103,7 @@ nohup python -u ContrastFF_MNIST.py --epochs 9 --NL 2 --device_num 0  > ./result
 
 ### SCFF training of the first layer
 ```
-nohup python -u ContrastFF_FSDD.py --epochs 20 --NL 1 --device_num 0  > ./results/ContrastFF_FSDD_l1.txt 2>&1 &
+nohup python -u ContrastFF_FSDD.py --enable_gpu --device_num 0  > ./results/ContrastFF_FSDD_l1.txt 2>&1 &
 ```
 
 ## Authors

@@ -79,3 +79,14 @@ mean goodness for pos:  0.31493873658933136
 mean goodness for neg:  0.2963915898611671
 Epoch 1, Loss: 72.543778737431, Training Accuracy: 0.6120833333333333
 Validation Loss: 0.840908773711805, Validation Accuracy: 0.73
+Epoch 3, Loss: 26.667431974286476, Training Accuracy: 0.8791666666666667
+Validation Loss: 0.5598421387423878, Validation Accuracy: 0.8
+Epoch 5, Loss: 20.279496829159, Training Accuracy: 0.9245833333333333
+Validation Loss: 0.4804466983959719, Validation Accuracy: 0.8633333333333333
+Epoch 7, Loss: 17.13399766167238, Training Accuracy: 0.9420833333333334
+Validation Loss: 0.4522058145774645, Validation Accuracy: 0.88
+Epoch 9, Loss: 16.296931333423824, Training Accuracy: 0.94625
+Validation Loss: 0.44691482507206576, Validation Accuracy: 0.89
+Epoch 10, Loss: 16.14579950291399, Training Accuracy: 0.9483333333333334
+Validation Loss: 0.4455841342292842, Validation Accuracy: 0.89
+Test Loss: 0.4455841342292842, Test Accuracy: 0.89
