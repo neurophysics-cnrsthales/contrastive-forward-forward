@@ -55,7 +55,7 @@ nohup python -u ContrastFF_CIFAR.py --epochs 21 --NL 3 --device_num 0  > ./resul
 --epochs: number of epochs  
 --NL: layer index to train  
 --save_model: save the trained layer  
---device_num: device number if using GPU   
+--device_num: device number if using GPU    
 --tr_and_eval: test the accuracy at each epoch of training  
 
 ### SCFF training of the first layer and save the best model for the next layer train
@@ -80,14 +80,14 @@ nohup python -u ContrastFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/
 --epochs: number of epochs  
 --NL: layer index to train  
 --save_model: save the trained layer  
---device_num: device number if using GPU  
+--device_num: device number if using GPU    
 --tr_and_eval: test the accuracy at each epoch of training  
 
 ### SCFF training of the first layer and save the best model for the next layer train
 ```
 nohup python -u ContrastFF_MNIST.py --epochs 20 --NL 1 --device_num 0 --save_model > ./results/ContrastFF_MNIST_l1.txt 2>&1 &
 ```
-### SCFF training of the second layer and save the best model for the next layer train
+### SCFF training of the second layer 
 ```
 nohup python -u ContrastFF_MNIST.py --epochs 9 --NL 2 --device_num 0  > ./results/ContrastFF_MNIST_l2.txt 2>&1 &
 ```
