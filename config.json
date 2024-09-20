@@ -205,6 +205,51 @@
             }
         ]
 
-    }
+    },
+    "MNIST":{
+        "layer_configs": [
+            {
+                "num": 1,
+                "ch_in": 784,
+                "channels": 2000,
+                "concat": [1],
+                "act": 1,
+                "aug": 0
+            },
+            {
+                "num": 2,
+                "ch_in": 2000,
+                "channels": 2000,
+                "concat": [1,0],
+                "act": 1,
+                "aug": 2
+            }
+        ],
 
+        "opt_configs": [
+            {
+                "lr": 0.003,
+                "weight_decay": 0.0001,
+                "gamma": 0.9,
+                "th1": 4,
+                "th2": 6,
+                "lamda": 0.0001,
+                "period": 1000,
+                "out_dropout": 0.1,
+                "epochs": 20
+            },
+            {
+                "lr": 0.002,
+                "weight_decay": 0.0001,
+                "gamma": 0.6,
+                "th1": 1,
+                "th2": 1,
+                "lamda": 0,
+                "period": 1500,
+                "out_dropout": 0.2,
+                "epochs": 9
+            }
+        ]
+
+    }
 }

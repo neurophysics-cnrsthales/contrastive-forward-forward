@@ -21,6 +21,7 @@ import numpy as np
 from numpy import fft 
 import math
 import optuna
+import json
 
 
 
@@ -79,6 +80,9 @@ def get_arguments():
                         help='division factor of the training set')
     parser.add_argument("--save_model", action='store_true',
                         help='save model or not')
+    parser.add_argument("--NL", type=int, default=1,
+                        help='Number of layers')
+
 
 
     return parser
@@ -287,7 +291,7 @@ class triangle(nn.Module):
         return F.relu(x)
 
 class Layer(nn.Linear):
-    def __init__(self, in_features, out_features, Norm, droupout = 0.0, act = 0, bias=True, device=None, dtype=None):
+    def __init__(self, in_features, out_features, Norm, droupout = 0.0, act = 0, bias=True, concat = True, device=None, dtype=None):
         super().__init__(in_features, out_features, bias, device, dtype)
 
         if act == 0:
@@ -302,6 +306,7 @@ class Layer(nn.Linear):
         #self.lr = lr
         #self.opt = Adam(self.parameters(), lr=self.lr)
         self.dropout = nn.Dropout(droupout)
+        self.concat = concat
         #self.threshold = threshold
         #self.num_epochs = num_epochs
         #self.btsz = batch_size
@@ -322,9 +327,10 @@ class Layer(nn.Linear):
             torch.mm(x_direction, self.weight.T) +
             self.bias.unsqueeze(0))
         '''
-        if x.shape[1] == 784*2:
-            x = torch.mm(x_direction[:,:784], self.weight.T
-                         ) + torch.mm(x_direction[:,784:], self.weight.T) + 2*self.bias
+        if self.concat:
+            lenchannel = x.size(1)//2
+            x = torch.mm(x_direction[:,:lenchannel], self.weight.T
+                         ) + torch.mm(x_direction[:,lenchannel:], self.weight.T) + 2*self.bias
         else:
             x = torch.mm(x_direction, self.weight.T) + self.bias
         #x = self.dropout(x)
@@ -399,11 +405,10 @@ def get_swd_loss(states, rand_w, prior='normal', stddev=1., hidden_norm=True):
     return torch.mean((states_prior_t - states_t)**2)
 
 
-def train(nets, device, optimizers,schedulers, threshold1,threshold2, epochs, batchsize
-            , a,b, lamda,lamda2,cout,freezelayer,period,tr_and_eval, Layer_out,trainloader
-            , valloader, testloader, suptrloader, out_dropout,yita
-            ,lambda_covar, sup_gamma,sup_period,search,p,pre_std,norm,aug):
-
+def train(nets, device, optimizers,schedulers, threshold1,threshold2, epochs
+            , a,b, lamda, cout,freezelayer,period,tr_and_eval, Layer_out,trainloader
+            , valloader, testloader, suptrloader, out_dropout,
+            search,p,pre_std,norm,aug):
 
     #trainloader, testloader = get_train(batchsize)
 
@@ -561,37 +566,7 @@ def train(nets, device, optimizers,schedulers, threshold1,threshold2, epochs, ba
                 yforgrad_neg =xforgrad_neg.pow(2).mean([1])
 
                 #print(yforgrad.mean([0]), yforgrad_neg.mean([0]))
-                '''
-                if triact_pos:
-                    x = (x - torch.mean(x, dim = (1,), keepdim = True) ).detach()
-                    x_neg = (x_neg- torch.mean(x_neg, dim = (1,), keepdim = True) ).detach()
-                #x = net.act(x).detach()
-                #x_neg = net.act(x_neg).detach()
-
-                x = pool[i](x)
-                x_neg = pool[i](x_neg)
-
-                #calculate the final output for regularization
-                yfor_reg = extra_pool[i](x).view(x.shape[0], -1)
-                yfor_reg_neg = extra_pool[i](x_neg).view(x_neg.shape[0], -1)
-                '''
-                """Generalized contrastive loss.
-
-                Both hidden1 and hidden2 should have shape of (n, d).
-
-                Configurations to get following losses:
-                * decoupled NT-Xent loss: set dist='logsumexp', hidden_norm=True
-                * SWD with normal distribution: set dist='normal', hidden_norm=False
-                * SWD with uniform hypersphere: set dist='normal', hidden_norm=True
-                * SWD with uniform hypercube: set dist='uniform', hidden_norm=False
                 
-                dist = 'normal' #'normal' 'logsumexp'
-                hidden_dim = yfor_reg_neg.shape[-1]  # get hidden dimension
-                hidden_norm = True
-                
-                if hidden_norm:
-                    yfor_reg_neg = F.normalize(yfor_reg_neg, p=2, dim=-1)
-                """
                 if i < freezelayer and not (TRAINING or TESTING):
                     UNLAB = False
                     
@@ -709,9 +684,6 @@ def train(nets, device, optimizers,schedulers, threshold1,threshold2, epochs, ba
                         trainouts[i].append((result).data.cpu().numpy())
 
         
-            #schedulers[i].step()
-            #print(f'Epoch {epoch+1}/{epochs} learning rate: {schedulers[i].get_last_lr()[0]}')              
-
         if tr_and_eval:
             #nets_copy = deepcopy(nets)
             #torch.manual_seed(42)
@@ -721,10 +693,7 @@ def train(nets, device, optimizers,schedulers, threshold1,threshold2, epochs, ba
     
                 
                 taccs.append(tacc)
-            #for net in nets:
-                #net.train()
-        #if (epoch+1)%period[i] == 0:
-            #schedulers[i].step()
+            
         
 
     print("Training done..")
@@ -856,11 +825,27 @@ def create_lr_lambda(epochs, initial_learning_rate, final_learning_rate,cutoffep
             return max(0, 1 - (epoch + 1 - cutoffep) * decay_rate / initial_learning_rate)
     return lr_lambda
 
-def hypersearch(channels, threshold1,threshold2, lr,epochs
-    ,batchsize, a, b, bias, gamma,lamda,lamda2
-    ,cout, freezelayer, Layer_out,period, tr_and_eval, weight_decay
-    , stdnorm_out, out_dropout, yita, sup_gamma,sup_period,lambda_covar
-    ,search, device_num, loaders,p, pre_std,Norm,aug,act, seed_num):
+def create_layer(layer_config,opt_config, load_params, device):
+    layer_num = layer_config['num']-1
+
+    net = Layer(layer_config["ch_in"], layer_config["channels"]
+    , bias=True, Norm = "stdnorm",act = layer_config["act"])
+    
+    if load_params:
+        net.load_state_dict(torch.load('./results/params_MNIST_l' + str(layer_num) +'.pth'))
+        for param in net.parameters():
+            param.requires_grad = False
+
+    net.to(device)
+    optimizer = AdamW(net.parameters(), lr=opt_config["lr"], weight_decay=opt_config["weight_decay"])
+    scheduler = ExponentialLR(optimizer, opt_config["gamma"])
+
+    return net, optimizer, scheduler
+
+def hypersearch(epochs , a, b, bias
+    ,cout, NL, Layer_out, tr_and_eval 
+    , stdnorm_out 
+    ,search, device_num, loaders,p, pre_std,Norm, seed_num):
 
     #trainloader, _, testloader,_ = get_train(batchsize, augment, Factor)
     trainloader, valloader, testloader, suptrloader = loaders
@@ -868,111 +853,86 @@ def hypersearch(channels, threshold1,threshold2, lr,epochs
     #torch.manual_seed(1234)
     torch.manual_seed(seed_num)
     device = 'cuda:' + str(device_num) if torch.cuda.is_available() else 'cpu'
-    nets = []; optimizers = []; schedulers= []; all_pos = []; all_neg = []#;xs = []
+    nets = []; optimizers = []; schedulers= []; threshold1 = []; threshold2 = []; lamda = []; period= []
     trainouts = []; testouts = []; 
-    NL = len(channels)
+    #NL = len(channels)
     #print(NL)
     #lr = lr
     #NORMW = False
-    pool = []; extra_pool = []
+    #pool = []; extra_pool = []
+    freezelayer = NL-1
 
-    
+    with open('config.json', 'r') as f:
+        config = json.load(f)
 
-    for i in range(NL):
-
-        if i == 0:
-            net = Layer(784, channels[0], bias=bias, Norm = Norm,act = act[0])
-        else:
-            net = Layer(channels[i-1], channels[i], bias=bias, Norm = Norm,act = act[i])
-
-        if i < freezelayer:
-            net.load_state_dict(torch.load('./results/params_l' + str(i) +'_MNIST_new.pth'))
-            #net.load_state_dict(torch.load('params_test.pth'))
-            for param in net.parameters():
-                param.requires_grad = False
-
-        net.to(device)
+    for i, (layer_config, opt_config) in enumerate(zip(config['MNIST']['layer_configs'][:NL], config['MNIST']['opt_configs'][:NL])):
+        if i < NL-1:
+            load_params = True
+        if i == NL-1:
+            load_params = False
+        net, optimizer, scheduler = create_layer(layer_config, opt_config, load_params = load_params, device=device)
         nets.append(net)
-        #optimizer = torch.optim.SGD(net.parameters(), lr=lr, momentum=0.9)
-        #optimizer = Adam(net.parameters(), lr=lr[i])
-        optimizer = AdamW(net.parameters(), lr=lr[i], weight_decay=weight_decay[i])
-
         optimizers.append(optimizer)
-
-        #lr_lambda = create_lr_lambda(epochs, lr[i], 0, cutoffep)
-        #scheduler = torch.optim.lr_scheduler.LambdaLR(optimizer, lr_lambda=lr_lambda)
-        scheduler = ExponentialLR(optimizer,gamma[i])
-        
         schedulers.append(scheduler)
-        
+        threshold1.append(opt_config['th1'])
+        threshold2.append(opt_config['th2'])
+        lamda.append(opt_config['lamda'])
+        period.append(opt_config['period'])
+    
+    for (net, concat) in zip(nets, layer_config['concat']):
+        net.concat = concat
+
     if stdnorm_out == "L2norm":#L2norm
         norm = L2norm(dims = [1])
     elif stdnorm_out == "stdnorm":
         norm = standardnorm(dims = [1])
     else:
         norm = nn.Identity()
+    
 
     if tr_and_eval:
         nets, _, testouts, _, _, all_pos, all_neg, _, tacc = train(
-        nets, device, optimizers,schedulers, threshold1,threshold2, epochs, batchsize
-            , a,b, lamda,lamda2,cout,freezelayer,period,tr_and_eval, Layer_out,trainloader
-            , valloader, testloader, suptrloader, out_dropout,yita
-            ,lambda_covar, sup_gamma,sup_period,search,p, pre_std, norm,aug)
+        nets, device, optimizers,schedulers, threshold1,threshold2, epochs
+            , a,b, lamda,cout,freezelayer,period,tr_and_eval, Layer_out,trainloader
+            , valloader, testloader, suptrloader, opt_config['out_dropout'],
+            search,p, pre_std, norm, layer_config["aug"])
 
     else:
         nets, trainouts, testouts, traintargets, testtargets, all_pos, all_neg, Dims = train(
-            nets, device, optimizers,schedulers, threshold1,threshold2, epochs, batchsize
-            , a,b, lamda,lamda2,cout,freezelayer,period,tr_and_eval, Layer_out,trainloader
-            , valloader, testloader, suptrloader, out_dropout,yita
-            ,lambda_covar, sup_gamma,sup_period,search,p, pre_std, norm,aug)
+            nets, device, optimizers,schedulers, threshold1,threshold2, epochs
+            , a,b, lamda, cout,freezelayer,period,tr_and_eval, Layer_out,trainloader
+            , valloader, testloader, suptrloader, opt_config['out_dropout'],
+            search,p, pre_std, norm,layer_config["aug"])
         #torch.manual_seed(42)
 
         tacc = evaluation_(nets, Dims, device, Layer_out
-            ,out_dropout,sup_gamma,sup_period,search,valloader, testloader, suptrloader, pre_std, norm)
+            ,opt_config['out_dropout'],sup_gamma,sup_period,search,valloader, testloader, suptrloader, pre_std, norm)
         #tacc = evaluation(trainouts, testouts, traintargets, testtargets, Layer_out)
         #tacc = evaluation_qudrant(trainouts, testouts, traintargets, testtargets, device, Layer_out)
 
     return tacc, all_pos, all_neg, testouts, nets
 
 
-def main(lr, epochs, lamda, lamda2, lambda_covar, device_num,tr_and_eval, th1, th2,period,gamma
-         ,save_model,  weight_decay, yita, out_dropout, loaders, p,batchsize, Norm,prestd,stdnorm_out
-         ,aug, Layer_out,act, seed_num):
+def main(epochs, device_num,tr_and_eval 
+         ,save_model, loaders, NL):
 
     tacc, all_pos, all_neg, testouts, nets = hypersearch(
-    channels = [2000,2000], 
-    threshold1 = [th1,th1], 
-    threshold2 = [th2,th2],
-    lr = [lr,lr],
-    gamma = [gamma,gamma], 
-    epochs = epochs,
-    batchsize = batchsize,  
+    epochs = epochs, 
     a = 1.0,
     b = 1.0,
     bias = True,
-    lamda = [lamda,lamda],
-    lamda2 = [lamda2,lamda2],
     cout = False,
-    freezelayer = 1,
-    Layer_out = Layer_out,
-    period = [period,period],
+    NL = NL,
+    Layer_out = [0,1],
     tr_and_eval = tr_and_eval,
-    weight_decay=[weight_decay,weight_decay],
-    stdnorm_out = stdnorm_out,
-    Norm = Norm, #L2norm, stdnorm, no, 
-    out_dropout = out_dropout,
-    yita = yita,
-    sup_gamma = 0.7,
-    sup_period = 4,
-    lambda_covar = lambda_covar,
+    stdnorm_out = "stdnorm",
+    Norm = "stdnorm", #L2norm, stdnorm, no
     search = False,
     device_num = device_num,
     loaders = loaders,
-    p = p,
-    pre_std = prestd,
-    aug = aug,
-    act = [1,act],
-    seed_num = seed_num)
+    p = 1,
+    pre_std = True,
+    seed_num = 1234)
 
     # save the model
     if save_model:
@@ -982,90 +942,10 @@ def main(lr, epochs, lamda, lamda2, lambda_covar, device_num,tr_and_eval, th1, t
     return tacc
 
 
-def objective(trial):
-
-    lr = trial.suggest_categorical('lr', [0.018, 0.02, 0.015, 0.01])
-    lamda = trial.suggest_categorical('lamda', [0, 0.05,0.03, 0.02, 0.01, 0.04, 0.005, 0.001, 0.002]) 
-    lamda2 = trial.suggest_categorical('lamda2', [0, 9, 10, 5, 8, 1, 2, 0.5, 0.1])
-    th1 = trial.suggest_int('th1', 1, 9) 
-    th2 = trial.suggest_int('th2', 1, 9) 
-    lambda_covar = trial.suggest_categorical('lambda_covar', [0., 1, 2, 4, 5, 10, 0.5, 0.2, 0.1]) 
-    gamma = trial.suggest_categorical('gamma', [ 0.95, 0.9, 0.8, 0.7, 0.6, 0.5]) 
-    yita = trial.suggest_categorical('yita', [1, 2])
-    out_dropout = trial.suggest_categorical('out_dropout', [0])
-    period = trial.suggest_categorical('period', [1000, 2000, 1500, 500])
-    weight_decay = trial.suggest_categorical('weight_decay', [0, 1e-3, 1e-4, 3e-4]) 
-    epochs = trial.suggest_int('epochs', 5, 40)
-    tr_and_eval = False
-
-    tsacc =  main(lr=lr, epochs=epochs, lamda=lamda, lamda2=lamda2, 
-                lambda_reg=0, lambda_covar=lambda_covar, 
-                cutoffep=5, device_num=1,tr_and_eval=tr_and_eval
-                , th1=th1, th2=th2, period=period, gamma=gamma,
-                save_model = False, augment = "no", Factor = 1, 
-                weight_decay=weight_decay, yita=yita, out_dropout=out_dropout)
-    
-    if tr_and_eval:
-        return 1- tsacc[-1][1]
-    else:
-        return 1- tsacc[1]
-
-
-
-def create_objective(loaders):
-    def objective(trial):
-
-        
-        
-        #lr = trial.suggest_categorical('lr', [0.022, 0.018, 0.02, 0.015, 0.01])
-        lr = trial.suggest_float('lr', 0.001, 0.01, step = 0.001)
-        #lamda = trial.suggest_float('lamda', 0, 10) 
-        lamda = trial.suggest_categorical('lamda', [0,1e-5,5e-5, 1e-4,1e-3,1e-2,5e-4,5e-3,2e-3]) 
-        #lamda2 = trial.suggest_float('lamda2', 0, 10)
-        lamda2 = trial.suggest_categorical('lamda2', [0])
-        th1 = trial.suggest_int('th1', 0,9) 
-        th2 = trial.suggest_int('th2', 0,9) 
-        #lambda_covar = trial.suggest_float('lambda_covar', 0., 10) 
-        lambda_covar = trial.suggest_categorical('lambda_covar', [0]) 
-        #lambda_weight = trial.suggest_categorical('lambda_weight', [0]) 
-        #lambda_weight = trial.suggest_float('lambda_weight', 0., 10) 
-        gamma = trial.suggest_categorical('gamma', [1, 0.95, 0.9, 0.8, 0.7, 0.6, 0.5]) 
-        yita = trial.suggest_categorical('yita', [1])
-        out_dropout = trial.suggest_float('out_dropout', 0, 0.4, step = 0.1)
-        #out_dropout = trial.suggest_categorical('out_dropout', [0])
-        period = trial.suggest_categorical('period', [100, 500, 1000, 2000, 1500])
-        weight_decay = trial.suggest_categorical('weight_decay', [0, 1e-3, 1e-4, 3e-4]) 
-        Norm = trial.suggest_categorical('Norm', ["stdnorm"])#L2norm, stdnorm
-        prestd = trial.suggest_categorical('prestd', [True])
-        stdnorm_out= trial.suggest_categorical('stdnorm_out', ["stdnorm"])#L2norm, stdnorm
-        epochs = trial.suggest_int('epochs', 1, 20)
-        #p = trial.suggest_int('p', 1, 10)
-        p = trial.suggest_categorical('p', [1])
-        tr_and_eval = True
-        aug = trial.suggest_categorical('aug', [1,0,2]) 
-        Layer_out = trial.suggest_categorical('Layer_out', [[1], [0,1]]) 
-        act = trial.suggest_categorical('act', [0,1])
-        #loaders =  get_train(batchsize = 100, augment= "no", Factor= 1)
-        #print('start')
-        seed_num = trial.suggest_int('seed_num', 0,100000)
-
-        tsacc =  main(lr=lr, epochs=epochs, lamda=lamda, lamda2=lamda2, 
-                lambda_covar=lambda_covar, device_num=0,tr_and_eval=tr_and_eval
-                , th1=th1, th2=th2, period=period, gamma=gamma,
-                save_model = False, weight_decay=weight_decay, yita=yita, out_dropout=out_dropout, loaders=loaders
-                , p = p, batchsize = 100, Norm = Norm,prestd =prestd, stdnorm_out = stdnorm_out,aug = aug
-                , Layer_out = Layer_out,act = act, seed_num = seed_num)
-
-        if tr_and_eval:
-            return 1- tsacc[-1][1]
-        else:
-            return 1- tsacc[1]
-
-    return objective
 
 
 if __name__ == "__main__":
-    """
+    
     parser = argparse.ArgumentParser('ContrastFF script', parents=[get_arguments()])
     args = parser.parse_args()
     
@@ -1076,48 +956,7 @@ if __name__ == "__main__":
     #'lambda_covar': 3.5385363579299187, 'lambda_weight': 5.315934820285312, 'gamma': 0.9, 
     #'yita': 1, 'out_dropout': 0, 'period': 2000, 'weight_decay': 0.0003, 'epochs': 19, 'p': 5}
     
-    loaders = get_train(batchsize=100, augment=False)
-
-    tsacc =  main(lr=args.lr, epochs=args.epochs, lamda=args.lamda, lamda2=args.lamda2, 
-     lambda_covar=args.lambda_covar, device_num=args.device_num,tr_and_eval=args.tr_and_eval
-     , th1=args.th1, th2=args.th2, period=args.period, gamma=args.gamma,
-     weight_decay = args.weight_decay, yita = args.yita, out_dropout=args.out_dropout
-     , save_model = args.save_model, loaders=loaders, p = args.p, batchsize = 100, Norm = 'stdnorm',prestd =True, stdnorm_out = 'stdnorm')
-    {'lr': 0.002, 'lamda': 0.0005, 'lamda2': 0, 'th1': 0, 'th2': 2, 'lambda_covar': 0, 'gamma': 0.6, 'yita': 1,
-    'out_dropout': 0.2, 'period': 1500, 'weight_decay': 0, 'Norm': 'stdnorm', 'prestd': True, 'stdnorm_out': 'stdnorm', 
-    'epochs': 15, 'p': 1, 'aug': 2, 'Layer_out': [0, 1], 'act': 1}
-    """
-   
-     # Define the range or list of values you want to loop over for each parameter
-    search_space = {
-    'lr': [0.002],
-    'lamda': [0,0.0005],
-    'lamda2': [0],
-    #'th1': [8,7,6,5,4,3,2],
-    #'th2': [5,4,3,2],
-    'th1': [0,1],
-    'th2': [1,2],
-    'lambda_covar': [0],
-    'gamma': [0.6],
-    'yita': [1],
-    'out_dropout': [0.2, 0.1],
-    'period': [1500],
-    'weight_decay':[0,0.0001],
-    'epochs': [20],
-    'p': [1],
-    'seed_num': [1234,10,100,1000],
-    'aug': [2],
-    'Layer_out': [[0, 1]],
-    'act': [1]
-    }
-
-    print('searching start...')
-    #study = optuna.create_study(sampler=optuna.samplers.GridSampler(search_space))
-    #study.optimize(objective)
     loaders = get_train(batchsize=100, augment=True)
-    objective_function = create_objective(loaders)
-    study = optuna.create_study(sampler=optuna.samplers.GridSampler(search_space))
-    #study = optuna.create_study()
-    study.optimize(objective_function)
-
+    tsacc =  main(epochs=args.epochs, device_num=args.device_num, tr_and_eval=args.tr_and_eval
+     , save_model = args.save_model, loaders=loaders, NL = args.NL)
     
