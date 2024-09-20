@@ -1,4 +1,4 @@
-# self-contrastive-forward-forward
+# Self-Contrastive-Forward-Forward
 This repo implements the official code of the article: ["Self-Contrastive Forward-Forward Algorithm"](http://arxiv.org/abs/2409.11593)
 ## Description
 
@@ -51,7 +51,7 @@ nohup python -u ContrastFF_CIFAR.py --epochs 21 --NL 3 --device_num 0  > ./resul
 
 ## Run the STL-10 experiment
 
-Run the ContrastFF_STL.py file with the following key arguments to train different layers; the output and model are saved in the folder "./results";  
+* Run the ContrastFF_STL.py file to train different layers; the output and model are saved in the folder "./results";  
 --epochs: number of epochs  
 --NL: layer index to train  
 --save_model: save the trained layer  
@@ -74,6 +74,10 @@ nohup python -u ContrastFF_STL.py --epochs 12 --NL 3 --device_num 0 --save_model
 ```
 nohup python -u ContrastFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/ContrastFF_STL_l4.txt 2>&1 &
 ```
+
+## Run the MNIST experiment
+
+
 
 ## Authors
 

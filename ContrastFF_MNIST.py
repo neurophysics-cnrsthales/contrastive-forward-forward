@@ -876,6 +876,8 @@ def hypersearch(channels, threshold1,threshold2, lr,epochs
     #NORMW = False
     pool = []; extra_pool = []
 
+    
+
     for i in range(NL):
 
         if i == 0:
@@ -889,18 +891,6 @@ def hypersearch(channels, threshold1,threshold2, lr,epochs
             for param in net.parameters():
                 param.requires_grad = False
 
-        """
-        if NORMW:
-            net.conv_layer.weight = torch.nn.Parameter(net.conv_layer.weight/ (net.conv_layer.weight.norm(p=2, dim=(-3, -2, -1), keepdim=True) + 1e-8))
-        
-        
-        if pooltype[i] == 'Avg':
-            pool.append(nn.AvgPool2d(kernel_size=pool_size[i], stride=stride_size[i], padding=1, ceil_mode=True))
-        else:
-            pool.append(nn.MaxPool2d(kernel_size=pool_size[i], stride=stride_size[i], padding=1, ceil_mode=True))
-
-        extra_pool.append(nn.AvgPool2d(kernel_size=extra_pool_size[i], stride=extra_pool_size[i], padding=0, ceil_mode=True))
-        """
         net.to(device)
         nets.append(net)
         #optimizer = torch.optim.SGD(net.parameters(), lr=lr, momentum=0.9)
