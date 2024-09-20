@@ -33,7 +33,7 @@ pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/
 --epochs: number of epochs  
 --NL: layer index to train  
 --save_model: save the trained layer  
---device_num: device number if using GPU  
+--device_num: device number if using GPU    
 --tr_and_eval: test the accuracy at each epoch of training  
 
 ### SCFF training of the first layer and save the best model for the next layer train
@@ -55,7 +55,7 @@ nohup python -u ContrastFF_CIFAR.py --epochs 21 --NL 3 --device_num 0  > ./resul
 --epochs: number of epochs  
 --NL: layer index to train  
 --save_model: save the trained layer  
---device_num: device number if using GPU 
+--device_num: device number if using GPU   
 --tr_and_eval: test the accuracy at each epoch of training  
 
 ### SCFF training of the first layer and save the best model for the next layer train
@@ -80,7 +80,7 @@ nohup python -u ContrastFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/
 --epochs: number of epochs  
 --NL: layer index to train  
 --save_model: save the trained layer  
---device_num: device number if using GPU 
+--device_num: device number if using GPU  
 --tr_and_eval: test the accuracy at each epoch of training  
 
 ### SCFF training of the first layer and save the best model for the next layer train
