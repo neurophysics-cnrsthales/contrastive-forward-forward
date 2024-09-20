@@ -90,3 +90,10 @@ Validation Loss: 0.44691482507206576, Validation Accuracy: 0.89
 Epoch 10, Loss: 16.14579950291399, Training Accuracy: 0.9483333333333334
 Validation Loss: 0.4455841342292842, Validation Accuracy: 0.89
 Test Loss: 0.4455841342292842, Test Accuracy: 0.89
+epoch 8 learning rate: 1.1529601999999994e-06
+mean goodness for pos:  0.32764293410276113
+mean goodness for neg:  0.30657308509475306
+Epoch 1, Loss: 72.31358790556337, Training Accuracy: 0.6125
+Validation Loss: 0.8440827306587017, Validation Accuracy: 0.74
+Epoch 3, Loss: 26.522358647488115, Training Accuracy: 0.8804166666666666
+Validation Loss: 0.5581775037327316, Validation Accuracy: 0.8066666666666666
