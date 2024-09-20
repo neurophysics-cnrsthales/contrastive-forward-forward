@@ -29,7 +29,7 @@ pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/
 
 ## Run the CIFAR-10 experiment
 
-* Run the ContrastFF_CIFAR.py file with the following key arguments to train different layers; the output and model are saved in the folder "./results"  
+* Run the ContrastFF_CIFAR.py file to train different layers; the output and model are saved in the folder "./results"  
 --epochs: number of epochs  
 --NL: layer index to train  
 --save_model: save the trained layer  
