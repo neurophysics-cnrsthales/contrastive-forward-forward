@@ -117,5 +117,10 @@ Contributors names and contact info
 ## License
 
 
-## Acknowledgments
-*[Speech Recognition on Spoken Digit Dataset](https://github.com/aniruddhapal211316/spoken_digit_recognition)
+## Citation
+@article{chen2024self,
+  title={Self-Contrastive Forward-Forward Algorithm},
+  author={Chen, Xing and Liu, Dongshu and Laydevant, Jeremie and Grollier, Julie},
+  journal={arXiv preprint arXiv:2409.11593},
+  year={2024}
+}
