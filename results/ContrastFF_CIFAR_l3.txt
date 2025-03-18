@@ -1,0 +1,129 @@
+nohup: ignoring input
+augment = no
+epochs = 21
+lr = 0.018
+cutoffep = 5
+tr_and_eval = False
+period = 1000
+gamma = 0.99
+weight_decay = 0.001
+out_dropout = 0.0
+th1 = 9
+th2 = 1
+lamda = 0.02
+lamda2 = 0.2
+lambda_covar = 0.5
+lambda_reg = 0.0
+lambda_weight = 0.0
+p = 1
+tau = 1.0
+yita = 2
+device_num = 0
+factor = 0.9
+save_model = True
+NL = 3
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Epoch 0
+Unlabeled.
+Layer 0 : x.shape: torch.Size([100, 96, 16, 16]) y.shape (after MaxP): torch.Size([100, 96, 16, 16]) Layer 1 : x.shape: torch.Size([100, 384, 8, 8]) y.shape (after MaxP): torch.Size([100, 384, 8, 8]) Layer 2 : x.shape: torch.Size([100, 1536, 4, 4]) y.shape (after MaxP): torch.Size([100, 1536, 4, 4]) nbbatches 500 learning rate: 0.0002
+9.520713961601258 6.338146147370338
+Epoch 1
+Unlabeled.
+nbbatches 1000 learning rate: 0.0002
+10.208019527435303 5.681338046073914
+Epoch 2
+Unlabeled.
+nbbatches 1500 learning rate: 0.0002
+10.585631256103516 5.274958714485169
+Epoch 3
+Unlabeled.
+nbbatches 2000 learning rate: 0.0002
+10.839246101379395 4.995050292015076
+Epoch 4
+Unlabeled.
+nbbatches 2500 learning rate: 0.0002
+11.013549966812134 4.79226962852478
+Epoch 5
+Unlabeled.
+nbbatches 3000 learning rate: 0.0002
+11.17687730026245 4.620445832252503
+Epoch 6
+Unlabeled.
+nbbatches 3500 learning rate: 0.0002
+11.296492004394532 4.470378973007202
+Epoch 7
+Unlabeled.
+nbbatches 4000 learning rate: 0.0002
+11.417635183334351 4.342029486656189
+Epoch 8
+Unlabeled.
+nbbatches 4500 learning rate: 0.0002
+11.505920631408692 4.241058590888977
+Epoch 9
+Unlabeled.
+nbbatches 5000 learning rate: 0.0002
+11.586546546936034 4.141694595336914
+Epoch 10
+Unlabeled.
+nbbatches 5500 learning rate: 0.0002
+11.6600106716156 4.061193765163422
+Epoch 11
+Unlabeled.
+nbbatches 6000 learning rate: 0.0002
+11.722335586547851 3.982310561180115
+Epoch 12
+Unlabeled.
+nbbatches 6500 learning rate: 0.0002
+11.780360893249512 3.904536497116089
+Epoch 13
+Unlabeled.
+nbbatches 7000 learning rate: 0.0002
+11.828600078582763 3.840235114097595
+Epoch 14
+Unlabeled.
+nbbatches 7500 learning rate: 0.0002
+11.867408348083496 3.7861379408836364
+Epoch 15
+Unlabeled.
+nbbatches 8000 learning rate: 0.0002
+11.905842195510864 3.734664515018463
+Epoch 16
+Unlabeled.
+nbbatches 8500 learning rate: 0.0002
+11.93162795639038 3.687821681022644
+Epoch 17
+Unlabeled.
+nbbatches 9000 learning rate: 0.0002
+11.9619730758667 3.6456589512825013
+Epoch 18
+Unlabeled.
+nbbatches 9500 learning rate: 0.0002
+11.97763203048706 3.603005434513092
+Epoch 19
+Unlabeled.
+nbbatches 10000 learning rate: 0.0002
+12.002100173950195 3.5626192073822023
+Epoch 20
+Unlabeled.
+nbbatches 10500 learning rate: 0.0002
+12.011421472549438 3.5385798692703245
+Training done..
+18432
+Accuracy of the network on the 10000 Train images: 69.944 %
+[1] loss: 0.023
+Accuracy of the network on the 10000 Val images: 67.65 %
+[1] loss: 0.002
+Accuracy of the network on the 10000 Train images: 88.324 %
+[21] loss: 0.007
+Accuracy of the network on the 10000 Val images: 77.97 %
+[21] loss: 0.001
+Accuracy of the network on the 10000 Train images: 92.752 %
+[41] loss: 0.004
+Accuracy of the network on the 10000 Val images: 80.63 %
+[41] loss: 0.001
+Accuracy of the network on the 10000 Train images: 93.148 %
+[50] loss: 0.003
+Accuracy of the network on the 10000 Val images: 80.68 %
+[50] loss: 0.001
