@@ -29,8 +29,8 @@ pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/
 ## Overview
 ### SCFF supports two different training strategies:
 
-* [Greedy layer-wise training](#Greedy-layer-wise-training)
-* Parallel training of all layers simultaneously
+* [Greedy layer-wise training](#Greedy-layer-wise-training) ([CIFAR-10](#run-the-cifar-10-experiment), [STL-10](#run-the-STL-10-experiment), [MNIST (MLP)](run-the-MNIST-MLP-experiment), [FSDD](run-the-FSDD-experiment))
+* [Parallel training of all layers simultaneously](Parallel-training-of-all-layers-simultaneously)
 
 
 ## Greedy layer-wise training
@@ -82,7 +82,7 @@ nohup python -u SCFF_STL.py --epochs 12 --NL 3 --device_num 0 --save_model > ./r
 nohup python -u SCFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/SCFF_STL_l4.txt 2>&1 &
 ```
 
-### Run the MNIST experiment
+### Run the MNIST (MLP) experiment
 * Run the SCFF_MNIST.py file to train different layers; the output and model are saved in the folder "./results";  
 --epochs: number of epochs  
 --NL: layer index to train  
