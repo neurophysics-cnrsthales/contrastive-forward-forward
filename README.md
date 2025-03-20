@@ -26,6 +26,12 @@ conda activate scff
 ```
 pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu118
 ```
+## Overview
+### SCFF supports two different training strategies:
+
+* [Greedy layer-wise training](#Greedy-layer-wise-training)
+* Parallel training of all layers simultaneously
+
 
 ## Greedy layer-wise training
 ### Run the CIFAR-10 experiment
