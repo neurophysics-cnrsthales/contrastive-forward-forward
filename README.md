@@ -16,20 +16,21 @@ The Forward-Forward (FF) algorithm is a recent, purely forward-mode learning met
 
 * Creat a virtual conda environment to avoid conflicts of version
 ```
-conda create --name cff python=3.10.9
+conda create --name scff python=3.10.9
 ```
 * Activate the environment
 ```
-conda activate cff
+conda activate scff
 ```
 * Install the Dependencies
 ```
 pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu118
 ```
 
-## Run the CIFAR-10 experiment
+## Greedy layer-wise training
+### Run the CIFAR-10 experiment
 
-* Run the ContrastFF_CIFAR.py file to train different layers; the output and model are saved in the folder "./results"  
+* Run the SCFF_CIFAR.py file to train different layers; the output and model are saved in the folder "./results"  
 --epochs: number of epochs  
 --NL: layer index to train  
 --save_model: save the trained layer  
@@ -38,20 +39,20 @@ pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/
 
 ### SCFF training of the first layer and save the best model for the next layer train
 ```
-nohup python -u ContrastFF_CIFAR.py --epochs 6 --NL 1 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l1.txt 2>&1 &
+nohup python -u SCFF_CIFAR.py --epochs 6 --NL 1 --device_num 0 --save_model > ./results/SCFF_CIFAR_l1.txt 2>&1 &
 ```
 ### SCFF training of the second layer and save the best model for the next layer train
 ```
-nohup python -u ContrastFF_CIFAR.py --epochs 4 --NL 2 --device_num 0 --save_model > ./results/ContrastFF_CIFAR_l2.txt 2>&1 &
+nohup python -u SCFF_CIFAR.py --epochs 4 --NL 2 --device_num 0 --save_model > ./results/SCFF_CIFAR_l2.txt 2>&1 &
 ```
 ### SCFF training of the third layer
 ```
-nohup python -u ContrastFF_CIFAR.py --epochs 21 --NL 3 --device_num 0  > ./results/ContrastFF_CIFAR_l3.txt 2>&1 &
+nohup python -u SCFF_CIFAR.py --epochs 21 --NL 3 --device_num 0  > ./results/SCFF_CIFAR_l3.txt 2>&1 &
 ```
 
 ## Run the STL-10 experiment
 
-* Run the ContrastFF_STL.py file to train different layers; the output and model are saved in the folder "./results";  
+* Run the SCFF_STL.py file to train different layers; the output and model are saved in the folder "./results";  
 --epochs: number of epochs  
 --NL: layer index to train  
 --save_model: save the trained layer  
@@ -60,23 +61,23 @@ nohup python -u ContrastFF_CIFAR.py --epochs 21 --NL 3 --device_num 0  > ./resul
 
 ### SCFF training of the first layer and save the best model for the next layer train
 ```
-nohup python -u ContrastFF_STL.py --epochs 4 --NL 1 --device_num 0 --save_model > ./results/ContrastFF_STL_l1.txt 2>&1 &
+nohup python -u SCFF_STL.py --epochs 4 --NL 1 --device_num 0 --save_model > ./results/SCFF_STL_l1.txt 2>&1 &
 ```
 ### SCFF training of the second layer and save the best model for the next layer train
 ```
-nohup python -u ContrastFF_STL.py --epochs 5 --NL 2 --device_num 0 --save_model > ./results/ContrastFF_STL_l2.txt 2>&1 &
+nohup python -u SCFF_STL.py --epochs 5 --NL 2 --device_num 0 --save_model > ./results/SCFF_STL_l2.txt 2>&1 &
 ```
 ### SCFF training of the third layer and save the best model for the next layer train
 ```
-nohup python -u ContrastFF_STL.py --epochs 12 --NL 3 --device_num 0 --save_model > ./results/ContrastFF_STL_l3.txt 2>&1 &
+nohup python -u SCFF_STL.py --epochs 12 --NL 3 --device_num 0 --save_model > ./results/SCFF_STL_l3.txt 2>&1 &
 ```
 ### SCFF training of the fourth layer
 ```
-nohup python -u ContrastFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/ContrastFF_STL_l4.txt 2>&1 &
+nohup python -u SCFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/SCFF_STL_l4.txt 2>&1 &
 ```
 
 ## Run the MNIST experiment
-* Run the ContrastFF_MNIST.py file to train different layers; the output and model are saved in the folder "./results";  
+* Run the SCFF_MNIST.py file to train different layers; the output and model are saved in the folder "./results";  
 --epochs: number of epochs  
 --NL: layer index to train  
 --save_model: save the trained layer  
@@ -85,17 +86,17 @@ nohup python -u ContrastFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/
 
 ### SCFF training of the first layer and save the best model for the next layer train
 ```
-nohup python -u ContrastFF_MNIST.py --epochs 20 --NL 1 --device_num 0 --save_model > ./results/ContrastFF_MNIST_l1.txt 2>&1 &
+nohup python -u SCFF_MNIST.py --epochs 20 --NL 1 --device_num 0 --save_model > ./results/SCFF_MNIST_l1.txt 2>&1 &
 ```
 ### SCFF training of the second layer 
 ```
-nohup python -u ContrastFF_MNIST.py --epochs 9 --NL 2 --device_num 0  > ./results/ContrastFF_MNIST_l2.txt 2>&1 &
+nohup python -u SCFF_MNIST.py --epochs 9 --NL 2 --device_num 0  > ./results/SCFF_MNIST_l2.txt 2>&1 &
 ```
 
 ## Run the FSDD experiment
 * The FSDD dataset and audio data preprocessing are downloaded from this [repo](https://github.com/aniruddhapal211316/spoken_digit_recognition)  
-* The dataset.py file is import in ContrastFF_FSDD.py for preprocessing the audio input  
-* Run the ContrastFF_FSDD.py file to train different layers; the output and model are saved in the folder "./results";  
+* The dataset.py file is import in SCFF_FSDD.py for preprocessing the audio input  
+* Run the SCFF_FSDD.py file to train different layers; the output and model are saved in the folder "./results";  
 --epochs: number of epochs  
 --save_model: save the trained layer   
 --enable_gpu: enable gpu if needed  
@@ -103,7 +104,7 @@ nohup python -u ContrastFF_MNIST.py --epochs 9 --NL 2 --device_num 0  > ./result
 
 ### SCFF training of the first layer
 ```
-nohup python -u ContrastFF_FSDD.py --enable_gpu --device_num 0  > ./results/ContrastFF_FSDD_l1.txt 2>&1 &
+nohup python -u SCFF_FSDD.py --enable_gpu --device_num 0  > ./results/SCFF_FSDD_l1.txt 2>&1 &
 ```
 
 ## Authors
