@@ -37,20 +37,20 @@ pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/
 --device_num: device number if using GPU    
 --tr_and_eval: test the accuracy at each epoch of training  
 
-### SCFF training of the first layer and save the best model for the next layer train
+* SCFF training of the first layer and save the best model for the next layer train
 ```
 nohup python -u SCFF_CIFAR.py --epochs 6 --NL 1 --device_num 0 --save_model > ./results/SCFF_CIFAR_l1.txt 2>&1 &
 ```
-### SCFF training of the second layer and save the best model for the next layer train
+* SCFF training of the second layer and save the best model for the next layer train
 ```
 nohup python -u SCFF_CIFAR.py --epochs 4 --NL 2 --device_num 0 --save_model > ./results/SCFF_CIFAR_l2.txt 2>&1 &
 ```
-### SCFF training of the third layer
+* SCFF training of the third layer
 ```
 nohup python -u SCFF_CIFAR.py --epochs 21 --NL 3 --device_num 0  > ./results/SCFF_CIFAR_l3.txt 2>&1 &
 ```
 
-## Run the STL-10 experiment
+### Run the STL-10 experiment
 
 * Run the SCFF_STL.py file to train different layers; the output and model are saved in the folder "./results";  
 --epochs: number of epochs  
@@ -59,24 +59,24 @@ nohup python -u SCFF_CIFAR.py --epochs 21 --NL 3 --device_num 0  > ./results/SCF
 --device_num: device number if using GPU    
 --tr_and_eval: test the accuracy at each epoch of training  
 
-### SCFF training of the first layer and save the best model for the next layer train
+* SCFF training of the first layer and save the best model for the next layer train
 ```
 nohup python -u SCFF_STL.py --epochs 4 --NL 1 --device_num 0 --save_model > ./results/SCFF_STL_l1.txt 2>&1 &
 ```
-### SCFF training of the second layer and save the best model for the next layer train
+* SCFF training of the second layer and save the best model for the next layer train
 ```
 nohup python -u SCFF_STL.py --epochs 5 --NL 2 --device_num 0 --save_model > ./results/SCFF_STL_l2.txt 2>&1 &
 ```
-### SCFF training of the third layer and save the best model for the next layer train
+* SCFF training of the third layer and save the best model for the next layer train
 ```
 nohup python -u SCFF_STL.py --epochs 12 --NL 3 --device_num 0 --save_model > ./results/SCFF_STL_l3.txt 2>&1 &
 ```
-### SCFF training of the fourth layer
+* SCFF training of the fourth layer
 ```
 nohup python -u SCFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/SCFF_STL_l4.txt 2>&1 &
 ```
 
-## Run the MNIST experiment
+### Run the MNIST experiment
 * Run the SCFF_MNIST.py file to train different layers; the output and model are saved in the folder "./results";  
 --epochs: number of epochs  
 --NL: layer index to train  
@@ -84,16 +84,16 @@ nohup python -u SCFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/SCFF_S
 --device_num: device number if using GPU    
 --tr_and_eval: test the accuracy at each epoch of training  
 
-### SCFF training of the first layer and save the best model for the next layer train
+* SCFF training of the first layer and save the best model for the next layer train
 ```
 nohup python -u SCFF_MNIST.py --epochs 20 --NL 1 --device_num 0 --save_model > ./results/SCFF_MNIST_l1.txt 2>&1 &
 ```
-### SCFF training of the second layer 
+* SCFF training of the second layer 
 ```
 nohup python -u SCFF_MNIST.py --epochs 9 --NL 2 --device_num 0  > ./results/SCFF_MNIST_l2.txt 2>&1 &
 ```
 
-## Run the FSDD experiment
+### Run the FSDD experiment
 * The FSDD dataset and audio data preprocessing are downloaded from this [repo](https://github.com/aniruddhapal211316/spoken_digit_recognition)  
 * The dataset.py file is import in SCFF_FSDD.py for preprocessing the audio input  
 * Run the SCFF_FSDD.py file to train different layers; the output and model are saved in the folder "./results";  
@@ -102,10 +102,13 @@ nohup python -u SCFF_MNIST.py --epochs 9 --NL 2 --device_num 0  > ./results/SCFF
 --enable_gpu: enable gpu if needed  
 --device_num: device number if using GPU        
 
-### SCFF training of the first layer
+* SCFF training of the first layer
 ```
 nohup python -u SCFF_FSDD.py --enable_gpu --device_num 0  > ./results/SCFF_FSDD_l1.txt 2>&1 &
 ```
+
+## Parallel training of all layers simultaneously
+
 
 ## Authors
 
