@@ -29,8 +29,8 @@ pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/
 ## Overview
 ### SCFF supports two different training strategies:
 
-* [Greedy layer-wise training](#greedy-layer-wise-training) ([CIFAR-10](#run-the-cifar-10-experiment), [STL-10](#run-the-STL-10-experiment), [MNIST (MLP)](#run-the-mnist-mlp-experiment), [FSDD](#run-the-fsdd-experiment))
-* [Parallel training of all layers simultaneously](#parallel-training-of-all-layers-simultaneously)
+* [Greedy layer-wise training](#greedy-layer-wise-training) ([CIFAR-10](#run-the-cifar-10-experiment), [STL-10](#run-the-STL-10-experiment), [MNIST(MLP)](#run-the-mnistmlp-experiment), [FSDD](#run-the-fsdd-experiment))
+* [Parallel training of all layers simultaneously](#parallel-training-of-all-layers-simultaneously) ([MNIST(CNN)](#run-the-mnistcnn-experiment), [CIFAR-10](#run-the-cifar-10-parallel-experiment), [STL-10](#run-the-stl-10-parallel experiment), [Tiny ImageNet](#run-the-tiny-imagenet-parallel-experiment))
 
 
 ## Greedy layer-wise training
@@ -45,15 +45,15 @@ pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/
 
 * SCFF training of the first layer and save the best model for the next layer train
 ```
-nohup python -u SCFF_CIFAR.py --epochs 6 --NL 1 --device_num 0 --save_model > ./results/SCFF_CIFAR_l1.txt 2>&1 &
+nohup python -u SCFF_CIFAR.py --epochs 6 --NL 1 --device_num 0 --save_model > ./results/SCFF_CIFAR_l1.log 2>&1 &
 ```
 * SCFF training of the second layer and save the best model for the next layer train
 ```
-nohup python -u SCFF_CIFAR.py --epochs 4 --NL 2 --device_num 0 --save_model > ./results/SCFF_CIFAR_l2.txt 2>&1 &
+nohup python -u SCFF_CIFAR.py --epochs 4 --NL 2 --device_num 0 --save_model > ./results/SCFF_CIFAR_l2.log 2>&1 &
 ```
 * SCFF training of the third layer
 ```
-nohup python -u SCFF_CIFAR.py --epochs 21 --NL 3 --device_num 0  > ./results/SCFF_CIFAR_l3.txt 2>&1 &
+nohup python -u SCFF_CIFAR.py --epochs 21 --NL 3 --device_num 0  > ./results/SCFF_CIFAR_l3.log 2>&1 &
 ```
 
 ### Run the STL-10 experiment
@@ -67,22 +67,22 @@ nohup python -u SCFF_CIFAR.py --epochs 21 --NL 3 --device_num 0  > ./results/SCF
 
 * SCFF training of the first layer and save the best model for the next layer train
 ```
-nohup python -u SCFF_STL.py --epochs 4 --NL 1 --device_num 0 --save_model > ./results/SCFF_STL_l1.txt 2>&1 &
+nohup python -u SCFF_STL.py --epochs 4 --NL 1 --device_num 0 --save_model > ./results/SCFF_STL_l1.log 2>&1 &
 ```
 * SCFF training of the second layer and save the best model for the next layer train
 ```
-nohup python -u SCFF_STL.py --epochs 5 --NL 2 --device_num 0 --save_model > ./results/SCFF_STL_l2.txt 2>&1 &
+nohup python -u SCFF_STL.py --epochs 5 --NL 2 --device_num 0 --save_model > ./results/SCFF_STL_l2.log 2>&1 &
 ```
 * SCFF training of the third layer and save the best model for the next layer train
 ```
-nohup python -u SCFF_STL.py --epochs 12 --NL 3 --device_num 0 --save_model > ./results/SCFF_STL_l3.txt 2>&1 &
+nohup python -u SCFF_STL.py --epochs 12 --NL 3 --device_num 0 --save_model > ./results/SCFF_STL_l3.log 2>&1 &
 ```
 * SCFF training of the fourth layer
 ```
-nohup python -u SCFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/SCFF_STL_l4.txt 2>&1 &
+nohup python -u SCFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/SCFF_STL_l4.log 2>&1 &
 ```
 
-### Run the MNIST (MLP) experiment
+### Run the MNIST(MLP) experiment
 * Run the SCFF_MNIST.py file to train different layers; the output and model are saved in the folder "./results";  
 --epochs: number of epochs  
 --NL: layer index to train  
@@ -92,11 +92,11 @@ nohup python -u SCFF_STL.py --epochs 12 --NL 4 --device_num 0 > ./results/SCFF_S
 
 * SCFF training of the first layer and save the best model for the next layer train
 ```
-nohup python -u SCFF_MNIST.py --epochs 20 --NL 1 --device_num 0 --save_model > ./results/SCFF_MNIST_l1.txt 2>&1 &
+nohup python -u SCFF_MNIST.py --epochs 20 --NL 1 --device_num 0 --save_model > ./results/SCFF_MNIST_l1.log 2>&1 &
 ```
-* SCFF training of the second layer 
+* SCFF training of the second layer neuro@1254
 ```
-nohup python -u SCFF_MNIST.py --epochs 9 --NL 2 --device_num 0  > ./results/SCFF_MNIST_l2.txt 2>&1 &
+nohup python -u SCFF_MNIST.py --epochs 9 --NL 2 --device_num 0  > ./results/SCFF_MNIST_l2.log 2>&1 &
 ```
 
 ### Run the FSDD experiment
@@ -110,17 +110,46 @@ nohup python -u SCFF_MNIST.py --epochs 9 --NL 2 --device_num 0  > ./results/SCFF
 
 * SCFF training of the first layer
 ```
-nohup python -u SCFF_FSDD.py --enable_gpu --device_num 0  > ./results/SCFF_FSDD_l1.txt 2>&1 &
+nohup python -u SCFF_FSDD.py --enable_gpu --device_num 0  > ./results/SCFF_FSDD_l1.log 2>&1 &
 ```
 
 ## Parallel training of all layers simultaneously
+* Default training configurations are saved in parsers, can also be loaded from config.json 
+
+### Run the MNIST(CNN) experiment
+* Run the SCFF_MNIST_CNN_Parallel.py file to train all layers simultaneously  
+```
+nohup python -u SCFF_MNIST_CNN_Parallel.py --device_num 0  > ./results/SCFF_MNIST_CNN_Parallel.log 2>&1 &
+```
+
+### Run the CIFAR-10 parallel experiment
+* Run the SCFF_CIFAR_Parallel.py file to train all layers simultaneously  
+```
+nohup python -u SCFF_CIFAR_Parallel.py --device_num 0  > ./results/SCFF_CIFAR_Parallel.log 2>&1 &
+```
+
+### Run the STL-10 parallel experiment
+* Run the SCFF_STL_Parallel.py file to train all layers simultaneously  
+```
+nohup python -u SCFF_STL_Parallel.py --device_num 0  > ./results/SCFF_STL_Parallel.log 2>&1 &
+```
+
+### Run the Tiny ImageNet parallel experiment
+* Run the Tiny ImageNet training in two steps: the first two layers are first traind together and then the trained weights were frozen while training the last three layers  
+```
+nohup python -u SCFF_TIMGNET_Parallel.py --NL 2 --freezelayer 0 --out_dropout 0.1 > ./results/SCFF_TIMGNET_Parallel_1.log 2>&1 &
+```
+The trained weights were saved to params_TIMGNET_layerwise_2_bt200_best_l0.pth and params_TIMGNET_layerwise_2_bt200_best_l1.pth
+```
+nohup python -u SCFF_TIMGNET_Parallel.py --NL 5 --freezelayer 2 --out_dropout 0.3 > ./results/SCFF_TIMGNET_Parallel_2.log 2>&1 &
+```
 
 
 ## Authors
 
 Contributors names and contact info
 
-[@XingCHEN](xing.chen@cnrs-thales.fr)
+[@XingCHEN](xingc217@gmail.com)
 
 
 
