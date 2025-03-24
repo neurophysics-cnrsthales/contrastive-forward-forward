@@ -30,8 +30,7 @@ pip3 install -r requirements.txt --extra-index-url https://download.pytorch.org/
 ### SCFF supports two different training strategies:
 
 * [Greedy layer-wise training](#greedy-layer-wise-training) ([CIFAR-10](#run-the-cifar-10-experiment), [STL-10](#run-the-STL-10-experiment), [MNIST(MLP)](#run-the-mnistmlp-experiment), [FSDD](#run-the-fsdd-experiment))
-* [Parallel training of all layers simultaneously](#parallel-training-of-all-layers-simultaneously) ([MNIST(CNN)](#run-the-mnistcnn-experiment), [CIFAR-10](#run-the-cifar-10-parallel-experiment), [STL-10](#run-the-stl-10-parallel experiment), [Tiny ImageNet](#run-the-tiny-imagenet-parallel-experiment))
-
+* [Parallel training of all layers simultaneously](#parallel-training-of-all-layers-simultaneously) ([MNIST(CNN)](#run-the-mnistcnn-experiment), [CIFAR-10](#run-the-cifar-10-parallel-experiment), [STL-10](#run-the-stl-10-parallel-experiment), [Tiny ImageNet](#run-the-tiny-imagenet-parallel-experiment))
 
 ## Greedy layer-wise training
 ### Run the CIFAR-10 experiment
