@@ -251,5 +251,337 @@
             }
         ]
 
+    },
+    "MNIST_CNN":{
+        "layer_configs": [
+            {
+                "num": 1,
+                "padding_mode": "reflect",
+                "pad": 0,
+                "ch_in": 1,
+                "channels": 96,
+                "kernel_size": 5,
+                "padding": 1,
+                "pooltype": "Max",
+                "pool_size": 4,
+                "stride_size": 2,
+                "extra_pool_size": 2,
+                "act": "triangle"
+            },
+            {
+                "num": 2,
+                "padding_mode": "reflect",
+                "pad": 1,
+                "ch_in": 96,
+                "channels": 384,
+                "kernel_size": 3,
+                "padding": 1,
+                "pooltype": "Max",
+                "pool_size": 4,
+                "stride_size": 2,
+                "extra_pool_size": 2,
+                "act": "relu"
+            },
+            {
+                "num": 3,
+                "padding_mode": "reflect",
+                "pad": 1,
+                "ch_in": 384,
+                "channels": 1536,
+                "kernel_size": 3,
+                "padding": 0,
+                "pooltype": "Avg",
+                "pool_size": 2,
+                "stride_size": 2,
+                "extra_pool_size": 3,
+                "act": "triangle"
+            }
+        ],
+        "opt_configs": [
+            {
+                "lr": 0.004,
+                "weight_decay": 0.0003,
+                "gamma": 0.7,
+                "th1": 1,
+                "th2": 1,
+                "lamda": 0,
+                "period": 500,
+                "epochs": 6
+            },
+            {
+                "lr": 0.003,
+                "weight_decay": 0.0003,
+                "gamma": 0.7,
+                "th1": 3,
+                "th2": 3,
+                "lamda": 0,
+                "period": 500,
+                "epochs": 4
+            },
+            {
+                "lr": 0.0001,
+                "weight_decay": 0.0003,
+                "gamma": 0.7,
+                "th1": 6,
+                "th2": 6,
+                "lamda": 0,
+                "period": 500,
+                "out_dropout": 0.2,
+                "epochs": 21
+            }
+        ]
+
+    }, 
+    "STL_Parallel":{
+        "layer_configs": [
+            {
+                "num": 1,
+                "padding_mode": "reflect",
+                "pad": 2,
+                "ch_in": 3,
+                "channels": 96,
+                "kernel_size": 5,
+                "padding": 1,
+                "pooltype": "Max",
+                "extra_pooltype": "Avg",
+                "pool_size": 4,
+                "stride_size": 2,
+                "extra_pool_size": 4,
+                "act": "triangle"
+            },
+            {
+                "num": 2,
+                "padding_mode": "reflect",
+                "pad": 1,
+                "ch_in": 96,
+                "channels": 384,
+                "kernel_size": 3,
+                "padding": 1,
+                "pooltype": "Max",
+                "extra_pooltype": "Avg",
+                "pool_size": 4,
+                "stride_size": 2,
+                "extra_pool_size": 4,
+                "act": "triangle"
+            },
+            {
+                "num": 3,
+                "padding_mode": "reflect",
+                "pad": 1,
+                "ch_in": 384,
+                "channels": 1536,
+                "kernel_size": 3,
+                "padding": 1,
+                "pooltype": "Max",
+                "extra_pooltype": "Avg",
+                "pool_size": 4,
+                "stride_size": 2,
+                "extra_pool_size": 4,
+                "act": "relu"
+            },
+            {
+                "num": 4,
+                "padding_mode": "reflect",
+                "pad": 1,
+                "ch_in": 1536,
+                "channels": 6144,
+                "kernel_size": 3,
+                "padding": 0,
+                "pooltype": "Max",
+                "extra_pooltype": "Max",
+                "pool_size": 2,
+                "stride_size": 2,
+                "extra_pool_size": 3,
+                "concat": [1,1,1,1],
+                "act": "triangle"
+            }
+        ],
+
+        "opt_configs": [
+            {
+                "lr": 0.02,
+                "weight_decay": 0.001,
+                "gamma": 0.9,
+                "th1": 0,
+                "th2": 3,
+                "lamda": 0,
+                "period": 1000,
+                "out_dropout": 0.4,
+                "epochs": 4
+            },
+            {
+                "lr": 0.001,
+                "weight_decay": 0.001,
+                "gamma": 0.99,
+                "th1": 4,
+                "th2": 5,
+                "lamda": 0,
+                "period": 1000,
+                "out_dropout": 0.4,
+                "epochs": 8
+            },
+            {
+                "lr": 0.0004,
+                "weight_decay": 0,
+                "gamma": 0.9,
+                "th1": 7,
+                "th2": 8,
+                "lamda": 0,
+                "period": 1000,
+                "out_dropout": 0.4,
+                "epochs": 12
+            },
+            {
+                "lr": 0.0001,
+                "weight_decay": 0.0003,
+                "gamma": 1,
+                "th1": 6,
+                "th2": 9,
+                "lamda": 0,
+                "period": 1000,
+                "out_dropout": 0.6,
+                "Layer_out": [2,3],
+                "epochs": 21
+            }
+        ]
+
+    },
+    "IMAGENET":{
+        "layer_configs": [
+            { 
+                "num": 1,
+                "padding_mode": "constant",
+                "pad": 2,
+                "ch_in": 3,
+                "channels": 64,
+                "kernel_size": 5,
+                "padding": 0,
+                "pooltype": "Max",
+                "extra_pooltype": "Avg",
+                "pool_size": 2,
+                "stride_size": 2,
+                "extra_pool_size": 4,
+                "act": "triangle"
+            },
+            {
+                "num": 2,
+                "padding_mode": "constant",
+                "pad": 1,
+                "ch_in": 64,
+                "channels": 192,
+                "kernel_size": 3,
+                "padding": 0,
+                "pooltype": "Max",
+                "extra_pooltype": "Avg",
+                "pool_size": 2,
+                "stride_size": 2,
+                "extra_pool_size": 4,
+                "concat": [1,0],
+                "act": "triangle"
+            },
+            { 
+                "num": 3,
+                "padding_mode": "constant",
+                "pad": 1,
+                "ch_in": 192,
+                "channels": 384,
+                "kernel_size": 3,
+                "padding": 0,
+                "pooltype": "Max",
+                "extra_pooltype": "Avg",
+                "pool_size": 1,
+                "stride_size": 1,
+                "extra_pool_size": 4,
+                "act": "triangle"
+            },
+            {
+                "num": 4,
+                "padding_mode": "constant",
+                "pad": 1,
+                "ch_in": 384,
+                "channels": 256,
+                "kernel_size": 3,
+                "padding": 0,
+                "pooltype": "Max",
+                "extra_pooltype": "Avg",
+                "pool_size": 1,
+                "stride_size": 1,
+                "extra_pool_size": 4,
+                "act": "triangle"
+            },
+            {
+                "num": 5,
+                "padding_mode": "constant",
+                "pad": 1,
+                "ch_in": 256,
+                "channels": 256,
+                "kernel_size": 3,
+                "padding": 0,
+                "pooltype": "Max",
+                "extra_pooltype": "Avg",
+                "pool_size": 2,
+                "stride_size": 2,
+                "extra_pool_size": 4,
+                "concat": [1, 0, 0, 1, 0],
+                "act": "relu"
+            }
+        ],
+        "opt_configs": [
+            { 
+                "lr": 0.011,
+                "weight_decay": 0.001,
+                "gamma": 0.99,
+                "th1": 0,
+                "th2": 2,
+                "lamda": 0,
+                "period": 500,
+                "epochs": 6
+            },
+            {
+                "lr": 0.001,
+                "weight_decay": 0,
+                "gamma": 0.8,
+                "th1": 3,
+                "th2": 4,
+                "lamda": 0,
+                "period": 500,
+                "out_dropout": 0.1,
+                "Layer_out": [1],
+                "epochs": 15
+            },
+            {
+                "lr": 0.00175,
+                "weight_decay": 0,
+                "gamma": 1,
+                "th1": 5,
+                "th2": 8,
+                "lamda": 0,
+                "period": 500,
+                "epochs": 17
+            },
+            {
+                "lr": 0.0002,
+                "weight_decay": 0.001,
+                "gamma": 0.99,
+                "th1": 5,
+                "th2": 9,
+                "lamda": 0,
+                "period": 500,
+                "epochs": 19
+            },
+            { 
+                "lr": 0.0003,
+                "weight_decay": 0.0001,
+                "gamma": 1,
+                "th1": 3,
+                "th2": 7,
+                "lamda": 0,
+                "period": 500,
+                "out_dropout": 0.3,
+                "Layer_out": [1,2,3,4],
+                "epochs": 25
+            }
+        ]
+
     }
 }

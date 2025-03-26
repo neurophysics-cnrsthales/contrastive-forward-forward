@@ -1,0 +1,2370 @@
+nohup: ignoring input
+Preparing dataset ...
+Preparing data loaders ...
+[I 2025-03-07 16:54:58,177] A new study created in memory with name: no-name-d348aa29-9023-441d-ba87-31441f7b3f19
+/home/xing/anaconda3/envs/myenv/lib/python3.10/site-packages/optuna/samplers/_grid.py:186: UserWarning: The value `25` is out of range of the parameter `ep5`. The value will be used but the actual distribution is: `IntDistribution(high=20, log=False, low=10, step=1)`.
+  warnings.warn(
+
+==================================================
+Executing Trial 0 with Parameters:
+  lr: [0, 0, 0.00175, 0.0002, 0.0003]
+  lamda: [0, 0, 0, 0, 0]
+  threshold1: [0, 1, 5, 5, 3]
+  threshold2: [1, 2, 8, 9, 7]
+  gamma: [1, 1, 1, 0.99, 1]
+  period: [500, 500, 500, 500, 500]
+  act: ['triangle', 'triangle', 'triangle', 'triangle', 'relu']
+  concats: (1, 0, 0, 1, 0)
+  Layer_out: (1, 2, 3, 4)
+  weight_decay: [0, 0, 0, 0.001, 0.0001]
+  out_dropout: 0.3
+  ep: [0, 0, 17, 19, 25]
+  seed_num: 1234
+  epochs: 25
+==================================================
+
+Epoch 0
+Unlabeled.
+Layer 0 : x.shape: torch.Size([200, 64, 32, 32]) y.shape (after MaxP): torch.Size([200, 64, 32, 32]) Layer 1 : x.shape: torch.Size([200, 192, 16, 16]) y.shape (after MaxP): torch.Size([200, 192, 16, 16]) Layer 2 : x.shape: torch.Size([200, 384, 16, 16]) y.shape (after MaxP): torch.Size([200, 384, 16, 16]) Layer 3 : x.shape: torch.Size([200, 256, 16, 16]) y.shape (after MaxP): torch.Size([200, 256, 16, 16]) Layer 4 : x.shape: torch.Size([200, 256, 8, 8]) y.shape (after MaxP): torch.Size([200, 256, 8, 8]) nbbatches 500 learning rate: 0.00175
+nbbatches 500 learning rate: 0.00019800000000000002
+nbbatches 500 learning rate: 0.0003
+5.005552021145821 4.445803428888321
+Epoch 1
+Unlabeled.
+nbbatches 1000 learning rate: 0.00175
+nbbatches 1000 learning rate: 0.00019602
+nbbatches 1000 learning rate: 0.0003
+5.513008982658386 4.2554607939720155
+Epoch 2
+Unlabeled.
+nbbatches 1500 learning rate: 0.00175
+nbbatches 1500 learning rate: 0.0001940598
+nbbatches 1500 learning rate: 0.0003
+5.8746199150085445 3.86246733045578
+Epoch 3
+Unlabeled.
+nbbatches 2000 learning rate: 0.00175
+nbbatches 2000 learning rate: 0.00019211920200000001
+nbbatches 2000 learning rate: 0.0003
+6.2389148359298705 3.4737376236915587
+Epoch 4
+Unlabeled.
+nbbatches 2500 learning rate: 0.00175
+nbbatches 2500 learning rate: 0.00019019800998000002
+nbbatches 2500 learning rate: 0.0003
+6.571749116897583 3.148932068824768
+Epoch 5
+Unlabeled.
+nbbatches 3000 learning rate: 0.00175
+nbbatches 3000 learning rate: 0.00018829602988020003
+nbbatches 3000 learning rate: 0.0003
+6.874508502006531 2.881456673145294
+Epoch 6
+Unlabeled.
+nbbatches 3500 learning rate: 0.00175
+nbbatches 3500 learning rate: 0.00018641306958139804
+nbbatches 3500 learning rate: 0.0003
+7.122490280151367 2.6880949230194093
+Epoch 7
+Unlabeled.
+nbbatches 4000 learning rate: 0.00175
+nbbatches 4000 learning rate: 0.00018454893888558406
+nbbatches 4000 learning rate: 0.0003
+7.296888727188111 2.5629306225776674
+Epoch 8
+Unlabeled.
+nbbatches 4500 learning rate: 0.00175
+nbbatches 4500 learning rate: 0.0001827034494967282
+nbbatches 4500 learning rate: 0.0003
+7.463216287612915 2.4642714438438413
+Epoch 9
+Unlabeled.
+nbbatches 5000 learning rate: 0.00175
+nbbatches 5000 learning rate: 0.00018087641500176094
+nbbatches 5000 learning rate: 0.0003
+7.564083391189575 2.403915102481842
+Epoch 10
+Unlabeled.
+nbbatches 5500 learning rate: 0.00175
+nbbatches 5500 learning rate: 0.00017906765085174333
+nbbatches 5500 learning rate: 0.0003
+7.624636109352112 2.396923903942108
+Epoch 11
+Unlabeled.
+nbbatches 6000 learning rate: 0.00175
+nbbatches 6000 learning rate: 0.0001772769743432259
+nbbatches 6000 learning rate: 0.0003
+7.6621898193359375 2.3935060830116273
+14336
+Accuracy of the network on the 100000 train images: 13.431000000000001 %
+Accuracy of the network on the 10000 Val images: 17.06 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.06%
+Top-5 Accuracy: 36.57%
+Accuracy of the network on the 100000 train images: 34.241 %
+Accuracy of the network on the 10000 Val images: 29.68 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.68%
+Top-5 Accuracy: 52.52%
+Accuracy of the network on the 100000 train images: 39.156 %
+Accuracy of the network on the 10000 Val images: 32.5 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.50%
+Top-5 Accuracy: 55.91%
+Accuracy of the network on the 100000 train images: 43.068 %
+Accuracy of the network on the 10000 Val images: 34.8 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.80%
+Top-5 Accuracy: 58.53%
+Accuracy of the network on the 100000 train images: 44.729 %
+Accuracy of the network on the 10000 Val images: 35.3 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.30%
+Top-5 Accuracy: 59.10%
+Accuracy of the network on the 100000 train images: 45.172000000000004 %
+Accuracy of the network on the 10000 Val images: 35.59 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.59%
+Top-5 Accuracy: 59.59%
+Epoch 12
+Unlabeled.
+nbbatches 6500 learning rate: 0.00175
+nbbatches 6500 learning rate: 0.00017550420459979364
+nbbatches 6500 learning rate: 0.0003
+7.688984141349793 2.406469798088074
+14336
+Accuracy of the network on the 100000 train images: 13.446 %
+Accuracy of the network on the 10000 Val images: 17.3 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.30%
+Top-5 Accuracy: 36.71%
+Accuracy of the network on the 100000 train images: 34.421 %
+Accuracy of the network on the 10000 Val images: 29.7 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.70%
+Top-5 Accuracy: 52.87%
+Accuracy of the network on the 100000 train images: 39.333 %
+Accuracy of the network on the 10000 Val images: 32.2 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.20%
+Top-5 Accuracy: 56.17%
+Accuracy of the network on the 100000 train images: 43.301 %
+Accuracy of the network on the 10000 Val images: 34.52 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.52%
+Top-5 Accuracy: 58.77%
+Accuracy of the network on the 100000 train images: 45.018 %
+Accuracy of the network on the 10000 Val images: 35.49 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.49%
+Top-5 Accuracy: 59.39%
+Accuracy of the network on the 100000 train images: 45.288000000000004 %
+Accuracy of the network on the 10000 Val images: 35.73 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.73%
+Top-5 Accuracy: 59.91%
+Epoch 13
+Unlabeled.
+nbbatches 7000 learning rate: 0.00175
+nbbatches 7000 learning rate: 0.0001737491625537957
+nbbatches 7000 learning rate: 0.0003
+7.654719141960144 2.456600597858429
+14336
+Accuracy of the network on the 100000 train images: 13.544 %
+Accuracy of the network on the 10000 Val images: 17.29 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.29%
+Top-5 Accuracy: 37.16%
+Accuracy of the network on the 100000 train images: 34.434 %
+Accuracy of the network on the 10000 Val images: 29.66 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.66%
+Top-5 Accuracy: 52.93%
+Accuracy of the network on the 100000 train images: 39.576 %
+Accuracy of the network on the 10000 Val images: 32.19 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.19%
+Top-5 Accuracy: 55.82%
+Accuracy of the network on the 100000 train images: 43.545 %
+Accuracy of the network on the 10000 Val images: 34.42 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.42%
+Top-5 Accuracy: 58.53%
+Accuracy of the network on the 100000 train images: 45.158 %
+Accuracy of the network on the 10000 Val images: 35.73 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.73%
+Top-5 Accuracy: 59.23%
+Accuracy of the network on the 100000 train images: 45.471000000000004 %
+Accuracy of the network on the 10000 Val images: 35.69 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.69%
+Top-5 Accuracy: 59.51%
+Epoch 14
+Unlabeled.
+nbbatches 7500 learning rate: 0.00175
+nbbatches 7500 learning rate: 0.00017201167092825774
+nbbatches 7500 learning rate: 0.0003
+7.623587459564209 2.50501775598526
+14336
+Accuracy of the network on the 100000 train images: 13.478000000000002 %
+Accuracy of the network on the 10000 Val images: 17.28 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.28%
+Top-5 Accuracy: 36.91%
+Accuracy of the network on the 100000 train images: 34.587 %
+Accuracy of the network on the 10000 Val images: 29.77 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.77%
+Top-5 Accuracy: 53.50%
+Accuracy of the network on the 100000 train images: 39.589 %
+Accuracy of the network on the 10000 Val images: 32.44 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.44%
+Top-5 Accuracy: 55.96%
+Accuracy of the network on the 100000 train images: 43.692 %
+Accuracy of the network on the 10000 Val images: 34.67 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.67%
+Top-5 Accuracy: 58.64%
+Accuracy of the network on the 100000 train images: 45.385 %
+Accuracy of the network on the 10000 Val images: 35.84 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.84%
+Top-5 Accuracy: 59.55%
+Accuracy of the network on the 100000 train images: 45.688 %
+Accuracy of the network on the 10000 Val images: 35.81 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.81%
+Top-5 Accuracy: 59.60%
+Epoch 15
+Unlabeled.
+nbbatches 8000 learning rate: 0.00175
+nbbatches 8000 learning rate: 0.00017029155421897517
+nbbatches 8000 learning rate: 0.0003
+7.593285519599915 2.5429618854522706
+14336
+Accuracy of the network on the 100000 train images: 13.462 %
+Accuracy of the network on the 10000 Val images: 16.97 %
+[1] loss: 0.006
+Top-1 Accuracy: 16.97%
+Top-5 Accuracy: 37.21%
+Accuracy of the network on the 100000 train images: 34.778 %
+Accuracy of the network on the 10000 Val images: 29.76 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.76%
+Top-5 Accuracy: 53.04%
+Accuracy of the network on the 100000 train images: 39.883 %
+Accuracy of the network on the 10000 Val images: 32.48 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.48%
+Top-5 Accuracy: 55.94%
+Accuracy of the network on the 100000 train images: 43.772 %
+Accuracy of the network on the 10000 Val images: 34.65 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.65%
+Top-5 Accuracy: 58.45%
+Accuracy of the network on the 100000 train images: 45.427 %
+Accuracy of the network on the 10000 Val images: 35.71 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.71%
+Top-5 Accuracy: 59.10%
+Accuracy of the network on the 100000 train images: 45.839 %
+Accuracy of the network on the 10000 Val images: 35.63 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.63%
+Top-5 Accuracy: 59.33%
+Epoch 16
+Unlabeled.
+nbbatches 8500 learning rate: 0.00175
+nbbatches 8500 learning rate: 0.00016858863867678543
+nbbatches 8500 learning rate: 0.0003
+7.5459862146377565 2.579156322956085
+14336
+Accuracy of the network on the 100000 train images: 13.533999999999999 %
+Accuracy of the network on the 10000 Val images: 17.51 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.51%
+Top-5 Accuracy: 36.86%
+Accuracy of the network on the 100000 train images: 34.574 %
+Accuracy of the network on the 10000 Val images: 29.85 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.85%
+Top-5 Accuracy: 52.99%
+Accuracy of the network on the 100000 train images: 39.861999999999995 %
+Accuracy of the network on the 10000 Val images: 32.35 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.35%
+Top-5 Accuracy: 55.91%
+Accuracy of the network on the 100000 train images: 43.753 %
+Accuracy of the network on the 10000 Val images: 34.86 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.86%
+Top-5 Accuracy: 58.61%
+Accuracy of the network on the 100000 train images: 45.428000000000004 %
+Accuracy of the network on the 10000 Val images: 35.51 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.51%
+Top-5 Accuracy: 59.62%
+Accuracy of the network on the 100000 train images: 45.586 %
+Accuracy of the network on the 10000 Val images: 35.99 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.99%
+Top-5 Accuracy: 59.63%
+Epoch 17
+Unlabeled.
+nbbatches 9000 learning rate: 0.00016690275229001758
+nbbatches 9000 learning rate: 0.0003
+7.538534101486206 2.586087659358978
+14336
+Accuracy of the network on the 100000 train images: 13.556000000000001 %
+Accuracy of the network on the 10000 Val images: 17.41 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.41%
+Top-5 Accuracy: 36.92%
+Accuracy of the network on the 100000 train images: 34.769 %
+Accuracy of the network on the 10000 Val images: 29.94 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.94%
+Top-5 Accuracy: 53.30%
+Accuracy of the network on the 100000 train images: 40.048 %
+Accuracy of the network on the 10000 Val images: 32.31 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.31%
+Top-5 Accuracy: 56.01%
+Accuracy of the network on the 100000 train images: 44.003 %
+Accuracy of the network on the 10000 Val images: 34.73 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.73%
+Top-5 Accuracy: 58.60%
+Accuracy of the network on the 100000 train images: 45.594 %
+Accuracy of the network on the 10000 Val images: 35.66 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.66%
+Top-5 Accuracy: 59.38%
+Accuracy of the network on the 100000 train images: 45.759 %
+Accuracy of the network on the 10000 Val images: 35.84 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.84%
+Top-5 Accuracy: 59.57%
+Epoch 18
+Unlabeled.
+nbbatches 9500 learning rate: 0.0001652337247671174
+nbbatches 9500 learning rate: 0.0003
+7.552323651313782 2.5775878834724426
+14336
+Accuracy of the network on the 100000 train images: 13.584999999999999 %
+Accuracy of the network on the 10000 Val images: 17.52 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.52%
+Top-5 Accuracy: 36.77%
+Accuracy of the network on the 100000 train images: 34.93 %
+Accuracy of the network on the 10000 Val images: 29.99 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.99%
+Top-5 Accuracy: 52.96%
+Accuracy of the network on the 100000 train images: 40.104 %
+Accuracy of the network on the 10000 Val images: 32.81 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.81%
+Top-5 Accuracy: 55.89%
+Accuracy of the network on the 100000 train images: 43.846000000000004 %
+Accuracy of the network on the 10000 Val images: 34.93 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.93%
+Top-5 Accuracy: 58.74%
+Accuracy of the network on the 100000 train images: 45.705 %
+Accuracy of the network on the 10000 Val images: 35.65 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.65%
+Top-5 Accuracy: 59.41%
+Accuracy of the network on the 100000 train images: 45.818 %
+Accuracy of the network on the 10000 Val images: 36.08 %
+[100] loss: 0.004
+Top-1 Accuracy: 36.08%
+Top-5 Accuracy: 59.67%
+Epoch 19
+Unlabeled.
+nbbatches 10000 learning rate: 0.0003
+7.602039876937866 2.5435880613327027
+14336
+Accuracy of the network on the 100000 train images: 13.575000000000001 %
+Accuracy of the network on the 10000 Val images: 17.44 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.44%
+Top-5 Accuracy: 36.69%
+Accuracy of the network on the 100000 train images: 34.749 %
+Accuracy of the network on the 10000 Val images: 30.29 %
+[21] loss: 0.006
+Top-1 Accuracy: 30.29%
+Top-5 Accuracy: 53.29%
+Accuracy of the network on the 100000 train images: 40.1 %
+Accuracy of the network on the 10000 Val images: 32.77 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.77%
+Top-5 Accuracy: 56.19%
+Accuracy of the network on the 100000 train images: 43.828 %
+Accuracy of the network on the 10000 Val images: 34.8 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.80%
+Top-5 Accuracy: 58.58%
+Accuracy of the network on the 100000 train images: 45.663 %
+Accuracy of the network on the 10000 Val images: 35.68 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.68%
+Top-5 Accuracy: 59.31%
+Accuracy of the network on the 100000 train images: 45.798 %
+Accuracy of the network on the 10000 Val images: 36.11 %
+[100] loss: 0.004
+Top-1 Accuracy: 36.11%
+Top-5 Accuracy: 59.60%
+Epoch 20
+Unlabeled.
+nbbatches 10500 learning rate: 0.0003
+7.66364374923706 2.5083969888687134
+14336
+Accuracy of the network on the 100000 train images: 13.589 %
+Accuracy of the network on the 10000 Val images: 17.36 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.36%
+Top-5 Accuracy: 36.72%
+Accuracy of the network on the 100000 train images: 34.894999999999996 %
+Accuracy of the network on the 10000 Val images: 29.84 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.84%
+Top-5 Accuracy: 53.41%
+Accuracy of the network on the 100000 train images: 40.079 %
+Accuracy of the network on the 10000 Val images: 32.78 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.78%
+Top-5 Accuracy: 56.13%
+Accuracy of the network on the 100000 train images: 43.864 %
+Accuracy of the network on the 10000 Val images: 35.05 %
+[61] loss: 0.004
+Top-1 Accuracy: 35.05%
+Top-5 Accuracy: 58.76%
+Accuracy of the network on the 100000 train images: 45.702 %
+Accuracy of the network on the 10000 Val images: 35.74 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.74%
+Top-5 Accuracy: 59.45%
+Accuracy of the network on the 100000 train images: 45.877 %
+Accuracy of the network on the 10000 Val images: 36.05 %
+[100] loss: 0.004
+Top-1 Accuracy: 36.05%
+Top-5 Accuracy: 59.51%
+Epoch 21
+Unlabeled.
+nbbatches 11000 learning rate: 0.0003
+7.71896486568451 2.474291522502899
+14336
+Accuracy of the network on the 100000 train images: 13.600000000000001 %
+Accuracy of the network on the 10000 Val images: 17.48 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.48%
+Top-5 Accuracy: 36.88%
+Accuracy of the network on the 100000 train images: 35.001 %
+Accuracy of the network on the 10000 Val images: 29.61 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.61%
+Top-5 Accuracy: 52.95%
+Accuracy of the network on the 100000 train images: 40.166000000000004 %
+Accuracy of the network on the 10000 Val images: 32.76 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.76%
+Top-5 Accuracy: 55.93%
+Accuracy of the network on the 100000 train images: 43.962 %
+Accuracy of the network on the 10000 Val images: 34.7 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.70%
+Top-5 Accuracy: 58.73%
+Accuracy of the network on the 100000 train images: 45.702999999999996 %
+Accuracy of the network on the 10000 Val images: 35.59 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.59%
+Top-5 Accuracy: 59.49%
+Accuracy of the network on the 100000 train images: 45.927 %
+Accuracy of the network on the 10000 Val images: 35.97 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.97%
+Top-5 Accuracy: 59.73%
+Epoch 22
+Unlabeled.
+nbbatches 11500 learning rate: 0.0003
+7.776783808708191 2.4423116364479065
+14336
+Accuracy of the network on the 100000 train images: 13.592 %
+Accuracy of the network on the 10000 Val images: 17.4 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.40%
+Top-5 Accuracy: 37.01%
+Accuracy of the network on the 100000 train images: 34.986 %
+Accuracy of the network on the 10000 Val images: 30.09 %
+[21] loss: 0.006
+Top-1 Accuracy: 30.09%
+Top-5 Accuracy: 53.24%
+Accuracy of the network on the 100000 train images: 40.117999999999995 %
+Accuracy of the network on the 10000 Val images: 32.69 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.69%
+Top-5 Accuracy: 56.03%
+Accuracy of the network on the 100000 train images: 43.769000000000005 %
+Accuracy of the network on the 10000 Val images: 34.82 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.82%
+Top-5 Accuracy: 58.61%
+Accuracy of the network on the 100000 train images: 45.704 %
+Accuracy of the network on the 10000 Val images: 35.47 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.47%
+Top-5 Accuracy: 59.41%
+Accuracy of the network on the 100000 train images: 45.907 %
+Accuracy of the network on the 10000 Val images: 35.8 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.80%
+Top-5 Accuracy: 59.60%
+Epoch 23
+Unlabeled.
+nbbatches 12000 learning rate: 0.0003
+7.82718738079071 2.41598891544342
+14336
+Accuracy of the network on the 100000 train images: 13.607 %
+Accuracy of the network on the 10000 Val images: 17.34 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.34%
+Top-5 Accuracy: 37.18%
+Accuracy of the network on the 100000 train images: 34.918 %
+Accuracy of the network on the 10000 Val images: 30.1 %
+[21] loss: 0.006
+Top-1 Accuracy: 30.10%
+Top-5 Accuracy: 53.46%
+Accuracy of the network on the 100000 train images: 40.067 %
+Accuracy of the network on the 10000 Val images: 32.72 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.72%
+Top-5 Accuracy: 56.04%
+Accuracy of the network on the 100000 train images: 43.809 %
+Accuracy of the network on the 10000 Val images: 34.74 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.74%
+Top-5 Accuracy: 58.53%
+Accuracy of the network on the 100000 train images: 45.774 %
+Accuracy of the network on the 10000 Val images: 35.67 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.67%
+Top-5 Accuracy: 59.40%
+Accuracy of the network on the 100000 train images: 45.959 %
+Accuracy of the network on the 10000 Val images: 35.97 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.97%
+Top-5 Accuracy: 59.65%
+Epoch 24
+Unlabeled.
+nbbatches 12500 learning rate: 0.0003
+7.867394877433777 2.392483302116394
+14336
+Accuracy of the network on the 100000 train images: 13.578000000000001 %
+Accuracy of the network on the 10000 Val images: 17.28 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.28%
+Top-5 Accuracy: 37.13%
+Accuracy of the network on the 100000 train images: 34.903 %
+Accuracy of the network on the 10000 Val images: 30.1 %
+[21] loss: 0.006
+Top-1 Accuracy: 30.10%
+Top-5 Accuracy: 53.40%
+Accuracy of the network on the 100000 train images: 40.091 %
+Accuracy of the network on the 10000 Val images: 32.71 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.71%
+Top-5 Accuracy: 56.05%
+Accuracy of the network on the 100000 train images: 43.882 %
+Accuracy of the network on the 10000 Val images: 34.61 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.61%
+Top-5 Accuracy: 58.69%
+Accuracy of the network on the 100000 train images: 45.677 %
+Accuracy of the network on the 10000 Val images: 35.75 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.75%
+Top-5 Accuracy: 59.44%
+Accuracy of the network on the 100000 train images: 45.967 %
+Accuracy of the network on the 10000 Val images: 35.98 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.98%
+Top-5 Accuracy: 59.79%
+Training done..
+[I 2025-03-07 21:44:51,333] Trial 0 finished with value: 0.6389 and parameters: {'lr1': 0, 'lr2': 0, 'lr3': 0.00175, 'lr4': 0.0002, 'lr5': 0.0003, 'lamda': 0, 'th1': 0, 'th2': 1, 'th3': 5, 'th4': 5, 'th5': 3, 'th12': 1, 'th22': 2, 'th32': 8, 'th42': 9, 'th52': 7, 'gamma1': 1, 'gamma2': 1, 'gamma3': 1, 'gamma4': 0.99, 'gamma5': 1, 'period1': 500, 'act1': 'triangle', 'act2': 'triangle', 'act3': 'triangle', 'act4': 'triangle', 'act5': 'relu', 'concats': 1, 'Layer_out': 3, 'weight_decay1': 0, 'weight_decay2': 0, 'weight_decay3': 0, 'weight_decay4': 0.001, 'weight_decay5': 0.0001, 'out_dropout': 0.3, 'ep1': 0, 'ep2': 0, 'ep3': 17, 'ep4': 19, 'ep5': 25, 'seed_num': 1234}. Best is trial 0 with value: 0.6389.
+
+==================================================
+Executing Trial 1 with Parameters:
+  lr: [0, 0, 0.00175, 0.0002, 0.0003]
+  lamda: [0, 0, 0, 0, 0]
+  threshold1: [0, 1, 5, 5, 3]
+  threshold2: [1, 2, 8, 9, 7]
+  gamma: [1, 1, 1, 0.99, 1]
+  period: [500, 500, 500, 500, 500]
+  act: ['triangle', 'triangle', 'triangle', 'triangle', 'relu']
+  concats: (1, 0, 0, 1, 0)
+  Layer_out: (1, 2, 3, 4)
+  weight_decay: [0, 0, 0, 0.001, 0.0001]
+  out_dropout: 0.3
+  ep: [0, 0, 17, 19, 25]
+  seed_num: 10
+  epochs: 25
+==================================================
+
+Epoch 0
+Unlabeled.
+Layer 0 : x.shape: torch.Size([200, 64, 32, 32]) y.shape (after MaxP): torch.Size([200, 64, 32, 32]) Layer 1 : x.shape: torch.Size([200, 192, 16, 16]) y.shape (after MaxP): torch.Size([200, 192, 16, 16]) Layer 2 : x.shape: torch.Size([200, 384, 16, 16]) y.shape (after MaxP): torch.Size([200, 384, 16, 16]) Layer 3 : x.shape: torch.Size([200, 256, 16, 16]) y.shape (after MaxP): torch.Size([200, 256, 16, 16]) Layer 4 : x.shape: torch.Size([200, 256, 8, 8]) y.shape (after MaxP): torch.Size([200, 256, 8, 8]) nbbatches 500 learning rate: 0.00175
+nbbatches 500 learning rate: 0.00019800000000000002
+nbbatches 500 learning rate: 0.0003
+5.000359748959541 4.457668638586998
+Epoch 1
+Unlabeled.
+nbbatches 1000 learning rate: 0.00175
+nbbatches 1000 learning rate: 0.00019602
+nbbatches 1000 learning rate: 0.0003
+5.5579175806045535 4.18968016910553
+Epoch 2
+Unlabeled.
+nbbatches 1500 learning rate: 0.00175
+nbbatches 1500 learning rate: 0.0001940598
+nbbatches 1500 learning rate: 0.0003
+5.953660738945008 3.7871265988349916
+Epoch 3
+Unlabeled.
+nbbatches 2000 learning rate: 0.00175
+nbbatches 2000 learning rate: 0.00019211920200000001
+nbbatches 2000 learning rate: 0.0003
+6.303481111526489 3.431787885189056
+Epoch 4
+Unlabeled.
+nbbatches 2500 learning rate: 0.00175
+nbbatches 2500 learning rate: 0.00019019800998000002
+nbbatches 2500 learning rate: 0.0003
+6.614503487586975 3.1256438989639284
+Epoch 5
+Unlabeled.
+nbbatches 3000 learning rate: 0.00175
+nbbatches 3000 learning rate: 0.00018829602988020003
+nbbatches 3000 learning rate: 0.0003
+6.9060548391342165 2.8835341548919677
+Epoch 6
+Unlabeled.
+nbbatches 3500 learning rate: 0.00175
+nbbatches 3500 learning rate: 0.00018641306958139804
+nbbatches 3500 learning rate: 0.0003
+7.165395079612732 2.6719198384284972
+Epoch 7
+Unlabeled.
+nbbatches 4000 learning rate: 0.00175
+nbbatches 4000 learning rate: 0.00018454893888558406
+nbbatches 4000 learning rate: 0.0003
+7.3578304710388185 2.5419770288467407
+Epoch 8
+Unlabeled.
+nbbatches 4500 learning rate: 0.00175
+nbbatches 4500 learning rate: 0.0001827034494967282
+nbbatches 4500 learning rate: 0.0003
+7.509920655250549 2.4444135031700136
+Epoch 9
+Unlabeled.
+nbbatches 5000 learning rate: 0.00175
+nbbatches 5000 learning rate: 0.00018087641500176094
+nbbatches 5000 learning rate: 0.0003
+7.618783476829528 2.4113805198669436
+Epoch 10
+Unlabeled.
+nbbatches 5500 learning rate: 0.00175
+nbbatches 5500 learning rate: 0.00017906765085174333
+nbbatches 5500 learning rate: 0.0003
+7.667891515731812 2.3946839361190797
+Epoch 11
+Unlabeled.
+nbbatches 6000 learning rate: 0.00175
+nbbatches 6000 learning rate: 0.0001772769743432259
+nbbatches 6000 learning rate: 0.0003
+7.70893459701538 2.396998446941376
+14336
+Accuracy of the network on the 100000 train images: 13.353000000000002 %
+Accuracy of the network on the 10000 Val images: 16.61 %
+[1] loss: 0.006
+Top-1 Accuracy: 16.61%
+Top-5 Accuracy: 36.75%
+Accuracy of the network on the 100000 train images: 34.185 %
+Accuracy of the network on the 10000 Val images: 29.13 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.13%
+Top-5 Accuracy: 52.46%
+Accuracy of the network on the 100000 train images: 38.993 %
+Accuracy of the network on the 10000 Val images: 31.84 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.84%
+Top-5 Accuracy: 55.56%
+Accuracy of the network on the 100000 train images: 43.128 %
+Accuracy of the network on the 10000 Val images: 34.01 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.01%
+Top-5 Accuracy: 57.95%
+Accuracy of the network on the 100000 train images: 44.856 %
+Accuracy of the network on the 10000 Val images: 34.62 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.62%
+Top-5 Accuracy: 58.69%
+Accuracy of the network on the 100000 train images: 45.091 %
+Accuracy of the network on the 10000 Val images: 34.87 %
+[100] loss: 0.004
+Top-1 Accuracy: 34.87%
+Top-5 Accuracy: 59.13%
+Epoch 12
+Unlabeled.
+nbbatches 6500 learning rate: 0.00175
+nbbatches 6500 learning rate: 0.00017550420459979364
+nbbatches 6500 learning rate: 0.0003
+7.690536853790284 2.4473505182266235
+14336
+Accuracy of the network on the 100000 train images: 13.389999999999999 %
+Accuracy of the network on the 10000 Val images: 16.9 %
+[1] loss: 0.006
+Top-1 Accuracy: 16.90%
+Top-5 Accuracy: 36.61%
+Accuracy of the network on the 100000 train images: 34.27 %
+Accuracy of the network on the 10000 Val images: 29.18 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.18%
+Top-5 Accuracy: 52.22%
+Accuracy of the network on the 100000 train images: 38.948 %
+Accuracy of the network on the 10000 Val images: 31.63 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.63%
+Top-5 Accuracy: 55.45%
+Accuracy of the network on the 100000 train images: 43.174 %
+Accuracy of the network on the 10000 Val images: 34.3 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.30%
+Top-5 Accuracy: 57.95%
+Accuracy of the network on the 100000 train images: 45.013999999999996 %
+Accuracy of the network on the 10000 Val images: 35.06 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.06%
+Top-5 Accuracy: 58.74%
+Accuracy of the network on the 100000 train images: 45.184999999999995 %
+Accuracy of the network on the 10000 Val images: 35.1 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.10%
+Top-5 Accuracy: 59.02%
+Epoch 13
+Unlabeled.
+nbbatches 7000 learning rate: 0.00175
+nbbatches 7000 learning rate: 0.0001737491625537957
+nbbatches 7000 learning rate: 0.0003
+7.700048464775086 2.4617959518432615
+14336
+Accuracy of the network on the 100000 train images: 13.411999999999999 %
+Accuracy of the network on the 10000 Val images: 16.78 %
+[1] loss: 0.006
+Top-1 Accuracy: 16.78%
+Top-5 Accuracy: 36.80%
+Accuracy of the network on the 100000 train images: 34.489 %
+Accuracy of the network on the 10000 Val images: 29.2 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.20%
+Top-5 Accuracy: 52.65%
+Accuracy of the network on the 100000 train images: 39.333 %
+Accuracy of the network on the 10000 Val images: 32.11 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.11%
+Top-5 Accuracy: 55.76%
+Accuracy of the network on the 100000 train images: 43.401 %
+Accuracy of the network on the 10000 Val images: 34.29 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.29%
+Top-5 Accuracy: 58.01%
+Accuracy of the network on the 100000 train images: 45.254 %
+Accuracy of the network on the 10000 Val images: 35.01 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.01%
+Top-5 Accuracy: 58.78%
+Accuracy of the network on the 100000 train images: 45.424 %
+Accuracy of the network on the 10000 Val images: 35.03 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.03%
+Top-5 Accuracy: 58.75%
+Epoch 14
+Unlabeled.
+nbbatches 7500 learning rate: 0.00175
+nbbatches 7500 learning rate: 0.00017201167092825774
+nbbatches 7500 learning rate: 0.0003
+7.6806827726364135 2.493806236743927
+14336
+Accuracy of the network on the 100000 train images: 13.44 %
+Accuracy of the network on the 10000 Val images: 16.98 %
+[1] loss: 0.006
+Top-1 Accuracy: 16.98%
+Top-5 Accuracy: 36.80%
+Accuracy of the network on the 100000 train images: 34.607 %
+Accuracy of the network on the 10000 Val images: 29.13 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.13%
+Top-5 Accuracy: 52.70%
+Accuracy of the network on the 100000 train images: 39.568999999999996 %
+Accuracy of the network on the 10000 Val images: 32.21 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.21%
+Top-5 Accuracy: 55.73%
+Accuracy of the network on the 100000 train images: 43.532 %
+Accuracy of the network on the 10000 Val images: 34.47 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.47%
+Top-5 Accuracy: 57.89%
+Accuracy of the network on the 100000 train images: 45.451 %
+Accuracy of the network on the 10000 Val images: 34.95 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.95%
+Top-5 Accuracy: 58.81%
+Accuracy of the network on the 100000 train images: 45.544000000000004 %
+Accuracy of the network on the 10000 Val images: 35.19 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.19%
+Top-5 Accuracy: 58.92%
+Epoch 15
+Unlabeled.
+nbbatches 8000 learning rate: 0.00175
+nbbatches 8000 learning rate: 0.00017029155421897517
+nbbatches 8000 learning rate: 0.0003
+7.651608257293701 2.5228393301963807
+14336
+Accuracy of the network on the 100000 train images: 13.439 %
+Accuracy of the network on the 10000 Val images: 17.36 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.36%
+Top-5 Accuracy: 36.96%
+Accuracy of the network on the 100000 train images: 34.694 %
+Accuracy of the network on the 10000 Val images: 29.49 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.49%
+Top-5 Accuracy: 53.01%
+Accuracy of the network on the 100000 train images: 39.473 %
+Accuracy of the network on the 10000 Val images: 32.03 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.03%
+Top-5 Accuracy: 55.88%
+Accuracy of the network on the 100000 train images: 43.7 %
+Accuracy of the network on the 10000 Val images: 34.39 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.39%
+Top-5 Accuracy: 57.81%
+Accuracy of the network on the 100000 train images: 45.423 %
+Accuracy of the network on the 10000 Val images: 34.89 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.89%
+Top-5 Accuracy: 58.75%
+Accuracy of the network on the 100000 train images: 45.534 %
+Accuracy of the network on the 10000 Val images: 34.98 %
+[100] loss: 0.004
+Top-1 Accuracy: 34.98%
+Top-5 Accuracy: 58.71%
+Epoch 16
+Unlabeled.
+nbbatches 8500 learning rate: 0.00175
+nbbatches 8500 learning rate: 0.00016858863867678543
+nbbatches 8500 learning rate: 0.0003
+7.627218903541565 2.5648985471725463
+14336
+Accuracy of the network on the 100000 train images: 13.54 %
+Accuracy of the network on the 10000 Val images: 16.71 %
+[1] loss: 0.006
+Top-1 Accuracy: 16.71%
+Top-5 Accuracy: 36.63%
+Accuracy of the network on the 100000 train images: 34.713 %
+Accuracy of the network on the 10000 Val images: 29.51 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.51%
+Top-5 Accuracy: 52.52%
+Accuracy of the network on the 100000 train images: 39.892 %
+Accuracy of the network on the 10000 Val images: 32.2 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.20%
+Top-5 Accuracy: 55.90%
+Accuracy of the network on the 100000 train images: 43.897000000000006 %
+Accuracy of the network on the 10000 Val images: 34.53 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.53%
+Top-5 Accuracy: 57.84%
+Accuracy of the network on the 100000 train images: 45.744 %
+Accuracy of the network on the 10000 Val images: 35.03 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.03%
+Top-5 Accuracy: 58.78%
+Accuracy of the network on the 100000 train images: 45.848 %
+Accuracy of the network on the 10000 Val images: 35.1 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.10%
+Top-5 Accuracy: 59.01%
+Epoch 17
+Unlabeled.
+nbbatches 9000 learning rate: 0.00016690275229001758
+nbbatches 9000 learning rate: 0.0003
+7.580386204719543 2.5814808626174925
+14336
+Accuracy of the network on the 100000 train images: 13.572999999999999 %
+Accuracy of the network on the 10000 Val images: 16.81 %
+[1] loss: 0.006
+Top-1 Accuracy: 16.81%
+Top-5 Accuracy: 36.87%
+Accuracy of the network on the 100000 train images: 34.953 %
+Accuracy of the network on the 10000 Val images: 29.2 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.20%
+Top-5 Accuracy: 52.57%
+Accuracy of the network on the 100000 train images: 39.879 %
+Accuracy of the network on the 10000 Val images: 32.06 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.06%
+Top-5 Accuracy: 56.08%
+Accuracy of the network on the 100000 train images: 43.830999999999996 %
+Accuracy of the network on the 10000 Val images: 34.69 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.69%
+Top-5 Accuracy: 58.07%
+Accuracy of the network on the 100000 train images: 45.725 %
+Accuracy of the network on the 10000 Val images: 35.2 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.20%
+Top-5 Accuracy: 59.07%
+Accuracy of the network on the 100000 train images: 45.755 %
+Accuracy of the network on the 10000 Val images: 35.17 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.17%
+Top-5 Accuracy: 59.07%
+Epoch 18
+Unlabeled.
+nbbatches 9500 learning rate: 0.0001652337247671174
+nbbatches 9500 learning rate: 0.0003
+7.5995458250045775 2.5708690934181213
+14336
+Accuracy of the network on the 100000 train images: 13.627 %
+Accuracy of the network on the 10000 Val images: 17.11 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.11%
+Top-5 Accuracy: 36.87%
+Accuracy of the network on the 100000 train images: 34.904 %
+Accuracy of the network on the 10000 Val images: 29.42 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.42%
+Top-5 Accuracy: 52.72%
+Accuracy of the network on the 100000 train images: 39.96 %
+Accuracy of the network on the 10000 Val images: 31.84 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.84%
+Top-5 Accuracy: 55.96%
+Accuracy of the network on the 100000 train images: 44.071 %
+Accuracy of the network on the 10000 Val images: 34.35 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.35%
+Top-5 Accuracy: 57.87%
+Accuracy of the network on the 100000 train images: 45.834 %
+Accuracy of the network on the 10000 Val images: 34.89 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.89%
+Top-5 Accuracy: 58.79%
+Accuracy of the network on the 100000 train images: 45.881 %
+Accuracy of the network on the 10000 Val images: 35.01 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.01%
+Top-5 Accuracy: 59.10%
+Epoch 19
+Unlabeled.
+nbbatches 10000 learning rate: 0.0003
+7.623009271621704 2.554309501171112
+14336
+Accuracy of the network on the 100000 train images: 13.619 %
+Accuracy of the network on the 10000 Val images: 17.12 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.12%
+Top-5 Accuracy: 36.91%
+Accuracy of the network on the 100000 train images: 34.866 %
+Accuracy of the network on the 10000 Val images: 28.97 %
+[21] loss: 0.006
+Top-1 Accuracy: 28.97%
+Top-5 Accuracy: 52.55%
+Accuracy of the network on the 100000 train images: 39.957 %
+Accuracy of the network on the 10000 Val images: 31.86 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.86%
+Top-5 Accuracy: 56.02%
+Accuracy of the network on the 100000 train images: 43.966 %
+Accuracy of the network on the 10000 Val images: 34.57 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.57%
+Top-5 Accuracy: 57.71%
+Accuracy of the network on the 100000 train images: 45.846 %
+Accuracy of the network on the 10000 Val images: 35.09 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.09%
+Top-5 Accuracy: 58.78%
+Accuracy of the network on the 100000 train images: 45.925 %
+Accuracy of the network on the 10000 Val images: 34.97 %
+[100] loss: 0.004
+Top-1 Accuracy: 34.97%
+Top-5 Accuracy: 58.90%
+Epoch 20
+Unlabeled.
+nbbatches 10500 learning rate: 0.0003
+7.692186031341553 2.5089255867004394
+14336
+Accuracy of the network on the 100000 train images: 13.630999999999998 %
+Accuracy of the network on the 10000 Val images: 17.21 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.21%
+Top-5 Accuracy: 36.89%
+Accuracy of the network on the 100000 train images: 34.916000000000004 %
+Accuracy of the network on the 10000 Val images: 29.21 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.21%
+Top-5 Accuracy: 52.96%
+Accuracy of the network on the 100000 train images: 39.854 %
+Accuracy of the network on the 10000 Val images: 31.86 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.86%
+Top-5 Accuracy: 56.04%
+Accuracy of the network on the 100000 train images: 43.97 %
+Accuracy of the network on the 10000 Val images: 34.37 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.37%
+Top-5 Accuracy: 57.94%
+Accuracy of the network on the 100000 train images: 45.881 %
+Accuracy of the network on the 10000 Val images: 35.15 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.15%
+Top-5 Accuracy: 58.84%
+Accuracy of the network on the 100000 train images: 45.904 %
+Accuracy of the network on the 10000 Val images: 35.19 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.19%
+Top-5 Accuracy: 58.95%
+Epoch 21
+Unlabeled.
+nbbatches 11000 learning rate: 0.0003
+7.752454564094544 2.475346662044525
+14336
+Accuracy of the network on the 100000 train images: 13.616 %
+Accuracy of the network on the 10000 Val images: 17.29 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.29%
+Top-5 Accuracy: 36.96%
+Accuracy of the network on the 100000 train images: 34.955000000000005 %
+Accuracy of the network on the 10000 Val images: 29.11 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.11%
+Top-5 Accuracy: 52.21%
+Accuracy of the network on the 100000 train images: 39.993 %
+Accuracy of the network on the 10000 Val images: 31.93 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.93%
+Top-5 Accuracy: 55.97%
+Accuracy of the network on the 100000 train images: 44.105 %
+Accuracy of the network on the 10000 Val images: 34.56 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.56%
+Top-5 Accuracy: 57.74%
+Accuracy of the network on the 100000 train images: 45.783 %
+Accuracy of the network on the 10000 Val images: 35.11 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.11%
+Top-5 Accuracy: 58.91%
+Accuracy of the network on the 100000 train images: 45.951 %
+Accuracy of the network on the 10000 Val images: 35.19 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.19%
+Top-5 Accuracy: 59.06%
+Epoch 22
+Unlabeled.
+nbbatches 11500 learning rate: 0.0003
+7.8155649061203 2.438501359462738
+14336
+Accuracy of the network on the 100000 train images: 13.614999999999998 %
+Accuracy of the network on the 10000 Val images: 17.24 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.24%
+Top-5 Accuracy: 36.99%
+Accuracy of the network on the 100000 train images: 34.910000000000004 %
+Accuracy of the network on the 10000 Val images: 29.27 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.27%
+Top-5 Accuracy: 52.83%
+Accuracy of the network on the 100000 train images: 39.919 %
+Accuracy of the network on the 10000 Val images: 31.56 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.56%
+Top-5 Accuracy: 56.00%
+Accuracy of the network on the 100000 train images: 44.106 %
+Accuracy of the network on the 10000 Val images: 34.43 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.43%
+Top-5 Accuracy: 57.72%
+Accuracy of the network on the 100000 train images: 45.809 %
+Accuracy of the network on the 10000 Val images: 34.99 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.99%
+Top-5 Accuracy: 58.96%
+Accuracy of the network on the 100000 train images: 46.028999999999996 %
+Accuracy of the network on the 10000 Val images: 35.1 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.10%
+Top-5 Accuracy: 59.16%
+Epoch 23
+Unlabeled.
+nbbatches 12000 learning rate: 0.0003
+7.868934763908387 2.4101515264511106
+14336
+Accuracy of the network on the 100000 train images: 13.636999999999999 %
+Accuracy of the network on the 10000 Val images: 17.3 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.30%
+Top-5 Accuracy: 36.95%
+Accuracy of the network on the 100000 train images: 34.807 %
+Accuracy of the network on the 10000 Val images: 29.07 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.07%
+Top-5 Accuracy: 52.45%
+Accuracy of the network on the 100000 train images: 40.114 %
+Accuracy of the network on the 10000 Val images: 31.65 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.65%
+Top-5 Accuracy: 56.05%
+Accuracy of the network on the 100000 train images: 43.976 %
+Accuracy of the network on the 10000 Val images: 34.36 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.36%
+Top-5 Accuracy: 57.84%
+Accuracy of the network on the 100000 train images: 45.909 %
+Accuracy of the network on the 10000 Val images: 34.99 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.99%
+Top-5 Accuracy: 58.79%
+Accuracy of the network on the 100000 train images: 46.003 %
+Accuracy of the network on the 10000 Val images: 35.07 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.07%
+Top-5 Accuracy: 59.13%
+Epoch 24
+Unlabeled.
+nbbatches 12500 learning rate: 0.0003
+7.915215870857239 2.383256898880005
+14336
+Accuracy of the network on the 100000 train images: 13.653 %
+Accuracy of the network on the 10000 Val images: 17.21 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.21%
+Top-5 Accuracy: 36.84%
+Accuracy of the network on the 100000 train images: 35.02 %
+Accuracy of the network on the 10000 Val images: 29.09 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.09%
+Top-5 Accuracy: 52.53%
+Accuracy of the network on the 100000 train images: 39.914 %
+Accuracy of the network on the 10000 Val images: 31.84 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.84%
+Top-5 Accuracy: 56.01%
+Accuracy of the network on the 100000 train images: 43.968 %
+Accuracy of the network on the 10000 Val images: 34.47 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.47%
+Top-5 Accuracy: 57.87%
+Accuracy of the network on the 100000 train images: 45.889 %
+Accuracy of the network on the 10000 Val images: 34.98 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.98%
+Top-5 Accuracy: 58.80%
+Accuracy of the network on the 100000 train images: 46.034000000000006 %
+Accuracy of the network on the 10000 Val images: 35.11 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.11%
+Top-5 Accuracy: 59.21%
+Training done..
+[I 2025-03-08 02:35:02,616] Trial 1 finished with value: 0.6481 and parameters: {'lr1': 0, 'lr2': 0, 'lr3': 0.00175, 'lr4': 0.0002, 'lr5': 0.0003, 'lamda': 0, 'th1': 0, 'th2': 1, 'th3': 5, 'th4': 5, 'th5': 3, 'th12': 1, 'th22': 2, 'th32': 8, 'th42': 9, 'th52': 7, 'gamma1': 1, 'gamma2': 1, 'gamma3': 1, 'gamma4': 0.99, 'gamma5': 1, 'period1': 500, 'act1': 'triangle', 'act2': 'triangle', 'act3': 'triangle', 'act4': 'triangle', 'act5': 'relu', 'concats': 1, 'Layer_out': 3, 'weight_decay1': 0, 'weight_decay2': 0, 'weight_decay3': 0, 'weight_decay4': 0.001, 'weight_decay5': 0.0001, 'out_dropout': 0.3, 'ep1': 0, 'ep2': 0, 'ep3': 17, 'ep4': 19, 'ep5': 25, 'seed_num': 10}. Best is trial 0 with value: 0.6389.
+
+==================================================
+Executing Trial 2 with Parameters:
+  lr: [0, 0, 0.00175, 0.0002, 0.0003]
+  lamda: [0, 0, 0, 0, 0]
+  threshold1: [0, 1, 5, 5, 3]
+  threshold2: [1, 2, 8, 9, 7]
+  gamma: [1, 1, 1, 0.99, 1]
+  period: [500, 500, 500, 500, 500]
+  act: ['triangle', 'triangle', 'triangle', 'triangle', 'relu']
+  concats: (1, 0, 0, 1, 0)
+  Layer_out: (1, 2, 3, 4)
+  weight_decay: [0, 0, 0, 0.001, 0.0001]
+  out_dropout: 0.3
+  ep: [0, 0, 17, 19, 25]
+  seed_num: 100
+  epochs: 25
+==================================================
+
+Epoch 0
+Unlabeled.
+Layer 0 : x.shape: torch.Size([200, 64, 32, 32]) y.shape (after MaxP): torch.Size([200, 64, 32, 32]) Layer 1 : x.shape: torch.Size([200, 192, 16, 16]) y.shape (after MaxP): torch.Size([200, 192, 16, 16]) Layer 2 : x.shape: torch.Size([200, 384, 16, 16]) y.shape (after MaxP): torch.Size([200, 384, 16, 16]) Layer 3 : x.shape: torch.Size([200, 256, 16, 16]) y.shape (after MaxP): torch.Size([200, 256, 16, 16]) Layer 4 : x.shape: torch.Size([200, 256, 8, 8]) y.shape (after MaxP): torch.Size([200, 256, 8, 8]) nbbatches 500 learning rate: 0.00175
+nbbatches 500 learning rate: 0.00019800000000000002
+nbbatches 500 learning rate: 0.0003
+4.9920843771696095 4.471868217229843
+Epoch 1
+Unlabeled.
+nbbatches 1000 learning rate: 0.00175
+nbbatches 1000 learning rate: 0.00019602
+nbbatches 1000 learning rate: 0.0003
+5.507115491867065 4.272863576412201
+Epoch 2
+Unlabeled.
+nbbatches 1500 learning rate: 0.00175
+nbbatches 1500 learning rate: 0.0001940598
+nbbatches 1500 learning rate: 0.0003
+5.878235976219178 3.8846309013366698
+Epoch 3
+Unlabeled.
+nbbatches 2000 learning rate: 0.00175
+nbbatches 2000 learning rate: 0.00019211920200000001
+nbbatches 2000 learning rate: 0.0003
+6.220699410438538 3.5243056302070617
+Epoch 4
+Unlabeled.
+nbbatches 2500 learning rate: 0.00175
+nbbatches 2500 learning rate: 0.00019019800998000002
+nbbatches 2500 learning rate: 0.0003
+6.507524160385132 3.233394073009491
+Epoch 5
+Unlabeled.
+nbbatches 3000 learning rate: 0.00175
+nbbatches 3000 learning rate: 0.00018829602988020003
+nbbatches 3000 learning rate: 0.0003
+6.741750136375427 3.0260991559028625
+Epoch 6
+Unlabeled.
+nbbatches 3500 learning rate: 0.00175
+nbbatches 3500 learning rate: 0.00018641306958139804
+nbbatches 3500 learning rate: 0.0003
+6.951181509971619 2.8286659598350523
+Epoch 7
+Unlabeled.
+nbbatches 4000 learning rate: 0.00175
+nbbatches 4000 learning rate: 0.00018454893888558406
+nbbatches 4000 learning rate: 0.0003
+7.160387006759644 2.6673550124168397
+Epoch 8
+Unlabeled.
+nbbatches 4500 learning rate: 0.00175
+nbbatches 4500 learning rate: 0.0001827034494967282
+nbbatches 4500 learning rate: 0.0003
+7.326673575401307 2.553875035762787
+Epoch 9
+Unlabeled.
+nbbatches 5000 learning rate: 0.00175
+nbbatches 5000 learning rate: 0.00018087641500176094
+nbbatches 5000 learning rate: 0.0003
+7.433236654281616 2.4910514221191407
+Epoch 10
+Unlabeled.
+nbbatches 5500 learning rate: 0.00175
+nbbatches 5500 learning rate: 0.00017906765085174333
+nbbatches 5500 learning rate: 0.0003
+7.5235392837524415 2.454082019329071
+Epoch 11
+Unlabeled.
+nbbatches 6000 learning rate: 0.00175
+nbbatches 6000 learning rate: 0.0001772769743432259
+nbbatches 6000 learning rate: 0.0003
+7.591220086097717 2.4304119367599486
+14336
+Accuracy of the network on the 100000 train images: 13.244 %
+Accuracy of the network on the 10000 Val images: 17.12 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.12%
+Top-5 Accuracy: 36.73%
+Accuracy of the network on the 100000 train images: 33.900000000000006 %
+Accuracy of the network on the 10000 Val images: 29.28 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.28%
+Top-5 Accuracy: 52.35%
+Accuracy of the network on the 100000 train images: 38.937 %
+Accuracy of the network on the 10000 Val images: 31.49 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.49%
+Top-5 Accuracy: 55.41%
+Accuracy of the network on the 100000 train images: 43.113 %
+Accuracy of the network on the 10000 Val images: 34.27 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.27%
+Top-5 Accuracy: 58.31%
+Accuracy of the network on the 100000 train images: 44.681 %
+Accuracy of the network on the 10000 Val images: 35.17 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.17%
+Top-5 Accuracy: 58.90%
+Accuracy of the network on the 100000 train images: 45.007000000000005 %
+Accuracy of the network on the 10000 Val images: 35.12 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.12%
+Top-5 Accuracy: 59.44%
+Epoch 12
+Unlabeled.
+nbbatches 6500 learning rate: 0.00175
+nbbatches 6500 learning rate: 0.00017550420459979364
+nbbatches 6500 learning rate: 0.0003
+7.618589535713196 2.434623770236969
+14336
+Accuracy of the network on the 100000 train images: 13.343 %
+Accuracy of the network on the 10000 Val images: 16.83 %
+[1] loss: 0.006
+Top-1 Accuracy: 16.83%
+Top-5 Accuracy: 36.90%
+Accuracy of the network on the 100000 train images: 34.056 %
+Accuracy of the network on the 10000 Val images: 29.07 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.07%
+Top-5 Accuracy: 52.65%
+Accuracy of the network on the 100000 train images: 39.285 %
+Accuracy of the network on the 10000 Val images: 31.53 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.53%
+Top-5 Accuracy: 55.65%
+Accuracy of the network on the 100000 train images: 43.245 %
+Accuracy of the network on the 10000 Val images: 34.33 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.33%
+Top-5 Accuracy: 58.47%
+Accuracy of the network on the 100000 train images: 45.091 %
+Accuracy of the network on the 10000 Val images: 34.91 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.91%
+Top-5 Accuracy: 59.03%
+Accuracy of the network on the 100000 train images: 45.291 %
+Accuracy of the network on the 10000 Val images: 35.21 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.21%
+Top-5 Accuracy: 59.42%
+Epoch 13
+Unlabeled.
+nbbatches 7000 learning rate: 0.00175
+nbbatches 7000 learning rate: 0.0001737491625537957
+nbbatches 7000 learning rate: 0.0003
+7.609377140045166 2.4654842257499694
+14336
+Accuracy of the network on the 100000 train images: 13.439 %
+Accuracy of the network on the 10000 Val images: 17.31 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.31%
+Top-5 Accuracy: 37.29%
+Accuracy of the network on the 100000 train images: 34.366 %
+Accuracy of the network on the 10000 Val images: 29.61 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.61%
+Top-5 Accuracy: 52.59%
+Accuracy of the network on the 100000 train images: 39.613 %
+Accuracy of the network on the 10000 Val images: 31.93 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.93%
+Top-5 Accuracy: 55.91%
+Accuracy of the network on the 100000 train images: 43.576 %
+Accuracy of the network on the 10000 Val images: 34.49 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.49%
+Top-5 Accuracy: 58.57%
+Accuracy of the network on the 100000 train images: 45.483000000000004 %
+Accuracy of the network on the 10000 Val images: 34.86 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.86%
+Top-5 Accuracy: 58.93%
+Accuracy of the network on the 100000 train images: 45.522 %
+Accuracy of the network on the 10000 Val images: 35.0 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.00%
+Top-5 Accuracy: 59.30%
+Epoch 14
+Unlabeled.
+nbbatches 7500 learning rate: 0.00175
+nbbatches 7500 learning rate: 0.00017201167092825774
+nbbatches 7500 learning rate: 0.0003
+7.5778675365448 2.500051721572876
+14336
+Accuracy of the network on the 100000 train images: 13.366 %
+Accuracy of the network on the 10000 Val images: 17.4 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.40%
+Top-5 Accuracy: 37.65%
+Accuracy of the network on the 100000 train images: 34.507 %
+Accuracy of the network on the 10000 Val images: 29.22 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.22%
+Top-5 Accuracy: 52.70%
+Accuracy of the network on the 100000 train images: 39.629 %
+Accuracy of the network on the 10000 Val images: 31.99 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.99%
+Top-5 Accuracy: 55.53%
+Accuracy of the network on the 100000 train images: 43.728 %
+Accuracy of the network on the 10000 Val images: 34.41 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.41%
+Top-5 Accuracy: 58.07%
+Accuracy of the network on the 100000 train images: 45.407 %
+Accuracy of the network on the 10000 Val images: 34.9 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.90%
+Top-5 Accuracy: 59.15%
+Accuracy of the network on the 100000 train images: 45.696 %
+Accuracy of the network on the 10000 Val images: 35.19 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.19%
+Top-5 Accuracy: 59.34%
+Epoch 15
+Unlabeled.
+nbbatches 8000 learning rate: 0.00175
+nbbatches 8000 learning rate: 0.00017029155421897517
+nbbatches 8000 learning rate: 0.0003
+7.535595210075378 2.5494628920555114
+14336
+Accuracy of the network on the 100000 train images: 13.517999999999999 %
+Accuracy of the network on the 10000 Val images: 17.47 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.47%
+Top-5 Accuracy: 37.70%
+Accuracy of the network on the 100000 train images: 34.685 %
+Accuracy of the network on the 10000 Val images: 29.19 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.19%
+Top-5 Accuracy: 52.67%
+Accuracy of the network on the 100000 train images: 39.754 %
+Accuracy of the network on the 10000 Val images: 32.36 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.36%
+Top-5 Accuracy: 55.70%
+Accuracy of the network on the 100000 train images: 43.921 %
+Accuracy of the network on the 10000 Val images: 34.19 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.19%
+Top-5 Accuracy: 58.39%
+Accuracy of the network on the 100000 train images: 45.672000000000004 %
+Accuracy of the network on the 10000 Val images: 35.02 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.02%
+Top-5 Accuracy: 59.34%
+Accuracy of the network on the 100000 train images: 45.98 %
+Accuracy of the network on the 10000 Val images: 35.28 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.28%
+Top-5 Accuracy: 59.29%
+Epoch 16
+Unlabeled.
+nbbatches 8500 learning rate: 0.00175
+nbbatches 8500 learning rate: 0.00016858863867678543
+nbbatches 8500 learning rate: 0.0003
+7.5137428331375125 2.5896597366333007
+14336
+Accuracy of the network on the 100000 train images: 13.475000000000001 %
+Accuracy of the network on the 10000 Val images: 17.32 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.32%
+Top-5 Accuracy: 37.60%
+Accuracy of the network on the 100000 train images: 34.788000000000004 %
+Accuracy of the network on the 10000 Val images: 29.35 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.35%
+Top-5 Accuracy: 53.30%
+Accuracy of the network on the 100000 train images: 39.887 %
+Accuracy of the network on the 10000 Val images: 32.16 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.16%
+Top-5 Accuracy: 56.00%
+Accuracy of the network on the 100000 train images: 44.038 %
+Accuracy of the network on the 10000 Val images: 34.22 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.22%
+Top-5 Accuracy: 58.39%
+Accuracy of the network on the 100000 train images: 45.861000000000004 %
+Accuracy of the network on the 10000 Val images: 34.82 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.82%
+Top-5 Accuracy: 59.43%
+Accuracy of the network on the 100000 train images: 46.1 %
+Accuracy of the network on the 10000 Val images: 35.06 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.06%
+Top-5 Accuracy: 59.79%
+Epoch 17
+Unlabeled.
+nbbatches 9000 learning rate: 0.00016690275229001758
+nbbatches 9000 learning rate: 0.0003
+7.469688954353333 2.6354444231986998
+14336
+Accuracy of the network on the 100000 train images: 13.56 %
+Accuracy of the network on the 10000 Val images: 17.5 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.50%
+Top-5 Accuracy: 37.71%
+Accuracy of the network on the 100000 train images: 34.885 %
+Accuracy of the network on the 10000 Val images: 29.28 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.28%
+Top-5 Accuracy: 52.87%
+Accuracy of the network on the 100000 train images: 39.846 %
+Accuracy of the network on the 10000 Val images: 31.76 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.76%
+Top-5 Accuracy: 55.77%
+Accuracy of the network on the 100000 train images: 44.034 %
+Accuracy of the network on the 10000 Val images: 33.97 %
+[61] loss: 0.004
+Top-1 Accuracy: 33.97%
+Top-5 Accuracy: 58.50%
+Accuracy of the network on the 100000 train images: 45.765 %
+Accuracy of the network on the 10000 Val images: 34.77 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.77%
+Top-5 Accuracy: 59.38%
+Accuracy of the network on the 100000 train images: 46.084 %
+Accuracy of the network on the 10000 Val images: 35.1 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.10%
+Top-5 Accuracy: 59.58%
+Epoch 18
+Unlabeled.
+nbbatches 9500 learning rate: 0.0001652337247671174
+nbbatches 9500 learning rate: 0.0003
+7.471021827697754 2.635973611354828
+14336
+Accuracy of the network on the 100000 train images: 13.602 %
+Accuracy of the network on the 10000 Val images: 17.45 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.45%
+Top-5 Accuracy: 37.70%
+Accuracy of the network on the 100000 train images: 34.769 %
+Accuracy of the network on the 10000 Val images: 29.26 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.26%
+Top-5 Accuracy: 52.84%
+Accuracy of the network on the 100000 train images: 39.833 %
+Accuracy of the network on the 10000 Val images: 31.78 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.78%
+Top-5 Accuracy: 55.64%
+Accuracy of the network on the 100000 train images: 44.293 %
+Accuracy of the network on the 10000 Val images: 34.26 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.26%
+Top-5 Accuracy: 58.39%
+Accuracy of the network on the 100000 train images: 45.78 %
+Accuracy of the network on the 10000 Val images: 34.5 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.50%
+Top-5 Accuracy: 59.33%
+Accuracy of the network on the 100000 train images: 46.211999999999996 %
+Accuracy of the network on the 10000 Val images: 35.05 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.05%
+Top-5 Accuracy: 59.58%
+Epoch 19
+Unlabeled.
+nbbatches 10000 learning rate: 0.0003
+7.50039449596405 2.6180894985198973
+14336
+Accuracy of the network on the 100000 train images: 13.589 %
+Accuracy of the network on the 10000 Val images: 17.49 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.49%
+Top-5 Accuracy: 37.73%
+Accuracy of the network on the 100000 train images: 34.778 %
+Accuracy of the network on the 10000 Val images: 29.19 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.19%
+Top-5 Accuracy: 52.89%
+Accuracy of the network on the 100000 train images: 39.989000000000004 %
+Accuracy of the network on the 10000 Val images: 31.77 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.77%
+Top-5 Accuracy: 55.56%
+Accuracy of the network on the 100000 train images: 44.181 %
+Accuracy of the network on the 10000 Val images: 34.17 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.17%
+Top-5 Accuracy: 58.48%
+Accuracy of the network on the 100000 train images: 45.805 %
+Accuracy of the network on the 10000 Val images: 34.58 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.58%
+Top-5 Accuracy: 59.40%
+Accuracy of the network on the 100000 train images: 46.297 %
+Accuracy of the network on the 10000 Val images: 35.02 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.02%
+Top-5 Accuracy: 59.57%
+Epoch 20
+Unlabeled.
+nbbatches 10500 learning rate: 0.0003
+7.56136767578125 2.5743445105552674
+14336
+Accuracy of the network on the 100000 train images: 13.589 %
+Accuracy of the network on the 10000 Val images: 17.61 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.61%
+Top-5 Accuracy: 37.64%
+Accuracy of the network on the 100000 train images: 34.908 %
+Accuracy of the network on the 10000 Val images: 29.1 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.10%
+Top-5 Accuracy: 52.86%
+Accuracy of the network on the 100000 train images: 40.037 %
+Accuracy of the network on the 10000 Val images: 31.83 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.83%
+Top-5 Accuracy: 55.49%
+Accuracy of the network on the 100000 train images: 44.080999999999996 %
+Accuracy of the network on the 10000 Val images: 33.98 %
+[61] loss: 0.004
+Top-1 Accuracy: 33.98%
+Top-5 Accuracy: 58.51%
+Accuracy of the network on the 100000 train images: 45.836 %
+Accuracy of the network on the 10000 Val images: 34.48 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.48%
+Top-5 Accuracy: 59.36%
+Accuracy of the network on the 100000 train images: 46.1 %
+Accuracy of the network on the 10000 Val images: 34.86 %
+[100] loss: 0.004
+Top-1 Accuracy: 34.86%
+Top-5 Accuracy: 59.60%
+Epoch 21
+Unlabeled.
+nbbatches 11000 learning rate: 0.0003
+7.622871697425842 2.536776550769806
+14336
+Accuracy of the network on the 100000 train images: 13.599 %
+Accuracy of the network on the 10000 Val images: 17.56 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.56%
+Top-5 Accuracy: 37.62%
+Accuracy of the network on the 100000 train images: 34.89 %
+Accuracy of the network on the 10000 Val images: 29.29 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.29%
+Top-5 Accuracy: 53.12%
+Accuracy of the network on the 100000 train images: 40.022000000000006 %
+Accuracy of the network on the 10000 Val images: 31.8 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.80%
+Top-5 Accuracy: 55.44%
+Accuracy of the network on the 100000 train images: 44.25 %
+Accuracy of the network on the 10000 Val images: 34.15 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.15%
+Top-5 Accuracy: 58.56%
+Accuracy of the network on the 100000 train images: 45.883 %
+Accuracy of the network on the 10000 Val images: 34.68 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.68%
+Top-5 Accuracy: 59.45%
+Accuracy of the network on the 100000 train images: 46.156000000000006 %
+Accuracy of the network on the 10000 Val images: 34.91 %
+[100] loss: 0.004
+Top-1 Accuracy: 34.91%
+Top-5 Accuracy: 59.59%
+Epoch 22
+Unlabeled.
+nbbatches 11500 learning rate: 0.0003
+7.676348856925964 2.505949118614197
+14336
+Accuracy of the network on the 100000 train images: 13.594999999999999 %
+Accuracy of the network on the 10000 Val images: 17.63 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.63%
+Top-5 Accuracy: 37.69%
+Accuracy of the network on the 100000 train images: 34.967999999999996 %
+Accuracy of the network on the 10000 Val images: 29.16 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.16%
+Top-5 Accuracy: 52.59%
+Accuracy of the network on the 100000 train images: 40.054 %
+Accuracy of the network on the 10000 Val images: 31.84 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.84%
+Top-5 Accuracy: 55.86%
+Accuracy of the network on the 100000 train images: 44.184 %
+Accuracy of the network on the 10000 Val images: 34.18 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.18%
+Top-5 Accuracy: 58.32%
+Accuracy of the network on the 100000 train images: 45.816 %
+Accuracy of the network on the 10000 Val images: 34.69 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.69%
+Top-5 Accuracy: 59.30%
+Accuracy of the network on the 100000 train images: 46.243 %
+Accuracy of the network on the 10000 Val images: 34.99 %
+[100] loss: 0.004
+Top-1 Accuracy: 34.99%
+Top-5 Accuracy: 59.27%
+Epoch 23
+Unlabeled.
+nbbatches 12000 learning rate: 0.0003
+7.72741259765625 2.4777403898239134
+14336
+Accuracy of the network on the 100000 train images: 13.611999999999998 %
+Accuracy of the network on the 10000 Val images: 17.66 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.66%
+Top-5 Accuracy: 37.80%
+Accuracy of the network on the 100000 train images: 34.946 %
+Accuracy of the network on the 10000 Val images: 29.22 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.22%
+Top-5 Accuracy: 52.87%
+Accuracy of the network on the 100000 train images: 39.991 %
+Accuracy of the network on the 10000 Val images: 31.96 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.96%
+Top-5 Accuracy: 55.60%
+Accuracy of the network on the 100000 train images: 44.279 %
+Accuracy of the network on the 10000 Val images: 34.07 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.07%
+Top-5 Accuracy: 58.29%
+Accuracy of the network on the 100000 train images: 45.859 %
+Accuracy of the network on the 10000 Val images: 34.83 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.83%
+Top-5 Accuracy: 59.32%
+Accuracy of the network on the 100000 train images: 46.205 %
+Accuracy of the network on the 10000 Val images: 35.18 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.18%
+Top-5 Accuracy: 59.51%
+Epoch 24
+Unlabeled.
+nbbatches 12500 learning rate: 0.0003
+7.772773589134216 2.453467613697052
+14336
+Accuracy of the network on the 100000 train images: 13.589 %
+Accuracy of the network on the 10000 Val images: 17.54 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.54%
+Top-5 Accuracy: 37.79%
+Accuracy of the network on the 100000 train images: 34.914 %
+Accuracy of the network on the 10000 Val images: 29.29 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.29%
+Top-5 Accuracy: 52.79%
+Accuracy of the network on the 100000 train images: 40.067 %
+Accuracy of the network on the 10000 Val images: 31.88 %
+[41] loss: 0.005
+Top-1 Accuracy: 31.88%
+Top-5 Accuracy: 55.56%
+Accuracy of the network on the 100000 train images: 44.26 %
+Accuracy of the network on the 10000 Val images: 34.09 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.09%
+Top-5 Accuracy: 58.25%
+Accuracy of the network on the 100000 train images: 45.829 %
+Accuracy of the network on the 10000 Val images: 34.78 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.78%
+Top-5 Accuracy: 59.24%
+Accuracy of the network on the 100000 train images: 46.321 %
+Accuracy of the network on the 10000 Val images: 35.17 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.17%
+Top-5 Accuracy: 59.54%
+Training done..
+[I 2025-03-08 07:25:40,905] Trial 2 finished with value: 0.6472 and parameters: {'lr1': 0, 'lr2': 0, 'lr3': 0.00175, 'lr4': 0.0002, 'lr5': 0.0003, 'lamda': 0, 'th1': 0, 'th2': 1, 'th3': 5, 'th4': 5, 'th5': 3, 'th12': 1, 'th22': 2, 'th32': 8, 'th42': 9, 'th52': 7, 'gamma1': 1, 'gamma2': 1, 'gamma3': 1, 'gamma4': 0.99, 'gamma5': 1, 'period1': 500, 'act1': 'triangle', 'act2': 'triangle', 'act3': 'triangle', 'act4': 'triangle', 'act5': 'relu', 'concats': 1, 'Layer_out': 3, 'weight_decay1': 0, 'weight_decay2': 0, 'weight_decay3': 0, 'weight_decay4': 0.001, 'weight_decay5': 0.0001, 'out_dropout': 0.3, 'ep1': 0, 'ep2': 0, 'ep3': 17, 'ep4': 19, 'ep5': 25, 'seed_num': 100}. Best is trial 0 with value: 0.6389.
+
+==================================================
+Executing Trial 3 with Parameters:
+  lr: [0, 0, 0.00175, 0.0002, 0.0003]
+  lamda: [0, 0, 0, 0, 0]
+  threshold1: [0, 1, 5, 5, 3]
+  threshold2: [1, 2, 8, 9, 7]
+  gamma: [1, 1, 1, 0.99, 1]
+  period: [500, 500, 500, 500, 500]
+  act: ['triangle', 'triangle', 'triangle', 'triangle', 'relu']
+  concats: (1, 0, 0, 1, 0)
+  Layer_out: (1, 2, 3, 4)
+  weight_decay: [0, 0, 0, 0.001, 0.0001]
+  out_dropout: 0.3
+  ep: [0, 0, 17, 19, 25]
+  seed_num: 1000
+  epochs: 25
+==================================================
+
+Epoch 0
+Unlabeled.
+Layer 0 : x.shape: torch.Size([200, 64, 32, 32]) y.shape (after MaxP): torch.Size([200, 64, 32, 32]) Layer 1 : x.shape: torch.Size([200, 192, 16, 16]) y.shape (after MaxP): torch.Size([200, 192, 16, 16]) Layer 2 : x.shape: torch.Size([200, 384, 16, 16]) y.shape (after MaxP): torch.Size([200, 384, 16, 16]) Layer 3 : x.shape: torch.Size([200, 256, 16, 16]) y.shape (after MaxP): torch.Size([200, 256, 16, 16]) Layer 4 : x.shape: torch.Size([200, 256, 8, 8]) y.shape (after MaxP): torch.Size([200, 256, 8, 8]) nbbatches 500 learning rate: 0.00175
+nbbatches 500 learning rate: 0.00019800000000000002
+nbbatches 500 learning rate: 0.0003
+4.995876403093338 4.4620271481275555
+Epoch 1
+Unlabeled.
+nbbatches 1000 learning rate: 0.00175
+nbbatches 1000 learning rate: 0.00019602
+nbbatches 1000 learning rate: 0.0003
+5.544606332778931 4.214915640830994
+Epoch 2
+Unlabeled.
+nbbatches 1500 learning rate: 0.00175
+nbbatches 1500 learning rate: 0.0001940598
+nbbatches 1500 learning rate: 0.0003
+5.957905605316162 3.7734535322189333
+Epoch 3
+Unlabeled.
+nbbatches 2000 learning rate: 0.00175
+nbbatches 2000 learning rate: 0.00019211920200000001
+nbbatches 2000 learning rate: 0.0003
+6.337255197525025 3.3819762616157534
+Epoch 4
+Unlabeled.
+nbbatches 2500 learning rate: 0.00175
+nbbatches 2500 learning rate: 0.00019019800998000002
+nbbatches 2500 learning rate: 0.0003
+6.672251425743103 3.068089792728424
+Epoch 5
+Unlabeled.
+nbbatches 3000 learning rate: 0.00175
+nbbatches 3000 learning rate: 0.00018829602988020003
+nbbatches 3000 learning rate: 0.0003
+6.950441119194031 2.8367524552345276
+Epoch 6
+Unlabeled.
+nbbatches 3500 learning rate: 0.00175
+nbbatches 3500 learning rate: 0.00018641306958139804
+nbbatches 3500 learning rate: 0.0003
+7.195333718299866 2.6562438259124757
+Epoch 7
+Unlabeled.
+nbbatches 4000 learning rate: 0.00175
+nbbatches 4000 learning rate: 0.00018454893888558406
+nbbatches 4000 learning rate: 0.0003
+7.39331431388855 2.524257984161377
+Epoch 8
+Unlabeled.
+nbbatches 4500 learning rate: 0.00175
+nbbatches 4500 learning rate: 0.0001827034494967282
+nbbatches 4500 learning rate: 0.0003
+7.5419294567108155 2.4366466693878173
+Epoch 9
+Unlabeled.
+nbbatches 5000 learning rate: 0.00175
+nbbatches 5000 learning rate: 0.00018087641500176094
+nbbatches 5000 learning rate: 0.0003
+7.6846772441864015 2.3745234975814817
+Epoch 10
+Unlabeled.
+nbbatches 5500 learning rate: 0.00175
+nbbatches 5500 learning rate: 0.00017906765085174333
+nbbatches 5500 learning rate: 0.0003
+7.732045284271241 2.360793390274048
+Epoch 11
+Unlabeled.
+nbbatches 6000 learning rate: 0.00175
+nbbatches 6000 learning rate: 0.0001772769743432259
+nbbatches 6000 learning rate: 0.0003
+7.746892477989197 2.3877751264572145
+14336
+Accuracy of the network on the 100000 train images: 13.272 %
+Accuracy of the network on the 10000 Val images: 16.86 %
+[1] loss: 0.006
+Top-1 Accuracy: 16.86%
+Top-5 Accuracy: 36.88%
+Accuracy of the network on the 100000 train images: 33.811 %
+Accuracy of the network on the 10000 Val images: 28.88 %
+[21] loss: 0.006
+Top-1 Accuracy: 28.88%
+Top-5 Accuracy: 52.19%
+Accuracy of the network on the 100000 train images: 38.805 %
+Accuracy of the network on the 10000 Val images: 32.14 %
+[41] loss: 0.004
+Top-1 Accuracy: 32.14%
+Top-5 Accuracy: 56.24%
+Accuracy of the network on the 100000 train images: 43.065999999999995 %
+Accuracy of the network on the 10000 Val images: 34.33 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.33%
+Top-5 Accuracy: 58.14%
+Accuracy of the network on the 100000 train images: 44.71 %
+Accuracy of the network on the 10000 Val images: 35.21 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.21%
+Top-5 Accuracy: 59.08%
+Accuracy of the network on the 100000 train images: 44.907000000000004 %
+Accuracy of the network on the 10000 Val images: 35.39 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.39%
+Top-5 Accuracy: 59.29%
+Epoch 12
+Unlabeled.
+nbbatches 6500 learning rate: 0.00175
+nbbatches 6500 learning rate: 0.00017550420459979364
+nbbatches 6500 learning rate: 0.0003
+7.762652188301087 2.3981067571640016
+14336
+Accuracy of the network on the 100000 train images: 13.229 %
+Accuracy of the network on the 10000 Val images: 16.58 %
+[1] loss: 0.006
+Top-1 Accuracy: 16.58%
+Top-5 Accuracy: 36.93%
+Accuracy of the network on the 100000 train images: 34.094 %
+Accuracy of the network on the 10000 Val images: 29.16 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.16%
+Top-5 Accuracy: 52.57%
+Accuracy of the network on the 100000 train images: 39.055 %
+Accuracy of the network on the 10000 Val images: 32.45 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.45%
+Top-5 Accuracy: 56.17%
+Accuracy of the network on the 100000 train images: 43.251 %
+Accuracy of the network on the 10000 Val images: 34.33 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.33%
+Top-5 Accuracy: 58.12%
+Accuracy of the network on the 100000 train images: 44.933 %
+Accuracy of the network on the 10000 Val images: 35.26 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.26%
+Top-5 Accuracy: 59.05%
+Accuracy of the network on the 100000 train images: 45.208999999999996 %
+Accuracy of the network on the 10000 Val images: 35.63 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.63%
+Top-5 Accuracy: 59.56%
+Epoch 13
+Unlabeled.
+nbbatches 7000 learning rate: 0.00175
+nbbatches 7000 learning rate: 0.0001737491625537957
+nbbatches 7000 learning rate: 0.0003
+7.741799852371216 2.428929805278778
+14336
+Accuracy of the network on the 100000 train images: 13.334999999999999 %
+Accuracy of the network on the 10000 Val images: 16.92 %
+[1] loss: 0.006
+Top-1 Accuracy: 16.92%
+Top-5 Accuracy: 37.28%
+Accuracy of the network on the 100000 train images: 34.225 %
+Accuracy of the network on the 10000 Val images: 29.27 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.27%
+Top-5 Accuracy: 52.82%
+Accuracy of the network on the 100000 train images: 39.089 %
+Accuracy of the network on the 10000 Val images: 32.38 %
+[41] loss: 0.004
+Top-1 Accuracy: 32.38%
+Top-5 Accuracy: 55.97%
+Accuracy of the network on the 100000 train images: 43.228 %
+Accuracy of the network on the 10000 Val images: 34.41 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.41%
+Top-5 Accuracy: 58.24%
+Accuracy of the network on the 100000 train images: 45.157000000000004 %
+Accuracy of the network on the 10000 Val images: 35.09 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.09%
+Top-5 Accuracy: 59.23%
+Accuracy of the network on the 100000 train images: 45.219 %
+Accuracy of the network on the 10000 Val images: 35.4 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.40%
+Top-5 Accuracy: 59.44%
+Epoch 14
+Unlabeled.
+nbbatches 7500 learning rate: 0.00175
+nbbatches 7500 learning rate: 0.00017201167092825774
+nbbatches 7500 learning rate: 0.0003
+7.714382606506348 2.477137504577637
+14336
+Accuracy of the network on the 100000 train images: 13.389000000000001 %
+Accuracy of the network on the 10000 Val images: 17.22 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.22%
+Top-5 Accuracy: 37.39%
+Accuracy of the network on the 100000 train images: 34.232 %
+Accuracy of the network on the 10000 Val images: 29.39 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.39%
+Top-5 Accuracy: 52.41%
+Accuracy of the network on the 100000 train images: 39.141 %
+Accuracy of the network on the 10000 Val images: 32.44 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.44%
+Top-5 Accuracy: 55.98%
+Accuracy of the network on the 100000 train images: 43.531 %
+Accuracy of the network on the 10000 Val images: 34.5 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.50%
+Top-5 Accuracy: 58.01%
+Accuracy of the network on the 100000 train images: 45.283 %
+Accuracy of the network on the 10000 Val images: 34.75 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.75%
+Top-5 Accuracy: 59.17%
+Accuracy of the network on the 100000 train images: 45.176 %
+Accuracy of the network on the 10000 Val images: 35.15 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.15%
+Top-5 Accuracy: 59.52%
+Epoch 15
+Unlabeled.
+nbbatches 8000 learning rate: 0.00175
+nbbatches 8000 learning rate: 0.00017029155421897517
+nbbatches 8000 learning rate: 0.0003
+7.67572767162323 2.516144853115082
+14336
+Accuracy of the network on the 100000 train images: 13.482 %
+Accuracy of the network on the 10000 Val images: 17.37 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.37%
+Top-5 Accuracy: 37.44%
+Accuracy of the network on the 100000 train images: 34.343 %
+Accuracy of the network on the 10000 Val images: 29.26 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.26%
+Top-5 Accuracy: 52.70%
+Accuracy of the network on the 100000 train images: 39.57 %
+Accuracy of the network on the 10000 Val images: 32.57 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.57%
+Top-5 Accuracy: 56.37%
+Accuracy of the network on the 100000 train images: 43.794 %
+Accuracy of the network on the 10000 Val images: 34.28 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.28%
+Top-5 Accuracy: 58.34%
+Accuracy of the network on the 100000 train images: 45.58 %
+Accuracy of the network on the 10000 Val images: 34.66 %
+[81] loss: 0.004
+Top-1 Accuracy: 34.66%
+Top-5 Accuracy: 59.23%
+Accuracy of the network on the 100000 train images: 45.576 %
+Accuracy of the network on the 10000 Val images: 35.14 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.14%
+Top-5 Accuracy: 59.24%
+Epoch 16
+Unlabeled.
+nbbatches 8500 learning rate: 0.00175
+nbbatches 8500 learning rate: 0.00016858863867678543
+nbbatches 8500 learning rate: 0.0003
+7.671700415611267 2.530036135196686
+14336
+Accuracy of the network on the 100000 train images: 13.394 %
+Accuracy of the network on the 10000 Val images: 16.89 %
+[1] loss: 0.006
+Top-1 Accuracy: 16.89%
+Top-5 Accuracy: 37.48%
+Accuracy of the network on the 100000 train images: 34.465 %
+Accuracy of the network on the 10000 Val images: 28.91 %
+[21] loss: 0.006
+Top-1 Accuracy: 28.91%
+Top-5 Accuracy: 52.59%
+Accuracy of the network on the 100000 train images: 39.546 %
+Accuracy of the network on the 10000 Val images: 32.43 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.43%
+Top-5 Accuracy: 56.72%
+Accuracy of the network on the 100000 train images: 43.748 %
+Accuracy of the network on the 10000 Val images: 34.19 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.19%
+Top-5 Accuracy: 58.39%
+Accuracy of the network on the 100000 train images: 45.485 %
+Accuracy of the network on the 10000 Val images: 35.19 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.19%
+Top-5 Accuracy: 58.96%
+Accuracy of the network on the 100000 train images: 45.635999999999996 %
+Accuracy of the network on the 10000 Val images: 35.23 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.23%
+Top-5 Accuracy: 59.36%
+Epoch 17
+Unlabeled.
+nbbatches 9000 learning rate: 0.00016690275229001758
+nbbatches 9000 learning rate: 0.0003
+7.665427037239075 2.521622607707977
+14336
+Accuracy of the network on the 100000 train images: 13.449 %
+Accuracy of the network on the 10000 Val images: 17.15 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.15%
+Top-5 Accuracy: 37.56%
+Accuracy of the network on the 100000 train images: 34.544999999999995 %
+Accuracy of the network on the 10000 Val images: 28.84 %
+[21] loss: 0.006
+Top-1 Accuracy: 28.84%
+Top-5 Accuracy: 52.58%
+Accuracy of the network on the 100000 train images: 39.544000000000004 %
+Accuracy of the network on the 10000 Val images: 32.38 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.38%
+Top-5 Accuracy: 56.39%
+Accuracy of the network on the 100000 train images: 43.829 %
+Accuracy of the network on the 10000 Val images: 34.08 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.08%
+Top-5 Accuracy: 58.10%
+Accuracy of the network on the 100000 train images: 45.666000000000004 %
+Accuracy of the network on the 10000 Val images: 35.12 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.12%
+Top-5 Accuracy: 58.98%
+Accuracy of the network on the 100000 train images: 45.664 %
+Accuracy of the network on the 10000 Val images: 35.27 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.27%
+Top-5 Accuracy: 59.37%
+Epoch 18
+Unlabeled.
+nbbatches 9500 learning rate: 0.0001652337247671174
+nbbatches 9500 learning rate: 0.0003
+7.6702400493621825 2.536047752857208
+14336
+Accuracy of the network on the 100000 train images: 13.422999999999998 %
+Accuracy of the network on the 10000 Val images: 17.2 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.20%
+Top-5 Accuracy: 37.30%
+Accuracy of the network on the 100000 train images: 34.626000000000005 %
+Accuracy of the network on the 10000 Val images: 28.87 %
+[21] loss: 0.006
+Top-1 Accuracy: 28.87%
+Top-5 Accuracy: 52.38%
+Accuracy of the network on the 100000 train images: 39.594 %
+Accuracy of the network on the 10000 Val images: 32.44 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.44%
+Top-5 Accuracy: 56.54%
+Accuracy of the network on the 100000 train images: 43.861 %
+Accuracy of the network on the 10000 Val images: 34.24 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.24%
+Top-5 Accuracy: 58.19%
+Accuracy of the network on the 100000 train images: 45.786 %
+Accuracy of the network on the 10000 Val images: 35.19 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.19%
+Top-5 Accuracy: 58.88%
+Accuracy of the network on the 100000 train images: 45.612 %
+Accuracy of the network on the 10000 Val images: 35.4 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.40%
+Top-5 Accuracy: 59.12%
+Epoch 19
+Unlabeled.
+nbbatches 10000 learning rate: 0.0003
+7.721497764587403 2.484518651485443
+14336
+Accuracy of the network on the 100000 train images: 13.461 %
+Accuracy of the network on the 10000 Val images: 17.29 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.29%
+Top-5 Accuracy: 37.38%
+Accuracy of the network on the 100000 train images: 34.691 %
+Accuracy of the network on the 10000 Val images: 29.01 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.01%
+Top-5 Accuracy: 52.35%
+Accuracy of the network on the 100000 train images: 39.666000000000004 %
+Accuracy of the network on the 10000 Val images: 32.19 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.19%
+Top-5 Accuracy: 56.28%
+Accuracy of the network on the 100000 train images: 43.79 %
+Accuracy of the network on the 10000 Val images: 34.16 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.16%
+Top-5 Accuracy: 58.00%
+Accuracy of the network on the 100000 train images: 45.785 %
+Accuracy of the network on the 10000 Val images: 35.12 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.12%
+Top-5 Accuracy: 59.00%
+Accuracy of the network on the 100000 train images: 45.701 %
+Accuracy of the network on the 10000 Val images: 35.43 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.43%
+Top-5 Accuracy: 59.06%
+Epoch 20
+Unlabeled.
+nbbatches 10500 learning rate: 0.0003
+7.783842783927917 2.442752469062805
+14336
+Accuracy of the network on the 100000 train images: 13.495 %
+Accuracy of the network on the 10000 Val images: 17.29 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.29%
+Top-5 Accuracy: 37.46%
+Accuracy of the network on the 100000 train images: 34.662 %
+Accuracy of the network on the 10000 Val images: 29.21 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.21%
+Top-5 Accuracy: 52.61%
+Accuracy of the network on the 100000 train images: 39.661 %
+Accuracy of the network on the 10000 Val images: 32.38 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.38%
+Top-5 Accuracy: 56.33%
+Accuracy of the network on the 100000 train images: 43.883 %
+Accuracy of the network on the 10000 Val images: 34.33 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.33%
+Top-5 Accuracy: 58.06%
+Accuracy of the network on the 100000 train images: 45.613 %
+Accuracy of the network on the 10000 Val images: 35.22 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.22%
+Top-5 Accuracy: 59.02%
+Accuracy of the network on the 100000 train images: 45.597 %
+Accuracy of the network on the 10000 Val images: 35.25 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.25%
+Top-5 Accuracy: 59.18%
+Epoch 21
+Unlabeled.
+nbbatches 11000 learning rate: 0.0003
+7.852235067367554 2.4041779260635376
+14336
+Accuracy of the network on the 100000 train images: 13.496 %
+Accuracy of the network on the 10000 Val images: 17.16 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.16%
+Top-5 Accuracy: 37.40%
+Accuracy of the network on the 100000 train images: 34.658 %
+Accuracy of the network on the 10000 Val images: 29.0 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.00%
+Top-5 Accuracy: 52.73%
+Accuracy of the network on the 100000 train images: 39.647 %
+Accuracy of the network on the 10000 Val images: 32.23 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.23%
+Top-5 Accuracy: 56.14%
+Accuracy of the network on the 100000 train images: 43.803 %
+Accuracy of the network on the 10000 Val images: 34.43 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.43%
+Top-5 Accuracy: 58.23%
+Accuracy of the network on the 100000 train images: 45.665 %
+Accuracy of the network on the 10000 Val images: 35.11 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.11%
+Top-5 Accuracy: 58.96%
+Accuracy of the network on the 100000 train images: 45.653 %
+Accuracy of the network on the 10000 Val images: 35.29 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.29%
+Top-5 Accuracy: 59.12%
+Epoch 22
+Unlabeled.
+nbbatches 11500 learning rate: 0.0003
+7.911544580459594 2.3692687368392944
+14336
+Accuracy of the network on the 100000 train images: 13.507 %
+Accuracy of the network on the 10000 Val images: 17.13 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.13%
+Top-5 Accuracy: 37.39%
+Accuracy of the network on the 100000 train images: 34.597 %
+Accuracy of the network on the 10000 Val images: 28.57 %
+[21] loss: 0.006
+Top-1 Accuracy: 28.57%
+Top-5 Accuracy: 52.35%
+Accuracy of the network on the 100000 train images: 39.632 %
+Accuracy of the network on the 10000 Val images: 32.33 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.33%
+Top-5 Accuracy: 56.16%
+Accuracy of the network on the 100000 train images: 43.808 %
+Accuracy of the network on the 10000 Val images: 34.43 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.43%
+Top-5 Accuracy: 58.17%
+Accuracy of the network on the 100000 train images: 45.695 %
+Accuracy of the network on the 10000 Val images: 35.2 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.20%
+Top-5 Accuracy: 59.03%
+Accuracy of the network on the 100000 train images: 45.626 %
+Accuracy of the network on the 10000 Val images: 35.42 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.42%
+Top-5 Accuracy: 59.21%
+Epoch 23
+Unlabeled.
+nbbatches 12000 learning rate: 0.0003
+7.9684417476654055 2.3400239334106447
+14336
+Accuracy of the network on the 100000 train images: 13.501 %
+Accuracy of the network on the 10000 Val images: 17.1 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.10%
+Top-5 Accuracy: 37.49%
+Accuracy of the network on the 100000 train images: 34.632000000000005 %
+Accuracy of the network on the 10000 Val images: 29.19 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.19%
+Top-5 Accuracy: 52.55%
+Accuracy of the network on the 100000 train images: 39.753 %
+Accuracy of the network on the 10000 Val images: 32.42 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.42%
+Top-5 Accuracy: 56.30%
+Accuracy of the network on the 100000 train images: 43.779 %
+Accuracy of the network on the 10000 Val images: 34.35 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.35%
+Top-5 Accuracy: 58.10%
+Accuracy of the network on the 100000 train images: 45.577 %
+Accuracy of the network on the 10000 Val images: 35.13 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.13%
+Top-5 Accuracy: 58.99%
+Accuracy of the network on the 100000 train images: 45.612 %
+Accuracy of the network on the 10000 Val images: 35.31 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.31%
+Top-5 Accuracy: 59.10%
+Epoch 24
+Unlabeled.
+nbbatches 12500 learning rate: 0.0003
+8.0204755153656 2.3127642493247986
+14336
+Accuracy of the network on the 100000 train images: 13.492999999999999 %
+Accuracy of the network on the 10000 Val images: 17.22 %
+[1] loss: 0.006
+Top-1 Accuracy: 17.22%
+Top-5 Accuracy: 37.47%
+Accuracy of the network on the 100000 train images: 34.535 %
+Accuracy of the network on the 10000 Val images: 29.07 %
+[21] loss: 0.006
+Top-1 Accuracy: 29.07%
+Top-5 Accuracy: 52.38%
+Accuracy of the network on the 100000 train images: 39.749 %
+Accuracy of the network on the 10000 Val images: 32.03 %
+[41] loss: 0.005
+Top-1 Accuracy: 32.03%
+Top-5 Accuracy: 56.30%
+Accuracy of the network on the 100000 train images: 43.871 %
+Accuracy of the network on the 10000 Val images: 34.27 %
+[61] loss: 0.004
+Top-1 Accuracy: 34.27%
+Top-5 Accuracy: 58.06%
+Accuracy of the network on the 100000 train images: 45.812000000000005 %
+Accuracy of the network on the 10000 Val images: 35.16 %
+[81] loss: 0.004
+Top-1 Accuracy: 35.16%
+Top-5 Accuracy: 58.98%
+Accuracy of the network on the 100000 train images: 45.621 %
+Accuracy of the network on the 10000 Val images: 35.29 %
+[100] loss: 0.004
+Top-1 Accuracy: 35.29%
+Top-5 Accuracy: 59.06%
+Training done..
+[I 2025-03-08 12:16:16,853] Trial 3 finished with value: 0.6436999999999999 and parameters: {'lr1': 0, 'lr2': 0, 'lr3': 0.00175, 'lr4': 0.0002, 'lr5': 0.0003, 'lamda': 0, 'th1': 0, 'th2': 1, 'th3': 5, 'th4': 5, 'th5': 3, 'th12': 1, 'th22': 2, 'th32': 8, 'th42': 9, 'th52': 7, 'gamma1': 1, 'gamma2': 1, 'gamma3': 1, 'gamma4': 0.99, 'gamma5': 1, 'period1': 500, 'act1': 'triangle', 'act2': 'triangle', 'act3': 'triangle', 'act4': 'triangle', 'act5': 'relu', 'concats': 1, 'Layer_out': 3, 'weight_decay1': 0, 'weight_decay2': 0, 'weight_decay3': 0, 'weight_decay4': 0.001, 'weight_decay5': 0.0001, 'out_dropout': 0.3, 'ep1': 0, 'ep2': 0, 'ep3': 17, 'ep4': 19, 'ep5': 25, 'seed_num': 1000}. Best is trial 0 with value: 0.6389.

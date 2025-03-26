@@ -13,8 +13,6 @@ import argparse
 import optuna
 
 
-
-
 def stdnorm (x, dims = [1,2,3]):
 
     x = x - torch.mean(x, dim=(dims), keepdim=True);  x = x / (1e-10 + torch.std(x, dim=(dims), keepdim=True))
@@ -33,7 +31,6 @@ class CustomStepLR(StepLR):
     """
 
     def __init__(self, optimizer, nb_epochs):
-        #threshold_ratios = [0.2, 0.35, 0.5, 0.6, 0.7, 0.8, 0.9]
         threshold_ratios = [0.2, 0.35, 0.5, 0.6, 0.7, 0.8, 0.9]
         self.step_thresold = [int(nb_epochs * r) for r in threshold_ratios]
         super().__init__(optimizer, -1, False)
@@ -62,18 +59,33 @@ class L2norm(nn.Module):
         return x / (x.norm(p=2, dim=(self.dims), keepdim=True) + 1e-10)
 
 class BiRNN(nn.Module):
+    """
+    A Bidirectional Recurrent Neural Network (BiRNN) using two RNN layers (forward & backward).
+
+    This network processes sequential input using:
+    - A forward RNN (`rnn_f`) to capture past dependencies.
+    - A backward RNN (`rnn_b`) to capture future dependencies.
+    - Optional normalization for hidden states, inputs, and outputs.
+
+    Args:
+        embedding_dim (int): Dimension of input features.
+        hidden_dim (int): Number of hidden units in each RNN.
+        device (str): Device to run the model ('cpu' or 'cuda').
+        stop_grad (bool, optional): If True, stops gradient flow after each timestep (default: False).
+        nonlinearity (str, optional): Nonlinearity for RNN ('tanh' or 'relu') (default: 'tanh').
+        norm_h (str, optional): Type of normalization for hidden states ('L2norm', 'std', or 'no') (default: 'L2norm').
+        norm_in (str, optional): Type of normalization for inputs ('L2norm', 'std', or 'no') (default: 'no').
+        norm_out (str, optional): Type of normalization for outputs ('L2norm', 'std', or 'no') (default: 'std').
+    """
     def __init__(self, embedding_dim, hidden_dim, device, stop_grad = False, nonlinearity = 'tanh'
                  , norm_h = "L2norm", norm_in = "no", norm_out = "std"):
         super(BiRNN, self).__init__()
-        #self.embedding = nn.Embedding(vocab_size, embedding_dim)
         self.hidden_dim = hidden_dim
         self.embedding_dim = embedding_dim
         self.rnn_f = nn.RNN(embedding_dim, hidden_dim, batch_first=True, nonlinearity=nonlinearity) #'tanh' or 'relu'
         self.rnn_b = nn.RNN(embedding_dim, hidden_dim, batch_first=True, nonlinearity=nonlinearity)
         self.stop_grad = stop_grad
-        #self.fc1 = nn.Linear(hidden_dim*2, 8)  # *2 because it's bidirectional
-        #self.fc2 = nn.Linear(8, output_dim)
-        #self.relu = nn.ReLU()
+        
         #self.softmax = nn.Softmax(dim=1)
         self.device = device
         if norm_h == "L2":
@@ -99,7 +111,18 @@ class BiRNN(nn.Module):
 
     def forward(self, x):
         """
-        # x:        [batch_size, len_seq]
+        Forward pass of the BiRNN.
+
+        Args:
+            x (Tensor): Input tensor of shape [batch_size, seq_length, feature_dim]
+
+        Returns:
+            hiddens_last (Tensor): Concatenated last hidden states from forward and backward RNNs.
+                                   Shape: [batch_size, hidden_dim * 2]
+            hidden_states (Tensor): Concatenated sequence of forward and backward hidden states.
+                                    Shape: [batch_size, seq_length, hidden_dim * 2]
+        """
+        """
         # embedded: [batch_size, len_seq, feature_dim]
         # hidden_forward and hidden_backward: [1, batch_size, hidden_dim]
         # hiddens_forward: [batch_size, len_seq, hidden_dim]
@@ -123,20 +146,9 @@ class BiRNN(nn.Module):
         for t in range(embedded.size(1)):
             # Forward RNN
             _, hidden_forward_new = self.rnn_f(embedded[:, t:t+1, :], hidden_forward)
-            #hidden_forward = (hidden_forward[0].detach(), hidden_forward[1].detach())
-            #hidden_forward = hidden_forward_new.detach()
-            #hidden_forward = hidden_forward_new
             # Backward RNN
             _, hidden_backward_new = self.rnn_b(embedded_reversed[:, t:t+1, :], hidden_backward)
-            #hidden_backward = hidden_backward_new.detach()
-            """
-            if self.stop_grad:
-                hidden_forward = hidden_forward_new.detach()
-                hidden_backward = hidden_backward_new.detach()
-            else:
-                hidden_forward = hidden_forward_new
-                hidden_backward = hidden_backward_new
-            """
+            
             if self.stop_grad:
                 hidden_forward =  self.norm_h(hidden_forward_new).detach()
                 hidden_backward = self.norm_h(hidden_backward_new).detach()
@@ -147,95 +159,42 @@ class BiRNN(nn.Module):
             hiddens_forward.append(hidden_forward_new)
             hiddens_backward.append(hidden_backward_new)
             
-            #hidden_backward = (hidden_backward[0].detach(), hidden_backward[1].detach())
-        # Assuming the output of LSTM is only needed from the final time step
-        #print(lstm_out.shape, hidden.shape)
-        #hiddens = lstm_out[:,-1,:]
+
         hiddens_forward = torch.stack(hiddens_forward, dim=0).squeeze(1).transpose(0,1)
         hiddens_backward = torch.stack(hiddens_backward, dim=0).squeeze(1).transpose(0,1).flip([1])
 
-        #print(hiddens_forward.shape, hiddens_backward.shape)
         hiddens_last = torch.cat((hidden_forward[0], hidden_backward[0]), dim = -1)
-        #dense_outputs = self.relu(self.fc1(hidden))
-        #outputs = self.fc2(dense_outputs)
         return hiddens_last, torch.cat((hiddens_forward, hiddens_backward), dim = -1)
 
 
 class Readout(nn.Module):
     def __init__(self, hidden_dim, output_dim):
         super(Readout, self).__init__()
-        #self.embedding = nn.Embedding(vocab_size, embedding_dim)
-        #self.lstm = nn.LSTM(embedding_dim, hidden_dim, bidirectional=True, batch_first=True)
         self.fc1 = nn.Linear(hidden_dim*2, output_dim)  # *2 because it's bidirectional
-        #self.fc2 = nn.Linear(8, output_dim)
         self.relu = nn.ReLU()
-        #self.softmax = nn.Softmax(dim=1)
 
     def forward(self, hidden):
-        #embedded = self.embedding(x)
-        #lstm_out, (hidden, cell) = self.lstm(embedded)
-        # Assuming the output of LSTM is only needed from the final time stepf
-        #hidden = torch.cat((hidden[-2,:,:], hidden[-1,:,:]), dim = 1)
         outputs = self.fc1(hidden)
-        #outputs =(self.fc2(dense_outputs))
         return outputs
 
-def get_pos_neg_batch_imgcats_sup0(x1, x2, targets, num_classes, p = 1):
-    # group the data with the same targets together into lists
-    """ 
-    x1 and x2: [batch_size, seq_len]
+def get_pos_neg_batch_imgcats(batch_pos1, batch_pos2, p = 1):
     """
-    Batch_lists1 = [] # 10 lists that group togher the same class
-    Batch_lists2 = []
+    Generates positive and negative inputs for SCFF.
 
-    for i in range(0, num_classes):
-        indexes = (targets == i).nonzero(as_tuple=True)[0]
-        Batch_lists1.append(x1[indexes])
-        Batch_lists2.append(x2[indexes])
+    Args:
+        batch_pos1 (torch.Tensor): First set of samples of shape (batch_size, ...).
+        batch_pos2 (torch.Tensor): Second set of samples, typically an augmented version 
+                                   of batch_pos1 with the same shape or the same with batch_pos1.
+        p (int, optional): Number of negative samples per positive sample. Default is 1.
 
-    # filter out the lists that contain empty values
-    filtered_batch_list1 = [tensor for tensor in Batch_lists1 if tensor.nelement() > 0]
-    filtered_batch_list2 = [tensor for tensor in Batch_lists2 if tensor.nelement() > 0]
-    
-    classes = torch.arange(0, len(filtered_batch_list1))
-    # number of images in each class
-    # create the postive pairs and negative pairs
-    batch_poses = []
-    batch_negs = []
-
-    for i, (batch1, batch2) in enumerate(zip(filtered_batch_list1, filtered_batch_list2)):
-
-        # random select a number inside the class
-        # random_indices = (torch.randperm(len(batch1)))
-        #batch_pos = torch.cat((batch1, batch2[random_indices]), dim = 1)
-        batch_pos = torch.cat((batch1, batch2), dim = 2)
-        #print(len(batch1))
-        
-
-        shifted_idx = classes.roll(shifts=-i)[1:]
-        selected_tensors = [filtered_batch_list2[idx] for idx in shifted_idx]
-        # Concatenate the selected tensors
-        neg_all = torch.cat(selected_tensors)
-        #neg_all = torch.cat(filtered_batch_list2[classes.roll(shifts=-i)[1:].long()])
-        #random_ids = torch.randint(0, len(neg_all), (len(batch1),))
-        #batch_neg = torch.cat((batch1, neg_all[random_ids]), dim = 1)
-
-        random_ids = torch.randint(0, len(neg_all), (len(batch1), p))
-        batch_neg = torch.cat([torch.cat((batch1, neg_all[random_ids[:, i]]), dim=2) for i in range(p)])
-        
-
-        batch_poses.append(batch_pos)
-        batch_negs.append(batch_neg)
-
-    return torch.cat(batch_poses), torch.cat(batch_negs)
-
-def get_pos_neg_batch_imgcats(batch_pos1, batch_pos2, p = 2):
-
+    Returns:
+        tuple: 
+            - batch_pos (torch.Tensor): Concatenated positive samples of shape (batch_size, 2 * feature_dim).
+            - batch_negs (torch.Tensor): Concatenated negative samples of shape (batch_size * p, 2 * feature_dim).
+    """
     batch_size = len(batch_pos1)
 
     batch_pos =torch.cat((batch_pos1, batch_pos2), dim = -1)
-
-    #create negative samples
     random_indices = (torch.randperm(batch_size - 1) + 1)[:min(p,batch_size - 1)]
     labeles = torch.arange(batch_size)
 
@@ -247,46 +206,21 @@ def get_pos_neg_batch_imgcats(batch_pos1, batch_pos2, p = 2):
     
     return batch_pos, torch.cat(batch_negs)
 
-def contains_nan(model):
-    for p in model.parameters():
-        if torch.isnan(p).any():
-            return True
-    return False
+
 
 def train(model,sup_train_loader, test_loader, val_loader, out_dropout, hidden_dim, output_dim, optimizer
-,scheduler, threshold1, threshold2, tau, lamda, epochs, train_loader,p, device,tr_and_eval,clr):
-
-    #loss_function = nn.CrossEntropyLoss()  # This automatically applies Softmax for you
-    #optimizer = torch.optim.AdamW(model.parameters(), lr=lr, weight_decay=weight_decay)
-
-    # Train without training the LSTM layer, only Readout layer is being trained
-    # Assuming X_train and y_train are already tensors
-
-
-    #threshold1 = 2
-    #threshold2 = 2
-    #tau = 0.8
-    #lamda = 0.003
-    #scheduler = ExponentialLR(optimizer, 0.5)
-
-    model.train()
-    #yita = 1
+    ,scheduler, threshold1, threshold2, tau, lamda, epochs, train_loader,p, device,tr_and_eval,clr):
 
     for epoch in range(epochs):  # loop over the dataset multiple times
-
         running_loss = 0.0
-        #total_predictions = 0
-        #correct_predictions = 0
         goodness_pos, goodness_neg = 0, 0
         for inputs,_, labels in train_loader:
             inputs = inputs.to(device)
-            #x_pos, x_neg = get_pos_neg_batch_imgcats_sup0(inputs, inputs, labels, 10, p = p)
             x_pos, x_neg = get_pos_neg_batch_imgcats(inputs, inputs, p = p)
             optimizer.zero_grad()
             _, hiddens_all_pos = model(x_pos)
             _, hiddens_all_neg = model(x_neg)
-            #hiddens = model(inputs);outputs = readout(hiddens)
-            #loss = loss_function(outputs, labels)
+
             yforgrad = hiddens_all_pos.pow(2).mean([-1])
 
             loss =  torch.log(1 + torch.exp(
@@ -299,15 +233,11 @@ def train(model,sup_train_loader, test_loader, val_loader, out_dropout, hidden_d
             
             good_pos = hiddens_all_pos.pow(2).mean([-1]).mean(1).mean().item()
             good_neg = hiddens_all_neg.pow(2).mean([-1]).mean(1).mean().item()
-            #print(i, "pos: ", good_pos)
-            #print(i, "neg: ", good_neg)
             running_loss += loss.item()
             goodness_pos += good_pos
             goodness_neg += good_neg
         
-        if contains_nan(model):
-            raise optuna.TrialPruned()
-        
+       
         scheduler.step()
 
         print(f'epoch {epoch+1} learning rate: {scheduler.get_last_lr()[0]}') 
@@ -316,12 +246,30 @@ def train(model,sup_train_loader, test_loader, val_loader, out_dropout, hidden_d
 
         if tr_and_eval:
             if epoch>1 and epoch<(epochs-1) and epoch%1==0:
-                acc = evaluate(model,sup_train_loader, train_loader, test_loader, val_loader
+                acc = evaluate(model,sup_train_loader,  test_loader, val_loader
                 , out_dropout, hidden_dim, output_dim, device,clr)
 
     return model
 
-def evaluate(model,sup_train_loader, train_loader,test_loader, val_loader, out_dropout, hidden_dim, output_dim, device,clr):
+def evaluate(model,sup_train_loader, test_loader, val_loader, out_dropout, hidden_dim, output_dim, device,clr):
+
+    """
+    Evaluates the trained model on training, validation, and test datasets.
+
+    Args:
+        model (nn.Module): Trained BiRNN model.
+        sup_train_loader (DataLoader): DataLoader for supervised training.
+        test_loader (DataLoader): DataLoader for test dataset.
+        val_loader (DataLoader): DataLoader for validation dataset.
+        out_dropout (float): Dropout rate for the classifier.
+        hidden_dim (int): Dimension of the hidden layer.
+        output_dim (int): Number of output classes.
+        device (str): Computation device ('cpu' or 'cuda').
+        clr (float): Initial Learning rate of the classifier.
+
+    Returns:
+        list: [train accuracy, averaged test/validation accuracy].
+    """
 
     current_rng_state = torch.get_rng_state()
 
@@ -367,7 +315,7 @@ def evaluate(model,sup_train_loader, train_loader,test_loader, val_loader, out_d
         train_accuracy = correct_predictions / total_predictions
 
         if epoch % 2 == 0 or epoch == (nb_epochs-1):
-            print(f"Epoch {epoch+1}, Loss: {running_loss/len(train_loader)}, Training Accuracy: {train_accuracy}")
+            print(f"Epoch {epoch+1}, Loss: {running_loss/len(sup_train_loader)}, Training Accuracy: {train_accuracy}")
             # Validation loss
             readout.eval()
             val_loss = 0.0
@@ -419,7 +367,15 @@ def evaluate(model,sup_train_loader, train_loader,test_loader, val_loader, out_d
     return [train_accuracy, (test_accuracy+val_accuracy)/2]
 
 def get_train(batch_size):
-    #batch_size = 64
+     """
+    Loads the SpokenDigitDataset and splits it into training, validation, and test sets.
+
+    Args:
+        batch_size (int): Batch size for training.
+
+    Returns:
+        tuple: DataLoaders for supervised training, training, validation, and testing.
+    """
     torch.manual_seed(1234)
     dataset_path = './data/dataset'
     sampling_rate = 16000
@@ -436,16 +392,38 @@ def get_train(batch_size):
 
 def hypersearch(threshold1, threshold2, tau, lamda, epochs, lr, weight_decay, gamma, out_dropout, p, loaders,
                 nonlinearity, norm_h, norm_in, norm_out, device,test,seed_num,tr_and_eval,clr):
+    """
+    Conducts training and evaluation of the BiRNN model.
 
+    Args:
+        threshold1 (float): Threshold values for Positive examples.
+        threshold2 (float): Threshold values for Negative examples.
+        tau (float): Temperature, default 1.
+        lamda (float): L2 regularization factor.
+        epochs (int): Number of training epochs.
+        lr (float): Learning rate.
+        weight_decay (float): Weight decay factor.
+        gamma (float): Learning rate decay factor.
+        out_dropout (float): Dropout rate for output.
+        p (int): Number of negative samples per positive, default=1.
+        loaders (tuple): DataLoaders for training, validation, and testing.
+        nonlinearity (str): Activation function.
+        norm_h (str): Normalization type for hidden layers.
+        norm_in (str): Normalization type for input.
+        norm_out (str): Normalization type for output.
+        device (str): Computation device ('cpu' or 'cuda').
+        test (bool): Whether to evaluate on test set.
+        seed_num (int): Random seed for reproducibility.
+        tr_and_eval (bool): Whether to train and evaluate together.
+        clr (float): Initial learning rate of the classifier
+
+    Returns:
+        tuple: Model accuracy and trained model.
+    """
     feature_size = 39
     hidden_dim = 500
     output_dim = 10
 
-    #batch_size = 32
-
-    #dataset = tools.TimitDataset(batch_size, data_path='../data/TIMIT_processed', preproc='mfccs', use_reduced_phonem_set=True)
-
-    #train_loader, test_loader, val_loader = get_train(dataset, batch_size)
     sup_train_loader, train_loader, test_loader, val_loader = loaders
 
     #torch.manual_seed(1234)
@@ -466,7 +444,7 @@ def hypersearch(threshold1, threshold2, tau, lamda, epochs, lr, weight_decay, ga
     , output_dim, optimizer, scheduler, threshold1, threshold2, tau, lamda, epochs, train_loader, p, device,tr_and_eval,clr)
     
     
-    acc = evaluate(model, sup_train_loader, train_loader, test_loader, val_loader, out_dropout, hidden_dim, output_dim, device,clr)
+    acc = evaluate(model, sup_train_loader, test_loader, val_loader, out_dropout, hidden_dim, output_dim, device,clr)
 
     return acc, model
 
@@ -501,111 +479,81 @@ def main(threshold1, threshold2, tau, lamda, epochs, lr, weight_decay, gamma, p,
 
 
 
-def create_objective(loaders, device):
-    def objective(trial):
+def get_arguments():
+    """
+    Parses command-line arguments for training the model.
 
-        lr = trial.suggest_categorical('lr', [0.001, 0.0001, 1e-5,  2e-5, 5e-5,8e-5, 2e-4, 5e-4,6e-4, 8e-4, 2e-3,5e-3,1e-2])
+    Returns:
+        argparse.ArgumentParser: Parsed command-line arguments.
+    """
 
-        lamda = trial.suggest_float('lamda', 0.00, 0.01, step = 0.0001) 
-        
-        th1 = trial.suggest_float('th1', 0, 10, step = 1) 
-        th2 = trial.suggest_float('th2', 0, 10, step = 1) 
-        
-        gamma = trial.suggest_categorical('gamma', [1, 0.99, 0.95, 0.9, 0.8, 0.7, 0.6, 0.5]) 
-        
-        weight_decay = trial.suggest_categorical('weight_decay', [0, 1e-3, 1e-4, 3e-4]) 
-        epochs = trial.suggest_int('epochs', 1, 50)
-        p = trial.suggest_categorical('p', [1]) 
-        tr_and_eval = True
-        #tau = trial.suggest_float('tau', 0.4, 1, step = 0.1)
-        tau = trial.suggest_categorical('tau', [1.0])
-        nonlinearity = trial.suggest_categorical('nonlinearity', ['relu'])
-        #nonlinearity = trial.suggest_categorical('nonlinearity', ['tanh', 'relu'])
-        norm_h = trial.suggest_categorical('norm_h', ["std"])
-        norm_in = trial.suggest_categorical('norm_in', ["no"])
-        norm_out = trial.suggest_categorical('norm_out', ["L2norm"])
-        seed_num = trial.suggest_int('seed_num', 0,100000)
-        clr = trial.suggest_float('clr', 0.00, 0.01, step = 0.0001) 
+    parser = argparse.ArgumentParser(description="Pretrain a BiRNN using SCFF", add_help=False)
 
-        tsacc =  main(lr=lr, epochs=epochs, lamda=lamda, threshold1=th1, threshold2=th2, gamma=gamma,
-                weight_decay=weight_decay, loaders=loaders
-                , p = p,tau =tau, nonlinearity = nonlinearity, 
-                norm_h = norm_h, norm_in = norm_in, norm_out = norm_out, device = device
-                , test=True, seed_num = seed_num,tr_and_eval = tr_and_eval,clr = clr)
-        
-        return 1- tsacc[1]
-
-    return objective
-
-
-def get_arguments(): 
-    #lr, epochs, lamda, lamda2, lambda_reg, lambda_covar, cutoffep, device_num
-
-    parser = argparse.ArgumentParser(description="Pretrain a RNN using contrastiveFF", add_help=False)
-
-
-    # Optim
-    parser.add_argument("--epochs", type=int, default=5,
-                        help='Number of epochs')
-    parser.add_argument("--lr", type=float, default=0.01,
-                        help='Base learning rate')
-    parser.add_argument("--gamma", type=float, default=0.8,
-                        help='exponential decay rate')
-    parser.add_argument("--weight_decay", type=float, default=1e-3,
-                        help='weight_decay rate')
-   
+    # Training hyperparameters
+    parser.add_argument("--epochs", type=int, default=10, help="Number of epochs")
+    parser.add_argument("--lr", type=float, default=2e-5, help="Base learning rate")
+    parser.add_argument("--gamma", type=float, default=0.7, help="Exponential decay rate")
+    parser.add_argument("--weight_decay", type=float, default=0, help="Weight decay rate")
     
-    # Loss
-    parser.add_argument("--th1", type=int, default=2,
-                        help='thre1 for positive samples')
-    parser.add_argument("--th2", type=int, default=2,
-                        help='thre2 for negative samples')
-    parser.add_argument("--lamda", type=float, default=0.003,
-                        help='L2 norm regularization loss coefficient')
-    parser.add_argument("--p", type=int, default=3,
-                        help='Number of negative samples for each postive')
-    parser.add_argument("--tau", type=float, default=0.8,
-                        help='temperature')
-    parser.add_argument("--enable_gpu", action='store_true',
-                        help='train with gpu')
-    parser.add_argument('--device_num',type=int, default=0,
-                        help='device to use for training / testing')
-    parser.add_argument("--test", action='store_true',
-                        help='use testset')
+    # Loss parameters
+    parser.add_argument("--th1", type=int, default=0, help="Threshold for positive samples")
+    parser.add_argument("--th2", type=int, default=1, help="Threshold for negative samples")
+    parser.add_argument("--lamda", type=float, default=0.0075, help="L2 norm regularization coefficient")
+    parser.add_argument("--p", type=int, default=1, help="Number of negative samples for each positive sample")
+    parser.add_argument("--tau", type=float, default=1, help="Temperature parameter")
+
+    # Device settings
+    parser.add_argument("--enable_gpu", action="store_true", help="Enable GPU training if available")
+    parser.add_argument("--device_num", type=int, default=0, help="GPU device number")
+    parser.add_argument("--test", action="store_true", help="Use test set for evaluation")
+
+    # Additional parameters
+    parser.add_argument("--nonlinearity", type=str, default="relu", choices=["relu", "tanh"], help="Activation function")
+    parser.add_argument("--norm_h", type=str, default="std", help="Normalization for hidden layers")
+    parser.add_argument("--norm_in", type=str, default="no", help="Normalization for input")
+    parser.add_argument("--norm_out", type=str, default="L2norm", help="Normalization for output")
+    parser.add_argument("--seed_num", type=int, default=1234, help="Random seed for reproducibility")
+    parser.add_argument("--tr_and_eval", action="store_true", help="Train and evaluate together")
+    parser.add_argument("--clr", type=float, default=5e-4, help="Initial learning rate of the classifier")
 
     return parser
 
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser('ContrastFF TIMIT script', parents=[get_arguments()])
+    # Parse command-line arguments
+    parser = argparse.ArgumentParser("SCFF TIMIT script", parents=[get_arguments()])
     args = parser.parse_args()
-    print('searching start...')
-    #study = optuna.create_study(sampler=optuna.samplers.GridSampler(search_space))
-    #study.optimize(objective)
+
+    # Load training data
     loaders = get_train(64)
-    # Automatically select GPU if available, else fall back to CPU
 
+    # Automatically select device
     if torch.cuda.is_available() and args.enable_gpu:
-        device = 'cuda:' + str(args.device_num) 
+        device = f'cuda:{args.device_num}'
     else:
-        device = 'cpu'
-    
-    print(f'Using device: {device}')
-    search_space = {
-    'lr': [2e-5],
-    'clr': [5e-4],
-    'lamda': [0.0075],
-    'th1': [0],
-    'th2': [1],
-    'gamma': [0.7],
-    'weight_decay':[0],
-    'epochs': [10],
-    'p': [1],
-    'seed_num': [1234,10,100,1000]
-    }
+        device = "cpu"
 
-    objective_function = create_objective(loaders, device)
-    study = optuna.create_study(sampler=optuna.samplers.GridSampler(search_space))
-    #study = optuna.create_study()
-    #study = optuna.create_study(sampler=optuna.samplers.RandomSampler())
-    study.optimize(objective_function)
-    
+    print(f"Using device: {device}")
+
+    # Run main function with parsed arguments
+    tsacc = main(
+        threshold1=args.th1,
+        threshold2=args.th2,
+        tau=args.tau,
+        lamda=args.lamda,
+        epochs=args.epochs,
+        lr=args.lr,
+        weight_decay=args.weight_decay,
+        gamma=args.gamma,
+        p=args.p,
+        loaders=loaders,
+        nonlinearity=args.nonlinearity,
+        norm_h=args.norm_h,
+        norm_in=args.norm_in,
+        norm_out=args.norm_out,
+        device=device,
+        test=args.test,
+        seed_num=args.seed_num,
+        tr_and_eval=args.tr_and_eval,
+        clr=args.clr
+    )

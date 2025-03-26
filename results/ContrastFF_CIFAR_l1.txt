@@ -1,0 +1,35 @@
+nohup: ignoring input
+epochs = 6
+tr_and_eval = False
+device_num = 0
+save_model = True
+NL = 1
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+Epoch 0
+Unlabeled.
+Layer 0 : x.shape: torch.Size([100, 96, 16, 16]) y.shape (after MaxP): torch.Size([100, 96, 16, 16]) 0.9064789804220199 0.33124236518144606
+Epoch 1
+Unlabeled.
+nbbatches 1000 learning rate: 0.006999999999999999
+0.9906133099794387 0.29892824882268904
+Epoch 2
+Unlabeled.
+1.018077907562256 0.29261380779743196
+Epoch 3
+Unlabeled.
+nbbatches 2000 learning rate: 0.004899999999999999
+1.0284223167896271 0.2898765667080879
+Epoch 4
+Unlabeled.
+1.0374769648313522 0.2878533187806606
+Epoch 5
+Unlabeled.
+nbbatches 3000 learning rate: 0.003429999999999999
+1.041799512386322 0.2873987160623074
+Training done..
+6144
+Accuracy of the network on the 50000 train images: 55.608000000000004 %
+Accuracy of the network on the 10000 Val images: 60.15 %
+[1] loss: 0.001

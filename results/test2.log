@@ -1,0 +1,43 @@
+nohup: ignoring input
+Files already downloaded and verified
+Files already downloaded and verified
+Files already downloaded and verified
+using the whole train data
+[I 2025-03-24 00:37:40,578] A new study created in memory with name: no-name-790d0705-930f-47d7-b470-35a2f702dad5
+/home/xing/anaconda3/envs/myenv/lib/python3.10/site-packages/optuna/samplers/_grid.py:186: UserWarning: The value `40` is out of range of the parameter `ep4`. The value will be used but the actual distribution is: `IntDistribution(high=20, log=False, low=7, step=1)`.
+  warnings.warn(
+
+==================================================
+Executing Trial 0 with Parameters:
+  lr: [0.02, 0.001, 0.0004, 0.0001]
+  lamda: [0, 0, 0, 0]
+  threshold1: [0, 4, 7, 6]
+  threshold2: [3, 5, 8, 9]
+  gamma: [0.9, 0.99, 0.9, 1]
+  period: [1000, 1000, 1000, 1000]
+  act: ['triangle', 'triangle', 'relu', 'triangle']
+  concats: (1, 1, 1, 1)
+  Layer_out: (2, 3)
+  weight_decay: [0.001, 0.001, 0, 0.0003]
+  out_dropout: 0.6
+  ep: [4, 8, 12, 40]
+  seed_num: 1234
+  epochs: 40
+==================================================
+
+Epoch 0
+Unlabeled.
+Layer 0 : x.shape: torch.Size([100, 96, 48, 48]) y.shape (after MaxP): torch.Size([100, 96, 48, 48]) Layer 1 : x.shape: torch.Size([100, 384, 24, 24]) y.shape (after MaxP): torch.Size([100, 384, 24, 24]) Layer 2 : x.shape: torch.Size([100, 1536, 12, 12]) y.shape (after MaxP): torch.Size([100, 1536, 12, 12]) Layer 3 : x.shape: torch.Size([100, 6144, 6, 6]) y.shape (after MaxP): torch.Size([100, 6144, 6, 6]) nbbatches 1000 learning rate: 0.018000000000000002
+nbbatches 1000 learning rate: 0.00099
+nbbatches 1000 learning rate: 0.00036
+nbbatches 1000 learning rate: 0.0001
+9.589094314932824 4.967068462610245
+Epoch 1
+Unlabeled.
+nbbatches 2000 learning rate: 0.016200000000000003
+nbbatches 2000 learning rate: 0.0009801
+nbbatches 2000 learning rate: 0.000324
+nbbatches 2000 learning rate: 0.0001
+10.532056357383729 4.059692736148834
+Epoch 2
+Unlabeled.
