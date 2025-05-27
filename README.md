@@ -1,4 +1,5 @@
 # Self-Contrastive-Forward-Forward
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15526033.svg)](https://doi.org/10.5281/zenodo.15526033)
 This repo implements the official code of the article: ["Self-Contrastive Forward-Forward Algorithm"](http://arxiv.org/abs/2409.11593)
 ## Description
 
