@@ -1,9 +1,9 @@
 # Self-Contrastive-Forward-Forward
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.15526033.svg)](https://doi.org/10.5281/zenodo.15526033)  
-This repo implements the official code of the article: ["Self-Contrastive Forward-Forward Algorithm"](http://arxiv.org/abs/2409.11593)
+This repo implements the official code of the article publisehd in *Nature Communications* volume 16, Article number: 5978 (2025): ["Self-Contrastive Forward-Forward Algorithm"](https://www.nature.com/articles/s41467-025-61037-0)
 ## Description
 
-The Forward-Forward (FF) algorithm is a recent, purely forward-mode learning method, that updates weights locally and layer-wise and supports supervised as well as unsupervised learning. These features make it ideal for applications such as brain-inspired learning, low-power hardware neural networks, and distributed learning in large models. However, while FF has shown promise on written digit recognition tasks, its performance on natural images and time-series remains a challenge. A key limitation is the need to generate high-quality negative examples for contrastive learning, especially in unsupervised tasks, where versatile solutions are currently lacking. To address this, we introduce the Self-Contrastive Forward-Forward (SCFF) method, inspired by self-supervised contrastive learning. SCFF generates positive and negative examples applicable across different datasets, surpassing existing local forward algorithms for unsupervised classification accuracy on MNIST (MLP: 98.7%), CIFAR-10 (CNN: 80.75%), and STL-10 (CNN: 77.3%). Additionally, SCFF is the first to enable FF training of recurrent neural networks, opening the door to more complex tasks and continuous-time video and text processing.
+Agents that operate autonomously benefit from lifelong learning capabilities. However, compatible training algorithms must comply with the decentralized nature of these systems which imposes constraints on both the parameters counts and the computational resources. The Forward-Forward (FF) algorithm is one of these. FF relies only on feedforward operations, the same used for inference, for optimizing layer-wise objectives. This purely forward approach eliminates the need for transpose operations required in traditional backpropagation. Despite its potential, FF has failed to reach state-of-the-art performance on most standard benchmark tasks, in part due to unreliable negative data generation methods for unsupervised learning. In this work, we propose Self-Contrastive Forward-Forward (SCFF) algorithm, a competitive training method aimed at closing this performance gap. Inspired by standard self-supervised contrastive learning for vision tasks, SCFF generates positive and negative inputs applicable across various datasets. The method demonstrates superior performance compared to existing unsupervised local learning algorithms on several benchmark datasets, including MNIST, CIFAR-10, STL-10 and Tiny ImageNet. We extend FF’s application to training recurrent neural networks, expanding its utility to sequential data tasks. These findings pave the way for high-accuracy, real-time learning on resource-constrained edge devices.
 
 ## Getting Started
 
@@ -157,9 +157,13 @@ Contributors names and contact info
 
 
 ## Citation
-@article{chen2024self,
+@article{chen2025self,
   title={Self-Contrastive Forward-Forward Algorithm},
-  author={Chen, Xing and Liu, Dongshu and Laydevant, Jeremie and Grollier, Julie},
-  journal={arXiv preprint arXiv:2409.11593},
-  year={2024}
+  author={Chen, Xing and Liu, Dongshu and Laydevant, J{\'e}r{\'e}mie and Grollier, Julie},
+  journal={Nature Communications},
+  volume={16},
+  number={1},
+  pages={5978},
+  year={2025},
+  publisher={Nature Publishing Group UK London}
 }
